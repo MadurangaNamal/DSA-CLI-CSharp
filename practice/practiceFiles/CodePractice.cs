@@ -1,4 +1,6 @@
-﻿namespace practice.practiceFiles;
+﻿using System.Linq.Dynamic.Core;
+
+namespace practice.practiceFiles;
 
 public class CodePractice
 {
@@ -149,7 +151,150 @@ public class CodePractice
         Console.WriteLine(linkedList.Contains("Second Name"));
     }
 
+    #region Linq samples
 
+    public static List<Employee> FilterEmployees(int[] ids)
+    {
+        List<Employee> employees = BusinessProcess.GenerateEmployees();
+
+        List<Employee> filteredEmployees = employees
+        .Where(employee => !ids.Contains(employee.Id))
+        .ToList();
+
+        return filteredEmployees;
+    }
+
+    public static List<Employee> SortEmployees(string sortProperty, bool ascending = true)
+    {
+        List<Employee> employees = BusinessProcess.GenerateEmployees();
+
+        // Use reflection to dynamically get the property value for sorting
+        Func<Employee, object?> keySelector = employee =>
+            typeof(Employee).GetProperty(sortProperty)?.GetValue(employee, null);
+
+        return ascending
+            ? employees.OrderBy(keySelector).ToList()
+            : employees.OrderByDescending(keySelector).ToList();
+    }
+
+    public static List<Employee> GetPaginatedEmployees(int page, int pageSize, string searchTerm)
+    {
+        List<Employee> employees = BusinessProcess.GenerateEmployees();
+
+        return employees
+            .Where(e => e.Name.Contains(searchTerm, StringComparison.OrdinalIgnoreCase))
+            .Skip((page - 1) * pageSize)
+            .Take(pageSize)
+            .ToList();
+    }
+
+    public static dynamic GetDepartmentStats()
+    {
+        List<Employee> employees = BusinessProcess.GenerateEmployees();
+
+        return employees
+            .GroupBy(e => e.Department)
+            .Select(g => new
+            {
+                Department = g.Key,
+                AvgSalary = g.Average(e => e.Salary),
+                TotalEmployees = g.Count(),
+                MaxSalary = g.Max(e => e.Salary)
+            })
+            .ToList();
+    }
+
+    public static List<Employee> GetLongTermEmployees(int years)
+    {
+        List<Employee> employees = BusinessProcess.GenerateEmployees();
+
+        var cutoffDate = DateTime.Now.AddYears(-years);
+
+        return employees
+            .Where(e => e.JoinDate <= cutoffDate)
+            .OrderBy(e => e.JoinDate)
+            .ToList();
+    }
+    public static List<Employee> FilterBySalaryRange(decimal? minSalary, decimal? maxSalary)
+    {
+        List<Employee> employees = BusinessProcess.GenerateEmployees();
+
+        var query = employees.AsQueryable();
+
+        if (minSalary.HasValue)
+            query = query.Where(e => e.Salary >= minSalary.Value);
+
+        if (maxSalary.HasValue)
+            query = query.Where(e => e.Salary <= maxSalary.Value);
+
+        return query.ToList();
+    }
+
+    public static List<Employee> FindPossibleDuplicates()
+    {
+        List<Employee> employees = BusinessProcess.GenerateEmployees();
+
+        return employees
+            .GroupBy(e => new { e.Name, e.Department })
+            .Where(g => g.Count() > 1)
+            .SelectMany(g => g)
+            .ToList();
+    }
+
+    public static List<Employee> GetRecentJoinees(int months)
+    {
+        List<Employee> employees = BusinessProcess.GenerateEmployees();
+
+        var cutoffDate = DateTime.Now.AddMonths(-months);
+
+        return employees
+            .Where(e => e.JoinDate >= cutoffDate)
+            .OrderByDescending(e => e.JoinDate)
+            .ToList();
+    }
+
+    public static dynamic GetEmployeeOverview(string fields)
+    {
+        List<Employee> employees = BusinessProcess.GenerateEmployees();
+
+        return employees
+            .AsQueryable()
+            .Select($"new ({fields})")
+            .ToDynamicList();
+    }
+
+    public static Dictionary<string, decimal> GetDepartmentBudgets()
+    {
+        List<Employee> employees = BusinessProcess.GenerateEmployees();
+
+        return employees
+            .GroupBy(e => e.Department)
+            .ToDictionary(
+                g => g.Key,
+                g => g.Sum(e => e.Salary));
+    }
+
+    public static dynamic CategorizeSalaries()
+    {
+        List<Employee> employees = BusinessProcess.GenerateEmployees();
+
+        return employees
+            .Select(e => new
+            {
+                e.Name,
+                SalaryTier = e.Salary switch
+                {
+                    > 100000 => "Executive",
+                    > 75000 => "Senior",
+                    > 50000 => "Mid",
+                    _ => "Junior"
+                }
+            })
+            .GroupBy(e => e.SalaryTier)
+            .ToDictionary(g => g.Key, g => g.Count());
+    }
+
+    #endregion
 
 }
 

@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using practice.practiceFiles;
+using System.Text;
 
 namespace practice;
 
@@ -157,6 +158,17 @@ public class Program
 
         #endregion
 
+        #region Practicing Linq Queries
+
+        int[] idValues = { 41, 42, 43, 44, 45, 46, 47, 48, 49, 50 };
+        List<Employee> filteredEmplyees = CodePractice.FilterEmployees(idValues);
+
+        foreach (Employee employee in filteredEmplyees)
+        {
+            Console.WriteLine($"{employee.Id}, {employee.Name}, {employee.Department}, {employee.Salary}, {employee.JoinDate}");
+        }
+
+        #endregion
 
     }
 
