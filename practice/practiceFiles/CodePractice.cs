@@ -1,4 +1,5 @@
-﻿using System.Linq.Dynamic.Core;
+﻿using AutoMapper;
+using System.Linq.Dynamic.Core;
 
 namespace practice.practiceFiles;
 
@@ -296,6 +297,29 @@ public class CodePractice
 
     #endregion
 
+    public static void PrintAutomapperFunctions()
+    {
+        var config = new MapperConfiguration(cfg => cfg.AddProfile<PersonProfile>());
+        var mapper = config.CreateMapper();
+
+        PersonDto dataDto = new(
+            "Maduranga",
+            "Wimalarathne",
+            "madhuranganw@gmail.com",
+            new DateOnly(1995, 03, 19),
+            "+971524016331");
+
+        //Type 1
+        Person person = mapper.Map<Person>(dataDto);
+        Person.ToString(person);
+
+        //Type 2
+        Person person2 = new();
+        dataDto.Email = "maduranga.wimalarathne95@gmail.com";
+
+        mapper.Map(dataDto, person2);
+        Person.ToString(person2);
+    }
 }
 
 

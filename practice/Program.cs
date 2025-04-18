@@ -160,14 +160,21 @@ public class Program
 
         #region Practicing Linq Queries
 
-        int[] idValues = { 41, 42, 43, 44, 45, 46, 47, 48, 49, 50 };
-        List<Employee> filteredEmplyees = CodePractice.FilterEmployees(idValues);
+        //int[] idValues = { 41, 42, 43, 44, 45, 46, 47, 48, 49, 50 };
+        //List<Employee> filteredEmplyees = CodePractice.GetDepartmentStats();
+        /*var departmentStatus = CodePractice.GetDepartmentStats();
 
-        foreach (Employee employee in filteredEmplyees)
+        foreach (var status in departmentStatus)
         {
-            Console.WriteLine($"{employee.Id}, {employee.Name}, {employee.Department}, {employee.Salary}, {employee.JoinDate}");
-        }
+            //Console.WriteLine($"{employee.Id}, {employee.Name}, {employee.Department}, {employee.Salary}, {employee.JoinDate}");
+            Console.WriteLine(status);
+        }*/
 
+        #endregion
+
+        #region Using AutoMapper for mapping objects
+
+        CodePractice.PrintAutomapperFunctions();
         #endregion
 
     }
