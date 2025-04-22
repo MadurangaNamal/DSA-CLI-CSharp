@@ -297,6 +297,7 @@ public class CodePractice
 
     #endregion
 
+    //Automapper
     public static void PrintAutomapperFunctions()
     {
         var config = new MapperConfiguration(cfg => cfg.AddProfile<PersonProfile>());

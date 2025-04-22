@@ -174,9 +174,24 @@ public class Program
 
         #region Using AutoMapper for mapping objects
 
-        CodePractice.PrintAutomapperFunctions();
+        //CodePractice.PrintAutomapperFunctions();
         #endregion
 
+        #region Extension Methods
+
+        var colors = new List<string> { "Purple", "Black", "Blue", "Orange" };
+        colors.ShowItems();
+
+        var numbers = new[] { 1, 2, 3, 4, 5, 6, 7, 8, 9 };
+        numbers.ShowItems();
+
+        if (!colors.IsItEmpty())
+            Console.WriteLine($"{nameof(colors)} collection has items");
+
+        Console.WriteLine(colors.GetRandomElement());
+        colors.Shuffle().ShowItems();
+
+        #endregion
     }
 
     static void PrintValues()
