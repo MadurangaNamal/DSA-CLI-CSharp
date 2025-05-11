@@ -192,6 +192,12 @@ public class Program
         colors.Shuffle().ShowItems();
 
         #endregion
+
+        #region Leetcode challenges
+
+
+        #endregion
+
     }
 
     static void PrintValues()
