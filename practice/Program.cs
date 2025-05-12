@@ -179,23 +179,28 @@ public class Program
 
         #region Extension Methods
 
-        var colors = new List<string> { "Purple", "Black", "Blue", "Orange" };
-        colors.ShowItems();
+        //var colors = new List<string> { "Purple", "Black", "Blue", "Orange" };
+        //colors.ShowItems();
 
-        var numbers = new[] { 1, 2, 3, 4, 5, 6, 7, 8, 9 };
-        numbers.ShowItems();
+        //var numbers = new[] { 1, 2, 3, 4, 5, 6, 7, 8, 9 };
+        //numbers.ShowItems();
 
-        if (!colors.IsItEmpty())
-            Console.WriteLine($"{nameof(colors)} collection has items");
+        //if (!colors.IsItEmpty())
+        //    Console.WriteLine($"{nameof(colors)} collection has items");
 
-        Console.WriteLine(colors.GetRandomElement());
-        colors.Shuffle().ShowItems();
+        //Console.WriteLine(colors.GetRandomElement());
+        //colors.Shuffle().ShowItems();
 
         #endregion
 
         #region Leetcode challenges
 
+        //Can jump
+        int[] numbs = new[] { 2, 3, 1, 1, 4 };
+        //Console.WriteLine($"Can jump:{LeetCode.CanJump(numbs)} ");
 
+        //Minimum Jumps
+        Console.WriteLine($"Minimum jumps:{LeetCode.CountMinJumps(numbs)}");
         #endregion
 
     }

@@ -49,7 +49,8 @@ public class LeetCode
     public static int RemoveDuplicates(int[] nums)
     {
         HashSet<int> result = new();
-        foreach (var number in nums)
+
+        foreach (int number in nums)
         {
             result.Add(number);
         }
@@ -58,10 +59,13 @@ public class LeetCode
         return result.Count;
     }
 
+    /*Given an integer array nums sorted in non-decreasing order, 
+    * remove some duplicates in-place such that each unique element appears at most twice.
+      The relative order of the elements should be kept the same.*/
     public static int RemoveDuplicatesV2(int[] nums)
     {
         List<int> result = new();
-        Dictionary<int, long> countMap = new();
+        Dictionary<int, int> countMap = new();
 
         foreach (int n in nums)
         {
@@ -69,7 +73,6 @@ public class LeetCode
             {
                 countMap[n] = 0;
             }
-
             countMap[n]++;
 
             if (countMap[n] <= 2)
@@ -81,6 +84,12 @@ public class LeetCode
         Console.WriteLine(string.Join(", ", result));
         return result.Count;
     }
+
+    /*
+     Given an array nums of size n, return the majority element.
+     The majority element is the element that appears more than ⌊n / 2⌋ times. 
+     You may assume that the majority element always exists in the array.
+     */
 
     public static int MajorityElement(int[] nums)
     {
@@ -177,4 +186,57 @@ public class LeetCode
 
         return maxProfit;
     }
+
+    /*You are given an integer array nums.You are initially positioned at the array's first index, 
+     * and each element in the array represents your maximum jump length at that position.
+        Return true if you can reach the last index, or false otherwise.*/
+
+    public static bool CanJump(int[] nums)
+    {
+        int reachable = 0;
+
+        for (int i = 0; i < nums.Length; i++)
+        {
+            if (i > reachable)
+                return false;
+            reachable = Math.Max(reachable, i + nums[i]);
+            // Console.WriteLine(reachable);
+        }
+
+        return true;
+    }
+
+    /*
+     * You are given a 0-indexed array of integers nums of length n. You are initially positioned at nums[0].
+        Each element nums[i] represents the maximum length of a forward jump from index i. 
+            In other words, if you are at nums[i], you can jump to any nums[i + j] where:
+        0 <= j <= nums[i] and
+        i + j < n
+        Return the minimum number of jumps to reach nums[n - 1].
+            The test cases are generated such that you can reach nums[n - 1].
+
+            Input: nums = [2,3,1,1,4]
+            Output: 2
+     * */
+
+    public static int CountMinJumps(int[] nums)
+    {
+        int jumps = 0;
+        int currentEnd = 0;
+        int farthest = 0;
+
+        for (int i = 0; i < nums.Length - 1; i++)
+        {
+            farthest = Math.Max(farthest, i + nums[i]);
+
+            if (i == currentEnd)
+            {
+                jumps++;
+                currentEnd = farthest;
+            }
+        }
+
+        return jumps;
+    }
+
 }
