@@ -240,3 +240,36 @@ public class LeetCode
     }
 
 }
+
+//Implement the RandomizedSet class
+// RandomizedSet() Initializes the RandomizedSet object.
+// bool insert(int val) Inserts an item val into the set if not present. Returns true if the item was not present, false otherwise.
+// bool remove(int val) Removes an item val from the set if present. Returns true if the item was present, false otherwise.
+// int getRandom() Returns a random element from the current set of elements (it's guaranteed that at least one element exists when this method is called). 
+// Each element must have the same probability of being returned.
+
+class RandomizedSet
+{
+    private readonly HashSet<int> _randomizedSet;
+
+    public RandomizedSet()
+    {
+        _randomizedSet = new HashSet<int>();
+    }
+
+    public bool Insert(int val)
+    {
+        return _randomizedSet.Add(val);
+    }
+
+    public bool Remove(int val)
+    {
+        return _randomizedSet.Remove(val);
+    }
+
+    public int GetRandom()
+    {
+        int randomIndex = Random.Shared.Next(_randomizedSet.Count);
+        return _randomizedSet.ElementAt(randomIndex);
+    }
+}

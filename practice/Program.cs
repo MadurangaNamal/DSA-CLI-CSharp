@@ -1,5 +1,4 @@
-﻿using practice.practiceFiles;
-using System.Text;
+﻿using System.Text;
 
 namespace practice;
 
@@ -195,12 +194,16 @@ public class Program
 
         #region Leetcode challenges
 
-        //Can jump
-        int[] numbs = new[] { 2, 3, 1, 1, 4 };
+        ////Can jump
+        //int[] numbs = new[] { 2, 3, 1, 1, 4 };
         //Console.WriteLine($"Can jump:{LeetCode.CanJump(numbs)} ");
 
-        //Minimum Jumps
-        Console.WriteLine($"Minimum jumps:{LeetCode.CountMinJumps(numbs)}");
+        ////Minimum Jumps Count 
+        //Console.WriteLine($"Minimum jumps:{LeetCode.CountMinJumps(numbs)}");
+
+
+
+
         #endregion
 
     }
