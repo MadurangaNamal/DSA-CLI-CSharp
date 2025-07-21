@@ -239,6 +239,46 @@ public class LeetCode
         return jumps;
     }
 
+    /*
+     * Given an integer array nums, return an array answer such that answer[i] 
+     * is equal to the product of all the elements of nums except nums[i].
+     * */
+    public static int[] ProductExceptSelf(int[] nums)
+    {
+        int n = nums.Length;
+        int[] result = new int[n];
+
+        // Step 1: Calculate prefix products
+        result[0] = 1;
+        for (int i = 1; i < n; i++)
+        {
+            result[i] = result[i - 1] * nums[i - 1];
+        }
+
+        // Step 2: Calculate suffix products and final result
+        int suffix = 1;
+        for (int i = n - 1; i >= 0; i--)
+        {
+            result[i] *= suffix;
+            suffix *= nums[i];
+        }
+
+        return result;
+    }
+
+    /*
+     *  There are n gas stations along a circular route, where the amount of gas at the ith station is gas[i].
+        You have a car with an unlimited gas tank and it costs cost[i] of gas to travel from the ith station to its next (i + 1)th station. 
+        You begin the journey with an empty tank at one of the gas stations.
+        Given two integer arrays gas and cost, return the starting gas station's index if you can travel around the circuit once in the clockwise direction,
+        otherwise return -1. 
+        If there exists a solution, it is guaranteed to be unique.
+     */
+    public static int CanCompleteCircuit(int[] gas, int[] cost)
+    {
+
+    }
+
 }
 
 //Implement the RandomizedSet class
