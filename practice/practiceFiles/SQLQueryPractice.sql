@@ -1,5 +1,7 @@
 --CREATE DATABASE SQLQueryPractice;
+
 Use SQLQueryPractice;
+
 /*	CREATE TABLE'S
 
 -- Create Departments table
@@ -84,8 +86,35 @@ INSERT INTO Orders (order_id, customer_id, order_date, total_amount) VALUES
 
 */
 
+--Step 1
+
 Select * from Departments;
 Select * from Employees;
 Select * from Customers;
 Select * from Orders;
+
+--Step 2 employees in IT Deptmt
+
+Select employee_id, first_name, last_name 
+from Employees
+Where department_id = '2';
+
+--step 3 sort employees by salary
+
+Select first_name, last_name, salary 
+from Employees
+Order by salary desc;
+
+--step 4 Count employees in each department
+
+select department_id, count(employee_id) as Total_Employees --can use * instead of employee_id
+from Employees
+group by department_id;
+
+--step 5 Join Employees and Departments
+
+select e.employee_id, e.first_name, e.last_name, d.department_name, d.location, e.hire_date
+from Employees e INNER JOIN Departments d on e.department_id = d.department_id; 
+
+--step 6 Find employees with above-average salary
 
