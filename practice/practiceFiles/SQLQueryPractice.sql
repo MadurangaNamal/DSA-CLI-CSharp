@@ -1,0 +1,91 @@
+--CREATE DATABASE SQLQueryPractice;
+Use SQLQueryPractice;
+/*	CREATE TABLE'S
+
+-- Create Departments table
+CREATE TABLE Departments (
+    department_id INT PRIMARY KEY,
+    department_name VARCHAR(100),
+    location VARCHAR(100)
+);
+
+-- Create Employees table
+CREATE TABLE Employees (
+    employee_id INT PRIMARY KEY,
+    first_name VARCHAR(50),
+    last_name VARCHAR(50),
+    department_id INT,
+    salary DECIMAL(10, 2),
+    hire_date DATE,
+    manager_id INT NULL,
+    FOREIGN KEY (department_id) REFERENCES Departments(department_id),
+    FOREIGN KEY (manager_id) REFERENCES Employees(employee_id)
+);
+
+-- Create Customers table
+CREATE TABLE Customers (
+    customer_id INT PRIMARY KEY,
+    customer_name VARCHAR(100),
+    country VARCHAR(50)
+);
+
+-- Create Orders table
+CREATE TABLE Orders (
+    order_id INT PRIMARY KEY,
+    customer_id INT,
+    order_date DATE,
+    total_amount DECIMAL(10, 2),
+    FOREIGN KEY (customer_id) REFERENCES Customers(customer_id)
+);
+
+*/
+
+/* ADD SAMPLE DATA
+
+-- Insert Departments
+INSERT INTO Departments (department_id, department_name, location) VALUES
+(1, 'HR', 'New York'),
+(2, 'IT', 'San Francisco'),
+(3, 'Finance', 'Chicago'),
+(4, 'Marketing', 'Boston');
+
+-- Insert Employees
+INSERT INTO Employees (employee_id, first_name, last_name, department_id, salary, hire_date, manager_id) VALUES
+(101, 'John', 'Doe', 2, 80000.00, '2019-05-10', NULL),
+(102, 'Jane', 'Smith', 2, 75000.00, '2020-07-15', 101),
+(103, 'Alice', 'Brown', 1, 60000.00, '2021-03-20', 101),
+(104, 'Bob', 'Johnson', 3, 70000.00, '2018-11-01', NULL),
+(105, 'Charlie', 'Davis', 4, 65000.00, '2022-01-12', 104),
+(106, 'Eve', 'Wilson', 3, 72000.00, '2020-06-23', 104),
+(107, 'David', 'Lee', 2, 78000.00, '2023-02-05', 101),
+(108, 'Grace', 'Kim', 4, 63000.00, '2021-09-14', 105);
+
+-- Insert Customers
+INSERT INTO Customers (customer_id, customer_name, country) VALUES
+(201, 'Acme Corp', 'USA'),
+(202, 'Global Tech', 'Canada'),
+(203, 'Future Solutions', 'UK'),
+(204, 'Visionary Ltd', 'Australia'),
+(205, 'Innovatech', 'USA'),
+(206, 'Bright Minds', 'Germany');
+
+-- Insert Orders
+INSERT INTO Orders (order_id, customer_id, order_date, total_amount) VALUES
+(301, 201, '2024-01-15', 1500.00),
+(302, 202, '2024-02-20', 2000.00),
+(303, 203, '2024-03-05', 1750.50),
+(304, 201, '2024-03-18', 2200.00),
+(305, 204, '2024-04-12', 980.00),
+(306, 205, '2024-04-25', 1450.00),
+(307, 206, '2024-05-07', 3100.75),
+(308, 202, '2024-05-20', 2650.00),
+(309, 203, '2024-06-01', 1980.00),
+(310, 201, '2024-06-15', 1250.00);
+
+*/
+
+Select * from Departments;
+Select * from Employees;
+Select * from Customers;
+Select * from Orders;
+
