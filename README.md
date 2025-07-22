@@ -6,7 +6,7 @@ This is a C# practice project focused on object-oriented programming concepts, c
 
 ### Core Logic
 - **Program.cs** – Entry point of the application.
-- **CodePractice.cs** – Contains the main logic for coding exercises and sql query practice code samples
+- **CodePractice.cs** – Contains the main logic for coding exercises.
 - **CollectionExtensions.cs** – Defines custom extension methods for collections.
 - **Composable.cs** – Utility or helper functions, possibly for functional composition.
 
