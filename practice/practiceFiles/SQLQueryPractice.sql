@@ -118,3 +118,51 @@ from Employees e INNER JOIN Departments d on e.department_id = d.department_id;
 
 --step 6 Find employees with above-average salary
 
+Select first_name, last_name, salary 
+from Employees
+Where salary >= (select AVG(salary) from Employees);
+
+--step 7 Get the second highest salary
+
+select MAX(salary) AS Second_Max_Salary
+from Employees 
+Where salary < (Select Max(salary) from Employees);
+
+--step 8 List all employees and their managers
+/*
+	Can use Self-join to match employees with their managers
+*/
+
+SELECT e1.first_name AS employee_name, e2.first_name AS manager_name
+FROM Employees e1
+LEFT JOIN Employees e2 ON e1.manager_id = e2.employee_id;
+
+--Omits employees without managers
+SELECT e1.first_name AS employee_name, e2.first_name AS manager_name
+FROM Employees e1
+INNER JOIN Employees e2 ON e1.manager_id = e2.employee_id;
+
+--step 9 Rank employees by salary within their department
+
+--Select first_name, department_id, salary 
+--From Employees
+--Group by department_id, first_name, salary
+--Order by salary desc;
+
+/*
+	Using a window function (RANK) to assign ranks to employees within each 
+	department based on salary.
+*/
+SELECT first_name, last_name, department_id, salary,
+RANK() OVER (PARTITION BY department_id ORDER BY salary DESC) as salary_rank
+FROM Employees;
+
+--step 10 Find duplicate employee records
+/*
+	Identifies duplicate records by grouping and using HAVING to filter groups 
+	with more than one occurrence.
+*/
+SELECT first_name, last_name, COUNT(*) as count
+FROM Employees
+GROUP BY first_name, last_name
+HAVING COUNT(*) > 1;
