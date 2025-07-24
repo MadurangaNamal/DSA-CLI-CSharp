@@ -193,7 +193,7 @@ FROM Employees e1
 INNER JOIN Employees e2 ON e1.manager_id = e2.employee_id
 Where e1.salary > e2.salary;
 
---set 13 Get top 3 employees by salary per department
+--step 13 Get top 3 employees by salary per department
 
 WITH RankedEmployees AS (
 SELECT first_name, last_name, department_id, salary,
@@ -202,3 +202,61 @@ FROM Employees)
 SELECT first_name, last_name, department_id, salary
 FROM RankedEmployees
 WHERE rnk <= 3;
+
+--step 14 Pivot department salary totals by location
+
+SELECT *
+FROM (
+    SELECT d.location, d.department_name, e.salary
+    FROM Employees e
+    INNER JOIN Departments d ON e.department_id = d.department_id
+) AS SourceTable
+PIVOT (
+    SUM(salary)
+    FOR department_name IN ([IT], [Finance], [HR])) AS PivotTable;
+
+--step 15 Find employees hired in the last 6 months
+
+-- Insert a new employee data
+--INSERT INTO Employees (employee_id, first_name, last_name, department_id, salary, hire_date, manager_id) 
+--VALUES (109, 'Dan', 'Millman', 1, 100000.00, '2025-06-14', 105);  --delete from Employees where employee_id = 109;
+
+SELECT first_name, last_name, hire_date
+FROM Employees
+WHERE hire_date >= DATEADD(MONTH, -6, GETDATE());
+
+--step 16 Find customers with no orders
+SELECT c.customer_id, c.customer_name
+FROM Customers c
+LEFT JOIN Orders o ON c.customer_id = o.customer_id
+WHERE o.order_id IS NULL;
+
+--step 17 Optimize a slow query 
+--(Get Employees details with department name whose salary above 50000)
+
+/*
+	Demonstrates converting an implicit join to an explicit INNER JOIN, 
+	adding an EXISTS clause for optimization, 
+	and suggesting an index to improve performance.
+*/
+
+-- Original slow query
+SELECT e.first_name, e.last_name, d.department_name
+FROM Employees e, Departments d
+WHERE e.department_id = d.department_id
+AND e.salary > 70000;
+
+-- Optimized query
+
+CREATE INDEX idx_salary_department
+ON Employees(salary, department_id);
+
+SELECT e.first_name, e.last_name, d.department_name
+FROM Employees e
+INNER JOIN Departments d ON e.department_id = d.department_id
+WHERE e.salary > 70000
+AND EXISTS (
+    SELECT 1 FROM Departments d2 WHERE d2.department_id = e.department_id
+);
+
+DROP INDEX idx_salary_department ON Employees;
