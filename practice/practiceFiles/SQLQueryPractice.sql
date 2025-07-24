@@ -162,7 +162,43 @@ FROM Employees;
 	Identifies duplicate records by grouping and using HAVING to filter groups 
 	with more than one occurrence.
 */
+
+-- Insert a duplicte data
+--INSERT INTO Employees (employee_id, first_name, last_name, department_id, salary, hire_date, manager_id) 
+--VALUES (109, 'Grace', 'Kim', 4, 63000.00, '2021-09-14', 105);  --delete from Employees where employee_id = 109;
+
 SELECT first_name, last_name, COUNT(*) as count
 FROM Employees
 GROUP BY first_name, last_name
 HAVING COUNT(*) > 1;
+
+--step 11 Running total of orders by customer
+
+--Total
+Select c.customer_name, 
+COUNT(o.order_id) As Order_Count, SUM(o.total_amount) AS Total_Amount
+From Customers c INNER JOIN Orders o ON c.customer_id = o.customer_id
+Group by c.customer_name;
+
+--Running Total
+SELECT customer_id, order_id, order_date, total_amount,
+SUM(total_amount) OVER (PARTITION BY customer_id ORDER BY order_date) as running_total
+FROM Orders;
+
+--step 12 Find employees who earn more than their manager
+
+SELECT e1.first_name AS employee_name, e1.salary, 
+e2.first_name AS manager_name, e2.salary
+FROM Employees e1
+INNER JOIN Employees e2 ON e1.manager_id = e2.employee_id
+Where e1.salary > e2.salary;
+
+--set 13 Get top 3 employees by salary per department
+
+WITH RankedEmployees AS (
+SELECT first_name, last_name, department_id, salary,
+DENSE_RANK() OVER (PARTITION BY department_id ORDER BY salary DESC) as rnk
+FROM Employees)
+SELECT first_name, last_name, department_id, salary
+FROM RankedEmployees
+WHERE rnk <= 3;
