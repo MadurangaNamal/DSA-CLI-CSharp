@@ -8,12 +8,11 @@ public class Person
     public int Age { get; set; }
     public string PhoneNumber { get; set; }
 
-    public Person()
-    {
-    }
+    public Person() { }
 
     public static void ToString(Person person)
     {
-        Console.WriteLine($"Person: FullName: {person.FullName}, Email: {person.Email}, Age: {person.Age}, PhoneNumber: {person.PhoneNumber}");
+        Console.WriteLine($"Person: FullName: {person.FullName}, Email: {person.Email}, Age: {person.Age}," +
+            $" PhoneNumber: {person.PhoneNumber}");
     }
 }

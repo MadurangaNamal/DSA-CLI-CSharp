@@ -201,8 +201,13 @@ public class Program
         ////Minimum Jumps Count 
         //Console.WriteLine($"Minimum jumps:{LeetCode.CountMinJumps(numbs)}");
 
+        //int[] gas = [1, 2, 3, 4, 5];
+        //int[] cost = new[] { 3, 4, 5, 1, 2 };
 
+        //int answer = LeetCode.CanCompleteCircuit(gas, cost);
 
+        //Console.WriteLine($"Can complete circuit: {(answer == -1 ? "No" : "Yes")}");
+        //Console.WriteLine($"Starting point(index): {(answer == -1 ? "Can't complete circuit" : answer)}");
 
         #endregion
 

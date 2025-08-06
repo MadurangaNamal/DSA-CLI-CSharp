@@ -105,7 +105,6 @@ public class CodePractice
         Console.WriteLine("Done processing data");
     }
 
-
     //Helper methods
     public static void PrintList(ListNode? head)
     {
@@ -152,7 +151,7 @@ public class CodePractice
         Console.WriteLine(linkedList.Contains("Second Name"));
     }
 
-    #region Linq samples
+    #region LINQ samples
 
     public static List<Employee> FilterEmployees(int[] ids)
     {
@@ -321,6 +320,10 @@ public class CodePractice
         mapper.Map(dataDto, person2);
         Person.ToString(person2);
     }
+
+
+
+
 }
 
 
