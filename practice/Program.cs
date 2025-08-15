@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using practice.practiceFiles;
+using System.Text;
 
 namespace practice;
 
@@ -189,6 +190,15 @@ public class Program
 
         //Console.WriteLine(colors.GetRandomElement());
         //colors.Shuffle().ShowItems();
+
+        //ICollection<Employee> employees = BusinessProcess.GetEmployeeCollection();
+
+        //Console.WriteLine(employees.IsItEmpty());
+        //Console.WriteLine(employees.GetRandomElement().Name);
+
+        IEnumerable<Employee> employees = BusinessProcess.GetEmployeesEnumerable();
+        employees.Select(e => e.Name).Shuffle().ShowItems();
+
 
         #endregion
 

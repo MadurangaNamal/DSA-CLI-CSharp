@@ -15,7 +15,7 @@ public static class CollectionExtensions
     public static bool IsItEmpty<T>(this ICollection<T> candidateCollection)
     {
         Console.WriteLine();
-        return candidateCollection == null || !candidateCollection.Any(); // Here Any() is fater than count() > 0
+        return candidateCollection == null || !candidateCollection.Any(); // Here using Any() is faster than count() > 0
     }
 
     public static T GetRandomElement<T>(this ICollection<T> array)

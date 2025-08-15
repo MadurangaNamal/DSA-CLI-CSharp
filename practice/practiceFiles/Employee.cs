@@ -26,7 +26,7 @@ public static class BusinessProcess
 
     private static readonly string[] LastNames = { "Smith", "Johnson", "Williams", "Brown", "Jones", "Miller", "Davis", "Garcia", "Rodriguez", "Wilson" };
 
-    public static List<Employee> GenerateEmployees(int count = 50)
+    public static List<Employee> GenerateEmployeesList(int count = 50)
     {
         var random = new Random();
         var employees = new List<Employee>();
@@ -43,6 +43,17 @@ public static class BusinessProcess
             employees.Add(new Employee(i, $"{firstName} {lastName}", Departments[random.Next(Departments.Length)], (decimal)salary, joinDate));
         }
 
+        return employees;
+    }
+
+    public static IEnumerable<Employee> GetEmployeesEnumerable()
+    {
+        return GenerateEmployeesList(20).AsEnumerable();
+    }
+
+    public static ICollection<Employee> GetEmployeeCollection()
+    {
+        ICollection<Employee> employees = GenerateEmployeesList(25);
         return employees;
     }
 }

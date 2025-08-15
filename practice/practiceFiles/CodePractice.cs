@@ -155,7 +155,7 @@ public class CodePractice
 
     public static List<Employee> FilterEmployees(int[] ids)
     {
-        List<Employee> employees = BusinessProcess.GenerateEmployees();
+        List<Employee> employees = BusinessProcess.GenerateEmployeesList();
 
         List<Employee> filteredEmployees = employees
         .Where(employee => !ids.Contains(employee.Id))
@@ -166,7 +166,7 @@ public class CodePractice
 
     public static List<Employee> SortEmployees(string sortProperty, bool ascending = true)
     {
-        List<Employee> employees = BusinessProcess.GenerateEmployees();
+        List<Employee> employees = BusinessProcess.GenerateEmployeesList();
 
         // Use reflection to dynamically get the property value for sorting
         Func<Employee, object?> keySelector = employee =>
@@ -179,7 +179,7 @@ public class CodePractice
 
     public static List<Employee> GetPaginatedEmployees(int page, int pageSize, string searchTerm)
     {
-        List<Employee> employees = BusinessProcess.GenerateEmployees();
+        List<Employee> employees = BusinessProcess.GenerateEmployeesList();
 
         return employees
             .Where(e => e.Name.Contains(searchTerm, StringComparison.OrdinalIgnoreCase))
@@ -190,7 +190,7 @@ public class CodePractice
 
     public static dynamic GetDepartmentStats()
     {
-        List<Employee> employees = BusinessProcess.GenerateEmployees();
+        List<Employee> employees = BusinessProcess.GenerateEmployeesList();
 
         return employees
             .GroupBy(e => e.Department)
@@ -206,7 +206,7 @@ public class CodePractice
 
     public static List<Employee> GetLongTermEmployees(int years)
     {
-        List<Employee> employees = BusinessProcess.GenerateEmployees();
+        List<Employee> employees = BusinessProcess.GenerateEmployeesList();
 
         var cutoffDate = DateTime.Now.AddYears(-years);
 
@@ -217,7 +217,7 @@ public class CodePractice
     }
     public static List<Employee> FilterBySalaryRange(decimal? minSalary, decimal? maxSalary)
     {
-        List<Employee> employees = BusinessProcess.GenerateEmployees();
+        List<Employee> employees = BusinessProcess.GenerateEmployeesList();
 
         var query = employees.AsQueryable();
 
@@ -232,7 +232,7 @@ public class CodePractice
 
     public static List<Employee> FindPossibleDuplicates()
     {
-        List<Employee> employees = BusinessProcess.GenerateEmployees();
+        List<Employee> employees = BusinessProcess.GenerateEmployeesList();
 
         return employees
             .GroupBy(e => new { e.Name, e.Department })
@@ -243,7 +243,7 @@ public class CodePractice
 
     public static List<Employee> GetRecentJoinees(int months)
     {
-        List<Employee> employees = BusinessProcess.GenerateEmployees();
+        List<Employee> employees = BusinessProcess.GenerateEmployeesList();
 
         var cutoffDate = DateTime.Now.AddMonths(-months);
 
@@ -255,7 +255,7 @@ public class CodePractice
 
     public static dynamic GetEmployeeOverview(string fields)
     {
-        List<Employee> employees = BusinessProcess.GenerateEmployees();
+        List<Employee> employees = BusinessProcess.GenerateEmployeesList();
 
         return employees
             .AsQueryable()
@@ -265,7 +265,7 @@ public class CodePractice
 
     public static Dictionary<string, decimal> GetDepartmentBudgets()
     {
-        List<Employee> employees = BusinessProcess.GenerateEmployees();
+        List<Employee> employees = BusinessProcess.GenerateEmployeesList();
 
         return employees
             .GroupBy(e => e.Department)
@@ -276,7 +276,7 @@ public class CodePractice
 
     public static dynamic CategorizeSalaries()
     {
-        List<Employee> employees = BusinessProcess.GenerateEmployees();
+        List<Employee> employees = BusinessProcess.GenerateEmployeesList();
 
         return employees
             .Select(e => new
@@ -320,9 +320,6 @@ public class CodePractice
         mapper.Map(dataDto, person2);
         Person.ToString(person2);
     }
-
-
-
 
 }
 
