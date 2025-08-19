@@ -1,5 +1,4 @@
-﻿using practice.practiceFiles;
-using System.Text;
+﻿using System.Text;
 
 namespace practice;
 
@@ -173,7 +172,6 @@ public class Program
         #endregion
 
         #region Using AutoMapper for mapping objects
-
         //CodePractice.PrintAutomapperFunctions();
         #endregion
 
@@ -196,9 +194,8 @@ public class Program
         //Console.WriteLine(employees.IsItEmpty());
         //Console.WriteLine(employees.GetRandomElement().Name);
 
-        IEnumerable<Employee> employees = BusinessProcess.GetEmployeesEnumerable();
-        employees.Select(e => e.Name).Shuffle().ShowItems();
-
+        //IEnumerable<Employee> employees = BusinessProcess.GetEmployeesEnumerable();
+        //employees.Select(e => e.Name).Shuffle().ShowItems();
 
         #endregion
 

@@ -260,3 +260,168 @@ AND EXISTS (
 );
 
 DROP INDEX idx_salary_department ON Employees;
+
+-- Views
+
+-- 1. Employee details with department info and manager name
+
+CREATE OR ALTER VIEW vw_EmployeeDetails AS
+SELECT 
+    e.employee_id,
+    e.first_name,
+    e.last_name,
+    d.department_name,
+    e.salary,
+    e.hire_date,
+    CONCAT(m.first_name, ' ', m.last_name) AS manager_name
+FROM Employees e
+LEFT JOIN Departments d ON e.department_id = d.department_id
+LEFT JOIN Employees m ON e.manager_id = m.employee_id;
+
+-------------------------------------------------------------
+
+-- 2. Total salary cost per department
+CREATE OR ALTER VIEW vw_DepartmentSalarySummary AS
+SELECT 
+    d.department_name,
+    SUM(e.salary) AS total_salary,
+    AVG(e.salary) AS avg_salary,
+    COUNT(e.employee_id) AS employee_count
+FROM Departments d
+JOIN Employees e ON d.department_id = e.department_id
+GROUP BY d.department_name;
+
+-------------------------------------------------------------
+
+-- 3. Customer orders with total spend
+CREATE OR ALTER VIEW vw_CustomerOrderSummary AS
+SELECT 
+    c.customer_id,
+    c.customer_name,
+    c.country,
+    COUNT(o.order_id) AS total_orders,
+    SUM(o.total_amount) AS total_spent
+FROM Customers c
+LEFT JOIN Orders o ON c.customer_id = o.customer_id
+GROUP BY c.customer_id, c.customer_name, c.country;
+
+-- Stored Procedures
+
+-- 1. Get employees by department
+CREATE OR ALTER PROCEDURE sp_GetEmployeesByDepartment
+    @DeptId INT
+AS
+BEGIN
+    SET NOCOUNT ON;
+
+    SELECT e.employee_id, e.first_name, e.last_name, e.salary, d.department_name
+    FROM Employees e
+    INNER JOIN Departments d ON e.department_id = d.department_id
+    WHERE e.department_id = @DeptId;
+END;
+GO
+
+-- Execution:
+EXEC sp_GetEmployeesByDepartment @DeptId = 2;
+
+-------------------------------------------------------------
+
+-- 2. Insert new order and return updated customer spend
+CREATE OR ALTER PROCEDURE sp_AddOrderAndGetTotal
+    @CustId INT,
+    @OrderDate DATE,
+    @Amount DECIMAL(10,2)
+AS
+BEGIN
+    SET NOCOUNT ON;
+
+    DECLARE @NewOrderId INT;
+
+    INSERT INTO Orders (customer_id, order_date, total_amount)
+    OUTPUT INSERTED.order_id INTO @NewOrderId
+    VALUES (@CustId, @OrderDate, @Amount);
+
+    SELECT c.customer_id, c.customer_name,
+           SUM(o.total_amount) AS total_spent
+    FROM Customers c
+    INNER JOIN Orders o ON c.customer_id = o.customer_id
+    WHERE c.customer_id = @CustId
+    GROUP BY c.customer_id, c.customer_name;
+END;
+GO
+
+-- Execution:
+EXEC sp_AddOrderAndGetTotal @CustId = 201, @OrderDate = '2024-07-10', @Amount = 1800.00;
+
+-- Triggers
+
+-- 1. Prevent salary below 30,000
+CREATE OR ALTER TRIGGER trg_CheckSalaryBeforeInsert
+ON Employees
+INSTEAD OF INSERT
+AS
+BEGIN
+    IF EXISTS (SELECT 1 FROM inserted WHERE salary < 30000)
+    BEGIN
+        RAISERROR('Salary must be at least 30,000', 16, 1);
+        ROLLBACK TRANSACTION;
+        RETURN;
+    END
+
+    -- Insert valid rows
+    INSERT INTO Employees (employee_id, first_name, last_name, department_id, salary, hire_date, manager_id)
+    SELECT employee_id, first_name, last_name, department_id, salary, hire_date, manager_id
+    FROM inserted;
+END;
+GO
+
+-------------------------------------------------------------
+
+-- 2. Audit order insertions
+CREATE TABLE Order_Audit (
+    audit_id INT IDENTITY(1,1) PRIMARY KEY,
+    order_id INT,
+    customer_id INT,
+    action_time DATETIME DEFAULT GETDATE(),
+    action VARCHAR(20)
+);
+GO
+
+CREATE OR ALTER TRIGGER trg_AuditOrderInsert
+ON Orders
+AFTER INSERT
+AS
+BEGIN
+    INSERT INTO Order_Audit (order_id, customer_id, action)
+    SELECT order_id, customer_id, 'INSERT'
+    FROM inserted;
+END;
+GO
+
+-------------------------------------------------------------
+
+-- 3. Track salary updates in a history table
+CREATE TABLE Salary_History (
+    history_id INT IDENTITY(1,1) PRIMARY KEY,
+    employee_id INT,
+    old_salary DECIMAL(10,2),
+    new_salary DECIMAL(10,2),
+    change_date DATETIME DEFAULT GETDATE()
+);
+GO
+
+CREATE OR ALTER TRIGGER trg_SalaryUpdate
+ON Employees
+AFTER UPDATE
+AS
+BEGIN
+    IF UPDATE(salary)
+    BEGIN
+        INSERT INTO Salary_History (employee_id, old_salary, new_salary)
+        SELECT d.employee_id, d.salary, i.salary
+        FROM deleted d
+        INNER JOIN inserted i ON d.employee_id = i.employee_id
+        WHERE d.salary <> i.salary;
+    END
+END;
+GO
