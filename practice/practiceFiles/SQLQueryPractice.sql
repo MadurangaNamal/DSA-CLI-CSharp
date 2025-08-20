@@ -335,12 +335,18 @@ AS
 BEGIN
     SET NOCOUNT ON;
 
-    DECLARE @NewOrderId INT;
+    -- Table variable to capture the new order id
+    DECLARE @NewOrders TABLE (order_id INT);
 
+    -- Insert order and capture its ID
     INSERT INTO Orders (customer_id, order_date, total_amount)
-    OUTPUT INSERTED.order_id INTO @NewOrderId
+    OUTPUT INSERTED.order_id INTO @NewOrders(order_id)
     VALUES (@CustId, @OrderDate, @Amount);
 
+    -- (Optional) You can get the new order id like this:
+    -- SELECT order_id FROM @NewOrders;
+
+    -- Return updated customer total
     SELECT c.customer_id, c.customer_name,
            SUM(o.total_amount) AS total_spent
     FROM Customers c
@@ -350,8 +356,12 @@ BEGIN
 END;
 GO
 
+
 -- Execution:
-EXEC sp_AddOrderAndGetTotal @CustId = 201, @OrderDate = '2024-07-10', @Amount = 1800.00;
+EXEC sp_AddOrderAndGetTotal 
+     @CustId = 201, 
+     @OrderDate = '2024-07-10', 
+     @Amount = 1800.00;
 
 -- Triggers
 

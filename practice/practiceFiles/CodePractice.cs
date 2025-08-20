@@ -56,7 +56,8 @@ public class CodePractice
             }
         }
 
-        return -1; // Element not found
+        Console.WriteLine("Element not found");
+        return -1;
     }
 
     //Merge two sorted linked lists into one sorted list

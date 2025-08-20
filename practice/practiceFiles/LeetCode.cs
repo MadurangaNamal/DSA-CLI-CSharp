@@ -2,24 +2,24 @@
 
 public class LeetCode
 {
-    public static void MergeSortedArrays(int[] nums1, int m, int[] nums2, int n)
+    public static void MergeSortedArrays(int[] nums1, int nums1Size, int[] nums2, int nums2Size)
     {
-        int[] result = new int[m + n];
-        int i = 0, j = 0, k = 0;
+        int[] result = new int[nums1Size + nums2Size];
+        int nums1Index = 0, nums2Index = 0, resultIndex = 0;
 
-        while (i < m && j < n)
+        while (nums1Index < nums1Size && nums2Index < nums2Size)
         {
-            result[k++] = (nums1[i] < nums2[j]) ? nums1[i++] : nums2[j++];
+            result[resultIndex++] = (nums1[nums1Index] < nums2[nums2Index]) ? nums1[nums1Index++] : nums2[nums2Index++];
         }
 
-        if (i < m)
+        if (nums1Index < nums1Size)
         {
-            Array.Copy(nums1, i, result, k, m - i);
+            Array.Copy(nums1, nums1Index, result, resultIndex, nums1Size - nums1Index);
         }
 
-        if (j < n)
+        if (nums2Index < nums2Size)
         {
-            Array.Copy(nums2, j, result, k, n - j);
+            Array.Copy(nums2, nums2Index, result, resultIndex, nums2Size - nums2Index);
         }
 
         Console.WriteLine(string.Join(", ", result));
@@ -56,6 +56,7 @@ public class LeetCode
         }
 
         Console.WriteLine(string.Join(", ", result));
+
         return result.Count;
     }
 
@@ -82,6 +83,7 @@ public class LeetCode
         }
 
         Console.WriteLine(string.Join(", ", result));
+
         return result.Count;
     }
 
