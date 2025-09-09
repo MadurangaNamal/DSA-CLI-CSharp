@@ -1,8 +1,8 @@
 ﻿namespace practice.practiceFiles;
 
 /*
- This C# code defines a generic singly linked list class called GenericList<T>,
- which allows storing and managing elements of any type T.
+     This C# code defines a generic singly linked list class called GenericList<T>,
+     which allows storing and managing elements of any type T.
  */
 public class GenericList<T>
 {

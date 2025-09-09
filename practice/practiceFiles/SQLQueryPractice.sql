@@ -343,8 +343,7 @@ BEGIN
     OUTPUT INSERTED.order_id INTO @NewOrders(order_id)
     VALUES (@CustId, @OrderDate, @Amount);
 
-    -- (Optional) You can get the new order id like this:
-    -- SELECT order_id FROM @NewOrders;
+    -- (Optional) You can get the new order id like this: SELECT order_id FROM @NewOrders;
 
     -- Return updated customer total
     SELECT c.customer_id, c.customer_name,

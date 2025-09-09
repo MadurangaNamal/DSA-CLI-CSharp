@@ -1,13 +1,12 @@
-﻿using System.Text;
-
-namespace practice;
+﻿namespace practice;
 
 public class Program
 {
     static void Main(string[] args)
     {
 
-        #region Delegates exercise1
+        #region Delegates
+
         //MyDelegate func = Composable.Func1;
         //MyDelegate func2 = Composable.Func2;
 
@@ -20,6 +19,7 @@ public class Program
         //Console.WriteLine("Calling the chained delegates");
         //MyDelegate del = func + func2;
         //del(a, ref b);
+
         #endregion
 
         #region Find Second largest number
@@ -34,6 +34,7 @@ public class Program
         #endregion
 
         #region Find element position in sorted array
+
         //int[] sortedArray = { 1, 35, 51, 78, 99, 110 };
         //int itemIndex = PracticeAlgoirthms.FindElementInSortedArray(99, sortedArray);
 
@@ -41,17 +42,21 @@ public class Program
         //    Console.WriteLine("Item found in position: {0}", itemIndex + 1);
         //else
         //    Console.WriteLine("Item not found");
+
         #endregion
 
         #region Merge two sorted linked lists into one sorted list
+
         //ListNode l1 = new(1, new ListNode(3, new ListNode(5))); // Creating a linked list: 1 -> 3 -> 5 -> null
         //ListNode l2 = new(2, new ListNode(4, new ListNode(6))); // Creating a linked list: 2 -> 4 -> 6 -> null
 
         //ListNode? mergedList = PracticeAlgoirthms.MergeTwoLists(l1, l2);
         //PracticeAlgoirthms.PrintList(mergedList); // Output: 1 -> 2 -> 3 -> 4 -> 5 -> 6 -> null
+
         #endregion
 
         #region Usage: generic singly linked list
+
         //GenericList<int> myList = new();
         //myList.AddHead(1);
         //myList.AddHead(2);
@@ -61,9 +66,11 @@ public class Program
         //{
         //    Console.WriteLine(item);
         //}
+
         #endregion
 
-        #region class vs struct
+        #region class vs struct vs record
+
         /*
             The reason for this is, the function receives a copy of the struct(because its a value type), so original
             keeps unchanged, but in case of class, the function receives the reference of the object(reference type)
@@ -73,7 +80,7 @@ public class Program
         //s1.a = 10;
         //s1.b = true;
         //s1.value = "Not changed";
-        //PrintStruct(s1);
+        //CodePractice.PrintStruct(s1);
 
         //Console.WriteLine($"Struct values {s1.a} , {s1.b}, {s1.value}");
 
@@ -81,9 +88,13 @@ public class Program
         //s2.a = 10;
         //s2.b = true;
         //s2.value = "Not changed";
-        //PrintClass(s2);
+        //CodePractice.PrintClass(s2);
 
         //Console.WriteLine($"Class values {s2.a} , {s2.b}, {s2.value}");
+
+        //SampleRecord s3 = new(7, true, "Hello!");
+        //CodePractice.PrintRecord(s3);
+
         #endregion
 
         #region Task Progress Reporting
@@ -142,10 +153,10 @@ public class Program
 
         //int number = 5;
         //Console.WriteLine($"Value before calling the Square function: {number}");
-        //Square(number);
+        //CodePractice.Square(number);
         //Console.WriteLine($"Value after calling the Square function: {number}");
 
-        //SquareRef(ref number);
+        //CodePractice.SquareRef(ref number);
         //Console.WriteLine($"Value after calling the SquareRef function: {number}");
 
         #endregion
@@ -153,7 +164,7 @@ public class Program
         #region Reverse any string
 
         //var name = "AGNARUDAM";
-        //Console.WriteLine($"Reversed text: {ReverseString(name)}");
+        //Console.WriteLine($"Reversed text: {CodePractice.ReverseString(name)}");
 
         #endregion
 
@@ -172,7 +183,9 @@ public class Program
         #endregion
 
         #region Using AutoMapper for mapping objects
+
         //CodePractice.PrintAutomapperFunctions();
+
         #endregion
 
         #region Extension Methods
@@ -199,7 +212,7 @@ public class Program
 
         #endregion
 
-        #region Leetcode challenges
+        #region Leetcode
 
         ////Can jump
         //int[] numbs = new[] { 2, 3, 1, 1, 4 };
@@ -218,81 +231,12 @@ public class Program
 
         #endregion
 
+        #region Pattern Matching
+
+        //CodePractice.PrintPatternMatchingStatements();
+
+        #endregion
+
     }
-
-    static void PrintValues()
-    {
-        string value = "abcd";
-        ChangeValue(value);
-
-        Console.WriteLine(value);
-    }
-
-    static void ChangeValue(string value)
-    {
-        value = "null";
-    }
-
-    static void SquareRef(ref int n)
-    {
-        n = n * n;
-        Console.WriteLine($"Value inside the SquareRef function: {n}");
-    }
-
-    static void Square(int n)
-    {
-        n = n * n;
-        Console.WriteLine($"Value inside the Square function: {n}");
-    }
-
-    //helper methods
-    static void PrintStruct(SampleStruct theStruct)
-    {
-        theStruct.a = 20;
-        theStruct.b = false;
-        theStruct.value = "Changed";
-
-        Console.WriteLine($"Struct values {theStruct.a} , {theStruct.b}, {theStruct.value}");
-    }
-
-    static void PrintClass(SampleClass theClass)
-    {
-        theClass.a = 20;
-        theClass.b = false;
-        theClass.value = null;
-
-        Console.WriteLine($"Class values {theClass.a} , {theClass.b}, {theClass.value}");
-    }
-
-    static string ReverseString(string text)
-    {
-        StringBuilder reversedText = new("");
-
-        if (!string.IsNullOrEmpty(text))
-        {
-            char[] characters = text.ToCharArray();
-
-            for (int i = characters.Length - 1; i >= 0; i--)
-            {
-                reversedText.Append(characters[i]);
-            }
-        }
-
-        return reversedText.ToString();
-    }
-}
-
-class SampleClass // reference type
-{
-    public int a;
-    public bool b;
-    public string value;
-}
-
-struct SampleStruct // value type
-{
-    public int a;
-    public bool b;
-    public string value;
 }
 

@@ -1,11 +1,82 @@
 ﻿using AutoMapper;
 using System.Linq.Dynamic.Core;
+using System.Text;
 
 namespace practice.practiceFiles;
 
 public class CodePractice
 {
-    //Find second largest
+    public static void PrintValues()
+    {
+        string value = "abcd";
+        ChangeValue(value);
+
+        Console.WriteLine(value);
+    }
+
+    private static void ChangeValue(string value)
+    {
+        value = null!;
+    }
+
+    public static void SquareRef(ref int n)
+    {
+        n = n * n;
+        Console.WriteLine($"Value inside the SquareRef function: {n}");
+    }
+
+    public static void Square(int n)
+    {
+        n = n * n;
+        Console.WriteLine($"Value inside the Square function: {n}");
+    }
+
+    public static void PrintStruct(SampleStruct theStruct)
+    {
+        theStruct.a = 20;
+        theStruct.b = false;
+        theStruct.value = "Modified local copy";
+
+        Console.WriteLine($"Struct values {theStruct.a} , {theStruct.b}, {theStruct.value}");
+    }
+
+    public static void PrintClass(SampleClass theClass)
+    {
+        theClass.a = 20;
+        theClass.b = false;
+        theClass.value = "Changed";
+
+        Console.WriteLine($"Class values {theClass.a} , {theClass.b}, {theClass.value}");
+    }
+
+    public static void PrintRecord(SampleRecord theRecord)
+    {
+        //theRecord.a = 20; // Error: Records are immutable
+        //theRecord.b = false; // Error
+        //theRecord.value = null; // Error
+
+        Console.WriteLine($"Record values {theRecord.a} , {theRecord.b}, {theRecord.value}");
+    }
+
+    // Reverse a string
+    public static string ReverseString(string text)
+    {
+        StringBuilder reversedText = new();
+
+        if (!string.IsNullOrEmpty(text))
+        {
+            char[] characters = text.ToCharArray();
+
+            for (int i = characters.Length - 1; i >= 0; i--)
+            {
+                reversedText.Append(characters[i]);
+            }
+        }
+
+        return reversedText.ToString();
+    }
+
+    // Find second largest
     public static int GetSecondLargestNumber(int[] itemList)
     {
         int largestNumber = int.MinValue;
@@ -32,7 +103,7 @@ public class CodePractice
         return secondLargestNumber;
     }
 
-    //Binary search
+    // Binary search
     public static int FindElementInSortedArray(int item, int[] sortedArray)
     {
         int low = 0;
@@ -60,7 +131,8 @@ public class CodePractice
         return -1;
     }
 
-    //Merge two sorted linked lists into one sorted list
+    // Merge two sorted linked lists into one sorted list
+
     /*
      *  Use a dummy node to simplify handling the head of the merged list.
         Use a pointer (current) to track the last node of the merged list.
@@ -94,7 +166,7 @@ public class CodePractice
         return dummy.Next;
     }
 
-    //Task Progress Reporting
+    // Task Progress Reporting
     public static async Task ProcessDataAsync(string[] departments, IProgress<int> progress)
     {
         for (int i = 1; i <= departments.Length; i++)
@@ -106,7 +178,7 @@ public class CodePractice
         Console.WriteLine("Done processing data");
     }
 
-    //Helper methods
+    // Helper methods
     public static void PrintList(ListNode? head)
     {
         while (head != null)
@@ -117,7 +189,7 @@ public class CodePractice
         Console.WriteLine("null");
     }
 
-    //Using in built LinkedList
+    // Using in built LinkedList
     public static void PrintLinkedListFunctions(string[]? values)
     {
         LinkedList<string>? linkedList = new(values!);
@@ -297,7 +369,7 @@ public class CodePractice
 
     #endregion
 
-    //Automapper
+    // Automapper
     public static void PrintAutomapperFunctions()
     {
         var config = new MapperConfiguration(cfg => cfg.AddProfile<PersonProfile>());
@@ -322,6 +394,83 @@ public class CodePractice
         Person.ToString(person2);
     }
 
+    #region Pattern Matching
+
+    public static void PrintPatternMatchingStatements()
+    {
+        // Type pattern
+        string name = "Anonymous";
+        object obj = name;
+
+        if (obj is string str)
+        {
+            Console.WriteLine($"Object is a string of length: {str.Length}");
+        }
+
+        // Property pattern
+        Employee employee = new(1, "John Doe", "IT", 60000, DateTime.Now.AddYears(-3));
+
+        if (employee is { Department: "IT", Salary: > 50000 })
+        {
+            Console.WriteLine("Employee works in IT and earns more than 50,000");
+        }
+
+        // Tuple pattern
+        (int x, int y) coordinates = (5, 0); // Tuple declaration
+
+        var result = (coordinates) switch
+        {
+            (0, 0) => "Origin",
+            (var a, 0) => $"X-axis at {a}",
+            (0, var b) => $"Y-axis at {b}",
+            _ => "Elsewhere"
+        };
+
+        Console.WriteLine(result);
+
+        // Positional pattern
+        Point p = new(0, 7);
+        Console.WriteLine(Classify(p));
+
+        // Logical pattern
+        if (employee is Employee and { Salary: >= 60000 })
+        {
+            Console.WriteLine("Employee earns at least 60,000");
+        }
+    }
+
+    private static string Classify(Point point) => point switch
+    {
+        (0, 0) => "Origin",
+        (var x, 0) => $"X-axis at {x}",
+        (0, var y) => $"Y-axis at {y}",
+        _ => "Elsewhere"
+    };
+
+    #endregion
+
 }
 
+// reference type
+public class SampleClass
+{
+    public int a;
+    public bool b;
+    public string? value;
+}
+
+// value type
+public struct SampleStruct
+{
+    public int a;
+    public bool b;
+    public string value;
+}
+
+// immutable reference type
+public record SampleRecord(int a, bool b, string value);
+
+/////////////////////////////////////////////////////////////
+
+public record Point(int X, int Y);
 
