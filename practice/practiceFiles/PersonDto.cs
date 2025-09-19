@@ -8,6 +8,9 @@ public class PersonDto
     public DateOnly BirthDate { get; set; }
     public string Phone { get; set; }
 
+    public PersonDto()
+    {
+    }
 
     public PersonDto(string firstName, string lastName, string emailAddress, DateOnly birthDate, string phone)
     {
@@ -16,9 +19,5 @@ public class PersonDto
         Email = emailAddress;
         BirthDate = birthDate;
         Phone = phone;
-    }
-
-    public PersonDto()
-    {
     }
 }

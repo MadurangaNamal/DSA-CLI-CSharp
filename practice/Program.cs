@@ -1,4 +1,6 @@
-﻿namespace practice;
+﻿using practice.practiceFiles;
+
+namespace practice;
 
 public class Program
 {
@@ -234,6 +236,12 @@ public class Program
         #region Pattern Matching
 
         //CodePractice.PrintPatternMatchingStatements();
+
+        #endregion
+
+        #region Threads
+
+        CodePractice.PrintThreadingFunctions();
 
         #endregion
 

@@ -132,7 +132,6 @@ public class CodePractice
     }
 
     // Merge two sorted linked lists into one sorted list
-
     /*
      *  Use a dummy node to simplify handling the head of the merged list.
         Use a pointer (current) to track the last node of the merged list.
@@ -392,6 +391,14 @@ public class CodePractice
 
         mapper.Map(dataDto, person2);
         Person.ToString(person2);
+
+        //Type 3
+        List<PersonDto> people = new();
+        people.Add(dataDto);
+        people.Add(new PersonDto("Maduranga", "NW", "namal@gmail.com", new DateOnly(1995, 03, 19), "1234567890"));
+
+        var peopleList = mapper.Map<IEnumerable<Person>>(people);
+        peopleList.ToList().ForEach(p => Console.WriteLine($"{p.FullName}, {p.Email}"));
     }
 
     #region Pattern Matching
@@ -449,6 +456,17 @@ public class CodePractice
 
     #endregion
 
+    // Threads
+    public static void PrintThreadingFunctions()
+    {
+        //CustomThreads.ThreadMethod();
+        //CustomThreads.ParameterizedThreadMethod();
+        //CustomThreads.ThreadSynchronization();
+        //CustomThreads.ThreadSafetyUsingMutex();
+        //CustomThreads.ThreadSafetyUsingSemaphore();
+        CustomThreads.ThreadPoolExecution();
+
+    }
 }
 
 // reference type
