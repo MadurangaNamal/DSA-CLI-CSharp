@@ -1,4 +1,5 @@
-﻿using practice.practiceFiles;
+﻿using practice.practiceFiles.DesignPatterns;
+using System.Runtime.InteropServices;
 
 namespace practice;
 
@@ -239,12 +240,61 @@ public class Program
 
         #endregion
 
-        #region Threads
+        #region Concurrency and Multithreading
 
-        CodePractice.PrintThreadingFunctions();
+        //CodePractice.PrintThreadingFunctions();
 
         #endregion
 
+        #region Design Patterns
+
+        // Singleton
+
+        Thread[] threads = new Thread[2];
+
+        for (int i = 0; i < threads.Length; i++)
+        {
+            int index = i;
+            threads[i] = new Thread(() =>
+            {
+                var instance = SingletonPattern.Instance;
+                Console.WriteLine($"Thread {index}: Got instance.");
+            });
+            threads[i].Start();
+        }
+
+        // Wait for all threads to complete
+        foreach (var t in threads)
+        {
+            t.Join();
+        }
+
+        SingletonPattern instance1 = SingletonPattern.Instance;
+        SingletonPattern instance2 = SingletonPattern.Instance;
+
+        Console.WriteLine($"Reference equal? {instance1 == instance2}");
+
+        // Pin and get addresses
+        GCHandle handle1 = GCHandle.Alloc(instance1, GCHandleType.Pinned);
+        GCHandle handle2 = GCHandle.Alloc(instance2, GCHandleType.Pinned);
+
+        try
+        {
+            IntPtr addr1 = handle1.AddrOfPinnedObject();
+            IntPtr addr2 = handle2.AddrOfPinnedObject();
+
+            Console.WriteLine($"Address 1: 0x{addr1.ToInt64():X}");
+            Console.WriteLine($"Address 2: 0x{addr2.ToInt64():X}");
+
+            Console.WriteLine($"Same address? {addr1 == addr2}");
+        }
+        finally
+        {
+            handle1.Free();
+            handle2.Free();
+        }
+
+        #endregion
     }
 }
 
