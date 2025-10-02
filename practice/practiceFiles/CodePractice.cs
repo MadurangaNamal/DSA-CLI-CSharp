@@ -456,7 +456,7 @@ public class CodePractice
 
     #endregion
 
-    // Threads
+    // Threads and Tasks
     public static void PrintThreadingFunctions()
     {
         //CustomThreads.ThreadMethod();
@@ -464,8 +464,11 @@ public class CodePractice
         //CustomThreads.ThreadSynchronization();
         //CustomThreads.ThreadSafetyUsingMutex();
         //CustomThreads.ThreadSafetyUsingSemaphore();
-        CustomThreads.ThreadPoolExecution();
-
+        //CustomThreads.ThreadPoolExecution();
+        //CustomThreads.BackgroundWorkWithTasks();
+        //Task.WaitAll(CustomThreads.NonBlockingOperationsWithAsyncAwait()); // Less effective approach: Task.Run(() => CustomThreads.NonBlockingOperationsWithAsyncAwait()).Wait();
+        //CustomThreads.CancellationOfTasks();
+        CustomThreads.ParallelProcessing();
     }
 }
 

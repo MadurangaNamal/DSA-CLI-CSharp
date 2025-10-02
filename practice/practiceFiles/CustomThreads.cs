@@ -32,7 +32,7 @@ public class CustomThreads
          */
     }
 
-    static void DoWork()
+    private static void DoWork()
     {
         for (int i = 0; i < 5; i++)
         {
@@ -48,7 +48,7 @@ public class CustomThreads
         thread.Start();
     }
 
-    static void printMassage(string msg, int count)
+    private static void printMassage(string msg, int count)
     {
         for (int i = 0; i < count; i++)
         {
@@ -57,17 +57,8 @@ public class CustomThreads
     }
 
     // Thread synchronization using lock
-
     private static object _locker = new object(); // Use as a synchronization object to ensure only one thread can enter the critical section at a time.
     private static int _counter = 0;
-    static void Increment()
-    {
-        lock (_locker) // locks on _locker before incrementing _counter
-        {
-            _counter++;
-            Console.WriteLine($"Counter incremented to {_counter} by thread {Thread.CurrentThread.ManagedThreadId}");
-        }
-    }
 
     public static void ThreadSynchronization()
     {
@@ -95,8 +86,16 @@ public class CustomThreads
          */
     }
 
-    // Thread safety using Mutex
+    private static void Increment()
+    {
+        lock (_locker) // locks on _locker before incrementing _counter
+        {
+            _counter++;
+            Console.WriteLine($"Counter incremented to {_counter} by thread {Thread.CurrentThread.ManagedThreadId}");
+        }
+    }
 
+    // Thread safety using Mutex
     public static void ThreadSafetyUsingMutex()
     {
         using Mutex mutex = new Mutex(false, "Sample_Mutex");
@@ -125,10 +124,19 @@ public class CustomThreads
     }
 
     // Thread safety using Semaphore
-
     private static Semaphore _semaphore = new Semaphore(3, 3);
 
-    static void AccessResource(object id)
+    public static void ThreadSafetyUsingSemaphore()
+    {
+        // Create and start 10 threads
+        for (int i = 1; i <= 10; i++)
+        {
+            int threadId = i; // To avoid modified closure issue
+            new Thread(() => AccessResource(threadId)).Start();
+        }
+    }
+
+    private static void AccessResource(object id)
     {
         Console.WriteLine($"Thread {id} is waiting to enter the semaphore.");
 
@@ -147,18 +155,7 @@ public class CustomThreads
         }
     }
 
-    public static void ThreadSafetyUsingSemaphore()
-    {
-        // Create and start 10 threads
-        for (int i = 1; i <= 10; i++)
-        {
-            int threadId = i; // To avoid modified closure issue
-            new Thread(() => AccessResource(threadId)).Start();
-        }
-    }
-
     // Thread pool
-
     public static void ThreadPoolExecution()
     {
         Console.WriteLine($"Main thread started. Thread ID: {Environment.CurrentManagedThreadId}");
@@ -193,4 +190,124 @@ public class CustomThreads
     }
 
     // Async and Await with Tasks
+    public static void BackgroundWorkWithTasks()
+    {
+        Console.WriteLine("Main thread started.");
+
+        Task.Run(() =>
+        {
+            Console.WriteLine($"Task 1 running on a background thread. Thread ID: {Task.CurrentId}");
+            SimulateWork("Task 1");
+        });
+
+        Task task = Task.Run(Work);
+        task.Wait();
+
+        Console.WriteLine("Main thread ending.");
+
+        /*
+         *  Main thread started.
+            Task 2 (Work) started on thread ID: 2
+            Task 1 running on a background thread. Thread ID: 1
+            Task 2 is processing...
+            Task 1 is processing...
+            Task 2 finished processing.
+            Task 2 (Work) completed.
+            Task 1 finished processing.
+            Main thread ending.
+         * 
+         */
+    }
+
+    private static void Work()
+    {
+        Console.WriteLine($"Task 2 (Work) started on thread ID: {Task.CurrentId}");
+        SimulateWork("Task 2");
+        Console.WriteLine("Task 2 (Work) completed.");
+    }
+    private static void SimulateWork(string taskName)
+    {
+        Console.WriteLine($"{taskName} is processing...");
+        Task.Delay(2500).Wait(); // Simulate work 
+        Console.WriteLine($"{taskName} finished processing.");
+    }
+
+    // Async/Await (Non-Blocking Operations)
+    public static async Task NonBlockingOperationsWithAsyncAwait()
+    {
+        Console.WriteLine($"Downloading..");
+
+        try
+        {
+            var result = await DownloadDataAsync();
+            Console.WriteLine($"Data: {result.Substring(0, Math.Min(200, result.Length))}");
+        }
+        catch (HttpRequestException ex)
+        {
+            Console.WriteLine($"Error downloading {ex.Message}");
+        }
+
+        Console.WriteLine($"Download Completed");
+    }
+
+    private async static Task<string> DownloadDataAsync()
+    {
+        using HttpClient client = new HttpClient();
+        client.Timeout = TimeSpan.FromSeconds(10);
+        return await client.GetStringAsync("https://jsonplaceholder.typicode.com/todos/1");
+    }
+
+    // Cancellation of Tasks (without using Thread.Abort() - can lead to unstable state)
+    public static void CancellationOfTasks()
+    {
+        Console.WriteLine($"Starting cancellable task...");
+
+        using CancellationTokenSource cts = new CancellationTokenSource(TimeSpan.FromSeconds(3));
+
+        Task task = Task.Run(() => SampleWork(cts.Token), cts.Token);
+
+        try
+        {
+            task.Wait();
+        }
+        catch (AggregateException ex) when (ex.InnerException is OperationCanceledException)
+        {
+            Console.WriteLine($"Exception: {ex.Message}");
+            Console.WriteLine("Task was cancelled.");
+        }
+
+        Console.WriteLine($"End");
+    }
+
+    private static void SampleWork(CancellationToken cancellationToken)
+    {
+        for (int i = 1; i <= 10; i++)
+        {
+            cancellationToken.ThrowIfCancellationRequested();
+
+            Console.WriteLine($"Processing item {i}...");
+            Thread.Sleep(500);
+        }
+
+        Console.WriteLine("Work completed successfully.");
+    }
+
+    // Parellel Processing
+    public static void ParallelProcessing()
+    {
+        Console.WriteLine("Starting parallel processing...");
+
+        long[] results = new long[10];
+
+        Parallel.For(0, 10, i =>
+        {
+            long square = (long)i * i;
+            results[i] = square;
+
+            Console.WriteLine($"Parallel iteration {i}: Square = {square} (Thread ID: {Task.CurrentId})");
+        });
+
+        Console.WriteLine("Processing completed.");
+        Console.WriteLine($"Results: {string.Join(", ", results)}");
+    }
 }
