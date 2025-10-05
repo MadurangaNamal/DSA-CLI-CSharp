@@ -474,7 +474,6 @@ public class CodePractice
     }
 
     // Design Patterns
-
     public static void PrintSingletonPatternFunctions()
     {
         Thread[] threads = new Thread[2];
@@ -515,12 +514,17 @@ public class CodePractice
 
             Console.WriteLine($"Same address? {addr1 == addr2}");
         }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error: {ex.Message}");
+        }
         finally
         {
             handle1.Free();
             handle2.Free();
         }
     }
+
 }
 
 // reference type

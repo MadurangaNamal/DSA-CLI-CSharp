@@ -310,6 +310,56 @@ public class LeetCode
         return startIndex;
     }
 
+    // Convert Roman numerals to integers
+    public static int RomanToInteger(string? romanNumber)
+    {
+        int integerValue = default;
+        Dictionary<char, int> romanMap = new()
+        {
+            { 'I', 1 },
+            { 'V', 5 },
+            { 'X', 10 },
+            { 'L', 50 },
+            { 'C', 100 },
+            { 'D', 500 },
+            { 'M', 1000 }
+        };
+
+        var romanValue = string.IsNullOrEmpty(romanNumber) ?
+            throw new ArgumentNullException(nameof(romanNumber), "Invalid Input") : romanNumber.ToUpper();
+
+        Console.WriteLine($"Roman Number: {romanValue}");
+
+        for (int i = 0; i < romanValue.Length; i++)
+        {
+            if (!romanMap.ContainsKey(romanValue[i]))
+                throw new ArgumentException("Invalid Roman numeral character", nameof(romanNumber));
+
+            int current = romanMap[romanValue[i]];
+
+            if (i + 1 < romanValue.Length)
+            {
+                int next = romanMap[romanValue[i + 1]];
+
+                if (current < next)
+                {
+                    integerValue += next - current;
+                    i++;
+                }
+                else
+                {
+                    integerValue += current;
+                }
+            }
+            else
+            {
+                integerValue += current;
+            }
+
+        }
+
+        return integerValue;
+    }
 }
 
 //Implement the RandomizedSet class

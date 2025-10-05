@@ -29,4 +29,5 @@ public sealed class SingletonPattern
             return _instance;
         }
     }
+
 }

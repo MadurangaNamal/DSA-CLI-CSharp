@@ -231,6 +231,10 @@ public class Program
         //Console.WriteLine($"Can complete circuit: {(answer == -1 ? "No" : "Yes")}");
         //Console.WriteLine($"Starting point(index): {(answer == -1 ? "Can't complete circuit" : answer)}");
 
+        //      ###
+
+        Console.WriteLine($"{LeetCode.RomanToInteger("xIv")}");
+
         #endregion
 
         #region Pattern Matching
@@ -247,7 +251,7 @@ public class Program
 
         #region Design Patterns
 
-        CodePractice.PrintSingletonPatternFunctions();
+        //CodePractice.PrintSingletonPatternFunctions();
 
         #endregion
     }
