@@ -1,6 +1,4 @@
-﻿using practice.practiceFiles;
-
-namespace practice;
+﻿namespace practice;
 
 public class Program
 {
@@ -170,17 +168,41 @@ public class Program
 
         #endregion
 
-        #region Practicing Linq Queries
+        #region Practicing LINQ Queries
 
         //int[] idValues = { 41, 42, 43, 44, 45, 46, 47, 48, 49, 50 };
-        //List<Employee> filteredEmplyees = CodePractice.GetDepartmentStats();
-        /*var departmentStatus = CodePractice.GetDepartmentStats();
+        //List<Employee> filteredEmplyees = CodePractice.FilterEmployees(idValues);
+        //CodePractice.PrintEmployeeList(filteredEmplyees);
 
-        foreach (var status in departmentStatus)
-        {
-            //Console.WriteLine($"{employee.Id}, {employee.Name}, {employee.Department}, {employee.Salary}, {employee.JoinDate}");
-            Console.WriteLine(status);
-        }*/
+        //Console.WriteLine("--------------------------------------------------");
+
+        //var sortedEmployees = CodePractice.SortEmployees("JoinDate");
+        //CodePractice.PrintEmployeeList(sortedEmployees);
+
+        //Console.WriteLine("--------------------------------------------------");
+
+        //var paginatedEmployeesList = CodePractice.GetPaginatedEmployees(2, 5, "Ja");
+        //var paginatedEmployeesList = CodePractice.GetPaginatedEmployees(2, 5, "");
+        //CodePractice.PrintEmployeeList(paginatedEmployeesList);
+
+        //Console.WriteLine("--------------------------------------------------");
+
+        //var statistics = CodePractice.GetDepartmentStats();
+
+        //foreach (var stat in statistics)
+        //{
+        //    Console.WriteLine($"{stat.Department,-15} | " +
+        //                      $"Avgerge Salary: {stat.AvgSalary,10:C} | " +
+        //                      $"Employees: {stat.TotalEmployees,3} | " +
+        //                      $"Max Salary: {stat.MaxSalary,10:C}");
+        //}
+
+        //Console.WriteLine("--------------------------------------------------");
+
+        //var duplicates = CodePractice.FindPossibleDuplicates();
+        //CodePractice.PrintEmployeeList(duplicates);
+
+        //Console.WriteLine("--------------------------------------------------");
 
         #endregion
 
@@ -233,7 +255,7 @@ public class Program
 
         //      ###
 
-        Console.WriteLine($"{LeetCode.RomanToInteger("xIv")}");
+        //Console.WriteLine($"{LeetCode.RomanToInteger("xIv")}");
 
         #endregion
 

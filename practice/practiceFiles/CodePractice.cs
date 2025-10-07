@@ -8,6 +8,7 @@ namespace practice.practiceFiles;
 
 public class CodePractice
 {
+    private static List<Employee> employees = BusinessProcess.GenerateEmployeesList();
     public static void PrintValues()
     {
         string value = "abcd";
@@ -227,10 +228,9 @@ public class CodePractice
 
     #region LINQ samples
 
+    // Filter out employees whose IDs are in the given array
     public static List<Employee> FilterEmployees(int[] ids)
     {
-        List<Employee> employees = BusinessProcess.GenerateEmployeesList();
-
         List<Employee> filteredEmployees = employees
         .Where(employee => !ids.Contains(employee.Id))
         .ToList();
@@ -238,10 +238,9 @@ public class CodePractice
         return filteredEmployees;
     }
 
+    // Sort employees by a specified property and order
     public static List<Employee> SortEmployees(string sortProperty, bool ascending = true)
     {
-        List<Employee> employees = BusinessProcess.GenerateEmployeesList();
-
         // Use reflection to dynamically get the property value for sorting
         Func<Employee, object?> keySelector = employee =>
             typeof(Employee).GetProperty(sortProperty)?.GetValue(employee, null);
@@ -251,21 +250,20 @@ public class CodePractice
             : employees.OrderByDescending(keySelector).ToList();
     }
 
-    public static List<Employee> GetPaginatedEmployees(int page, int pageSize, string searchTerm)
+    // Paginate employees with optional search term
+    public static List<Employee> GetPaginatedEmployees(int page, int pageSize, string? searchTerm = null)
     {
-        List<Employee> employees = BusinessProcess.GenerateEmployeesList();
-
         return employees
-            .Where(e => e.Name.Contains(searchTerm, StringComparison.OrdinalIgnoreCase))
+            .Where(e => e.Name.Contains(searchTerm!, StringComparison.OrdinalIgnoreCase) || string.IsNullOrEmpty(searchTerm))
             .Skip((page - 1) * pageSize)
             .Take(pageSize)
             .ToList();
     }
 
+    // Get department-wise statistics
+    // dynamic type is used here to return an anonymous type (resolved on runtime)
     public static dynamic GetDepartmentStats()
     {
-        List<Employee> employees = BusinessProcess.GenerateEmployeesList();
-
         return employees
             .GroupBy(e => e.Department)
             .Select(g => new
@@ -274,14 +272,12 @@ public class CodePractice
                 AvgSalary = g.Average(e => e.Salary),
                 TotalEmployees = g.Count(),
                 MaxSalary = g.Max(e => e.Salary)
-            })
-            .ToList();
+            }).ToList();
     }
 
+    // Get employees who have been with the company for more than 'n' years
     public static List<Employee> GetLongTermEmployees(int years)
     {
-        List<Employee> employees = BusinessProcess.GenerateEmployeesList();
-
         var cutoffDate = DateTime.Now.AddYears(-years);
 
         return employees
@@ -289,10 +285,10 @@ public class CodePractice
             .OrderBy(e => e.JoinDate)
             .ToList();
     }
+
+    // Filter employees by salary range
     public static List<Employee> FilterBySalaryRange(decimal? minSalary, decimal? maxSalary)
     {
-        List<Employee> employees = BusinessProcess.GenerateEmployeesList();
-
         var query = employees.AsQueryable();
 
         if (minSalary.HasValue)
@@ -304,10 +300,9 @@ public class CodePractice
         return query.ToList();
     }
 
+    // Find possible duplicate employees based on Name and Department
     public static List<Employee> FindPossibleDuplicates()
     {
-        List<Employee> employees = BusinessProcess.GenerateEmployeesList();
-
         return employees
             .GroupBy(e => new { e.Name, e.Department })
             .Where(g => g.Count() > 1)
@@ -315,10 +310,9 @@ public class CodePractice
             .ToList();
     }
 
+    // Get employees who joined in the last 'n' months
     public static List<Employee> GetRecentJoinees(int months)
     {
-        List<Employee> employees = BusinessProcess.GenerateEmployeesList();
-
         var cutoffDate = DateTime.Now.AddMonths(-months);
 
         return employees
@@ -327,20 +321,18 @@ public class CodePractice
             .ToList();
     }
 
+    // Dynamic field selection using System.Linq.Dynamic.Core
     public static dynamic GetEmployeeOverview(string fields)
     {
-        List<Employee> employees = BusinessProcess.GenerateEmployeesList();
-
         return employees
             .AsQueryable()
             .Select($"new ({fields})")
             .ToDynamicList();
     }
 
+    // Calculate total salary budget per department
     public static Dictionary<string, decimal> GetDepartmentBudgets()
     {
-        List<Employee> employees = BusinessProcess.GenerateEmployeesList();
-
         return employees
             .GroupBy(e => e.Department)
             .ToDictionary(
@@ -348,10 +340,9 @@ public class CodePractice
                 g => g.Sum(e => e.Salary));
     }
 
+    // Categorize employees based on salary tiers
     public static dynamic CategorizeSalaries()
     {
-        List<Employee> employees = BusinessProcess.GenerateEmployeesList();
-
         return employees
             .Select(e => new
             {
@@ -368,6 +359,15 @@ public class CodePractice
             .ToDictionary(g => g.Key, g => g.Count());
     }
 
+    // Generic method to print employee list
+    public static void PrintEmployeeList(List<Employee>? employeeList = null)
+    {
+        employeeList = employeeList ?? employees;
+        employeeList.ForEach(employee =>
+        {
+            Console.WriteLine($"{employee.Id}, {employee.Name}, {employee.Department}, {employee.Salary}, {employee.JoinDate}");
+        });
+    }
     #endregion
 
     // Automapper
@@ -547,6 +547,5 @@ public struct SampleStruct
 public record SampleRecord(int a, bool b, string value);
 
 /////////////////////////////////////////////////////////////
-
 public record Point(int X, int Y);
 
