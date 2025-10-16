@@ -1,8 +1,7 @@
---CREATE DATABASE SQLQueryPractice;
-
+CREATE DATABASE SQLQueryPractice;
 Use SQLQueryPractice;
 
-/*	CREATE TABLE'S
+--	CREATE TABLE'S
 
 -- Create Departments table
 CREATE TABLE Departments (
@@ -40,9 +39,7 @@ CREATE TABLE Orders (
     FOREIGN KEY (customer_id) REFERENCES Customers(customer_id)
 );
 
-*/
-
-/* ADD SAMPLE DATA
+-- ADD SAMPLE DATA
 
 -- Insert Departments
 INSERT INTO Departments (department_id, department_name, location) VALUES
@@ -83,8 +80,6 @@ INSERT INTO Orders (order_id, customer_id, order_date, total_amount) VALUES
 (308, 202, '2024-05-20', 2650.00),
 (309, 203, '2024-06-01', 1980.00),
 (310, 201, '2024-06-15', 1250.00);
-
-*/
 
 --Step 1
 
