@@ -106,6 +106,33 @@ public class CodePractice
         return secondLargestNumber;
     }
 
+    // Find first non-repeating character
+    public static char GetFirstNonRepeatingCharacter(string phrase)
+    {
+        Dictionary<char, int> counts = [];
+
+        foreach (char chtr in phrase.ToLower())
+        {
+            if (counts.ContainsKey(chtr))
+            {
+                counts[chtr]++;
+            }
+            else
+            {
+                counts.Add(chtr, 1);
+            }
+        }
+
+        foreach (char c in counts.Keys)
+        {
+            if (counts[c] == 1)
+                return c;
+        }
+
+        Console.WriteLine($"No non-repeating character found.");
+        return '\0';
+    }
+
     // Binary search
     public static int FindElementInSortedArray(int item, int[] sortedArray)
     {

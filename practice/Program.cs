@@ -33,6 +33,16 @@ public class Program
 
         #endregion
 
+        #region Find First Non Repeating member
+
+        //string name = "Maduranga";
+        //var result = CodePractice.GetFirstNonRepeatingCharacter(name);
+
+        //if (result != 0)
+        //    Console.WriteLine($"First non repeating character: {result}");
+
+        #endregion
+
         #region Find element position in sorted array
 
         //int[] sortedArray = { 1, 35, 51, 78, 99, 110 };
