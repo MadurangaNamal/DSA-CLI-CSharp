@@ -1,5 +1,10 @@
 CREATE DATABASE SQLQueryPractice;
+GO
+
 Use SQLQueryPractice;
+GO
+
+BEGIN TRANSACTION;
 
 --	CREATE TABLE'S
 
@@ -38,6 +43,11 @@ CREATE TABLE Orders (
     total_amount DECIMAL(10, 2),
     FOREIGN KEY (customer_id) REFERENCES Customers(customer_id)
 );
+
+ROLLBACK TRANSACTION;
+-- COMMIT TRANSACTION;
+
+BEGIN TRANSACTION;
 
 -- ADD SAMPLE DATA
 
@@ -81,6 +91,9 @@ INSERT INTO Orders (order_id, customer_id, order_date, total_amount) VALUES
 (309, 203, '2024-06-01', 1980.00),
 (310, 201, '2024-06-15', 1250.00);
 
+ROLLBACK TRANSACTION;
+-- COMMIT TRANSACTION;
+
 --Step 1
 
 Select * from Departments;
@@ -122,6 +135,18 @@ Where salary >= (select AVG(salary) from Employees);
 select MAX(salary) AS Second_Max_Salary
 from Employees 
 Where salary < (Select Max(salary) from Employees);
+
+	-- Get the top 3 employees with highest salary
+	select top 3 first_name, last_name, salary
+	from Employees
+	order by salary desc;
+
+	--- Works in other sql servers except MS SQL Server (ex: MySQL, PostgreSQL, SQLite)
+	--select first_name, last_name, salary
+	--from Employees
+	--order by salary desc
+	--LIMIT 3;
+
 
 --step 8 List all employees and their managers
 /*
@@ -243,8 +268,10 @@ AND e.salary > 70000;
 
 -- Optimized query
 
-CREATE INDEX idx_salary_department
-ON Employees(salary, department_id);
+BEGIN TRANSACTION;
+
+--CREATE INDEX idx_salary_department
+--ON Employees(salary, department_id);
 
 SELECT e.first_name, e.last_name, d.department_name
 FROM Employees e
@@ -256,7 +283,12 @@ AND EXISTS (
 
 DROP INDEX idx_salary_department ON Employees;
 
+ROLLBACK TRANSACTION;
+-- COMMIT TRANSACTION;
+
 -- Views
+
+BEGIN TRANSACTION;
 
 -- 1. Employee details with department info and manager name
 
@@ -300,7 +332,12 @@ FROM Customers c
 LEFT JOIN Orders o ON c.customer_id = o.customer_id
 GROUP BY c.customer_id, c.customer_name, c.country;
 
+ROLLBACK TRANSACTION;
+-- COMMIT TRANSACTION;
+
 -- Stored Procedures
+
+BEGIN TRANSACTION;
 
 -- 1. Get employees by department
 CREATE OR ALTER PROCEDURE sp_GetEmployeesByDepartment
@@ -379,7 +416,11 @@ BEGIN
 END;
 GO
 
+ROLLBACK TRANSACTION;
+-- COMMIT TRANSACTION;
 -------------------------------------------------------------
+
+BEGIN TRANSACTION;
 
 -- 2. Audit order insertions
 CREATE TABLE Order_Audit (
@@ -429,3 +470,71 @@ BEGIN
     END
 END;
 GO
+
+ROLLBACK TRANSACTION;
+-- COMMIT TRANSACTION;
+
+------------------------- Indexing --------------------------------
+
+BEGIN TRANSACTION;
+
+--- Exection time is measurabally affected on large data sets
+
+--1 index on frequently searched columns
+
+CREATE NONCLUSTERED INDEX idx_dept_salary
+ON Employees(department_id, salary); 
+
+SELECT first_name, last_name, salary
+FROM Employees
+WHERE department_id = 2 AND salary > 70000;
+
+--2 index on foreign key for better JOIN perforamnce
+
+CREATE NONCLUSTERED INDEX idx_orders_customer
+ON Orders(customer_id);
+
+select c.customer_name, o.order_id, o.order_date, o.total_amount
+from Customers c inner join Orders o 
+ON c.customer_id = o.customer_id
+where c.country = 'USA';
+
+--3 covering index (includes all columns needed in a query)
+
+CREATE NONCLUSTERED INDEX idx_employee_covering
+ON Employees(department_id, salary)
+INCLUDE (first_name, last_name, hire_date);
+
+SELECT first_name, last_name, salary, hire_date
+FROM Employees
+WHERE department_id = 2 AND salary BETWEEN 60000 AND 80000;
+
+--4 filtered index
+
+CREATE NONCLUSTERED INDEX idx_high_salary_employees
+ON Employees(salary)
+Where salary > 70000;
+
+SELECT employee_id, first_name, last_name, salary
+From Employees
+Where salary > 75000;
+
+--5 index for range queries (efficient)
+
+CREATE NONCLUSTERED INDEX idx_order_date 
+ON Orders(order_date)
+INCLUDE (total_amount);
+
+SELECT order_id, order_date, total_amount
+FROM Orders
+WHERE order_date BETWEEN '2024-01-01' AND '2024-06-30';
+
+--6 unique index to enforce uniqueness 
+--(prevents duplicate entries with same name & hire date)
+
+CREATE UNIQUE NONCLUSTERED INDEX idx_unique_employee_email 
+ON Employees(first_name, last_name, hire_date);
+
+	
+ROLLBACK TRANSACTION;
+-- COMMIT TRANSACTION;
