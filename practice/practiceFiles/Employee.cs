@@ -16,6 +16,11 @@ public class Employee
         Salary = salary;
         JoinDate = joinDate;
     }
+
+    public override string ToString()
+    {
+        return $"Employee[Id={Id}, Name={Name}, Department={Department}, Salary={Salary:C}, JoinDate={JoinDate:d}]";
+    }
 }
 
 public static class BusinessProcess

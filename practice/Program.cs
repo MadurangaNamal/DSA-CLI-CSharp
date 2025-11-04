@@ -1,4 +1,6 @@
-﻿namespace practice;
+﻿using practice.practiceFiles;
+
+namespace practice;
 
 public class Program
 {
@@ -213,6 +215,8 @@ public class Program
         //CodePractice.PrintEmployeeList(duplicates);
 
         //Console.WriteLine("--------------------------------------------------");
+
+        CodePractice.PrintCustomLinqQueryResults();
 
         #endregion
 

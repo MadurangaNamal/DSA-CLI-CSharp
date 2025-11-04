@@ -6,9 +6,10 @@ using System.Text;
 
 namespace practice.practiceFiles;
 
-public class CodePractice
+public static class CodePractice
 {
-    private static List<Employee> employees = BusinessProcess.GenerateEmployeesList();
+    private static readonly List<Employee> employees = BusinessProcess.GenerateEmployeesList();
+
     public static void PrintValues()
     {
         string value = "abcd";
@@ -299,7 +300,8 @@ public class CodePractice
                 AvgSalary = g.Average(e => e.Salary),
                 TotalEmployees = g.Count(),
                 MaxSalary = g.Max(e => e.Salary)
-            }).ToList();
+            })
+            .ToList();
     }
 
     // Get employees who have been with the company for more than 'n' years
@@ -386,15 +388,137 @@ public class CodePractice
             .ToDictionary(g => g.Key, g => g.Count());
     }
 
-    // Generic method to print employee list
-    public static void PrintEmployeeList(List<Employee>? employeeList = null)
+    // Generic method to print employees list
+    public static void PrintEmployeesList(List<Employee>? employeesList = null)
     {
-        employeeList = employeeList ?? employees;
-        employeeList.ForEach(employee =>
+        employeesList = employeesList ?? employees;
+
+        employeesList.ForEach(employee =>
         {
             Console.WriteLine($"{employee.Id}, {employee.Name}, {employee.Department}, {employee.Salary}, {employee.JoinDate}");
         });
     }
+
+    /*
+     *  More LINQ
+     *  SQL equivalant query samples
+     */
+    public static void PrintCustomLinqQueryResults()
+    {
+        /*
+         * >> SQL 
+         * SELECT * FROM Employees
+         */
+
+        var allEmployees = employees.ToList();
+        allEmployees.ForEach(employee => Console.WriteLine($"{employee.Id}, {employee.Name}, {employee.Department}"));
+
+        Console.WriteLine('\n');
+
+        /*
+         * >> SQL 
+         * SELECT Name, Salary 
+         * FROM Employees
+         */
+
+        var emps = employees.Select(e => new
+        {
+            e.Name,
+            e.Salary
+        });
+
+        foreach (var item in emps)
+        {
+            Console.WriteLine($"Name: {item.Name}, Salary: {item.Salary}");
+        }
+
+        Console.WriteLine('\n');
+
+        /*
+         * >> SQL 
+         * SELECT * FROM Employees 
+         * WHERE Salary > 80000
+         */
+
+        var emps2 = employees.Where(emp => emp.Salary > 80000);
+
+        PrintEmployeesEnumerable(emps2);
+        Console.WriteLine('\n');
+
+        /*
+         * >> SQL 
+         * SELECT TOP 3 * FROM Employees
+         */
+
+        var emps3 = employees.Take(3);
+
+        PrintEmployeesEnumerable(emps3);
+        Console.WriteLine('\n');
+
+        /*
+         * >> SQL 
+         * SELECT * 
+         * FROM Employees
+         * Order By name
+         */
+
+        var emps4 = employees
+            .OrderBy(emp => emp.Name);
+
+        PrintEmployeesEnumerable(emps4);
+        Console.WriteLine('\n');
+
+        /*
+         * >> SQL 
+         * SELECT TOP 3 * 
+         * FROM Employees
+         * Order By salary desc
+         */
+
+        var emps5 = employees
+            .OrderByDescending(emp => emp.Salary)
+            .Take(3);
+
+        PrintEmployeesEnumerable(emps5);
+        Console.WriteLine('\n');
+
+        /*
+         * >> SQL 
+         * SELECT * FROM Employees 
+         * WHERE Department = 'IT' AND Salary > 60000
+         */
+
+        var emps6 = employees
+            .Where(emp => emp.Department == "IT" && emp.Salary > 60000);
+
+        PrintEmployeesEnumerable(emps6);
+        Console.WriteLine('\n');
+
+        /*
+         * >> SQL 
+         * SELECT * FROM Employees 
+         * WHERE Department = 'HR' OR Department = 'Finance';
+         */
+
+        var emps7 = employees
+            .Where(emp => emp.Department == "HR" || emp.Department == "Finance");
+
+        PrintEmployeesEnumerable(emps7);
+        Console.WriteLine('\n');
+
+        // Need to continue with joins
+    }
+
+    private static void PrintEmployeesEnumerable(IEnumerable<Employee>? employeesList = null)
+    {
+        employeesList ??= [];
+
+        foreach (var emp in employeesList)
+        {
+            Console.WriteLine(emp.ToString());
+        }
+    }
+
     #endregion
 
     // Automapper
