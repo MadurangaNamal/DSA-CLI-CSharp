@@ -1,4 +1,4 @@
-﻿namespace practice.practiceFiles
+﻿namespace practice.practiceFiles.Models
 {
     public enum WorkType
     {

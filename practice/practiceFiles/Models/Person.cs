@@ -1,5 +1,4 @@
-﻿
-namespace practice.practiceFiles;
+﻿namespace practice.practiceFiles.Models;
 
 public class Person
 {

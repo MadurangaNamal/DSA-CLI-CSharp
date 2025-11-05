@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using practice.practiceFiles.DesignPatterns;
+using practice.practiceFiles.Models;
 using System.Linq.Dynamic.Core;
 using System.Runtime.InteropServices;
 using System.Text;
@@ -9,6 +10,7 @@ namespace practice.practiceFiles;
 public static class CodePractice
 {
     private static readonly List<Employee> employees = BusinessProcess.GenerateEmployeesList();
+    private static List<Department> departments = BusinessProcess.GenerateDepartmentsList();
 
     public static void PrintValues()
     {
@@ -506,7 +508,78 @@ public static class CodePractice
         PrintEmployeesEnumerable(emps7);
         Console.WriteLine('\n');
 
-        // Need to continue with joins
+        /*
+         * >> SQL 
+         * SELECT e.Name, d.DepartmentName 
+         * FROM Employees e INNER JOIN Departments d 
+         * ON e.DepartmentId = d.Id
+         */
+
+        var emps8 = employees.Join(departments,
+            e => e.DepartmentId,
+            d => d.Id,
+            (e, d) => new
+            {
+                EmployeeName = e.Name,
+                DepartmentName = d.Name
+            });
+
+        foreach (var item in emps8)
+        {
+            Console.WriteLine($"Name: {item.EmployeeName}, Department: {item.DepartmentName}");
+        }
+
+        Console.WriteLine('\n');
+
+        /*
+        * >> SQL 
+        * SELECT e.Name, d.DepartmentName 
+        * FROM Employees e LEFT JOIN Departments d 
+        * ON e.DepartmentId = d.Id; 
+        */
+
+        var emps9 = employees.GroupJoin(departments,
+                            e => e.DepartmentId,
+                            d => d.Id,
+                            (e, dGroup) => new { e, dGroup })
+                        .SelectMany(
+                            x => x.dGroup.DefaultIfEmpty(),
+                            (e, d) => new
+                            {
+                                Name = e.e.Name,
+                                DepartmentName = d != null ? d.Name : null
+                            });
+
+        foreach (var item in emps9)
+        {
+            Console.WriteLine($"Name: {item.Name}, Department: {item.DepartmentName}");
+        }
+
+        Console.WriteLine('\n');
+
+        // Right join 
+
+        departments.Add(new Department(6, "Sales", "Dubai", "Mngr", 50000.0m));
+
+        var emps91 = departments.GroupJoin(employees,
+                            d => d.Id,
+                            e => e.DepartmentId,
+                            (d, eGroup) => new { d, eGroup })
+                        .SelectMany(
+                            x => x.eGroup.DefaultIfEmpty(),
+                            (d, e) => new
+                            {
+                                Name = e != null ? e.Name : null,
+                                DepartmentName = d.d.Name
+                            });
+        foreach (var item in emps91)
+        {
+            Console.WriteLine($"Name: {item.Name}, Department: {item.DepartmentName}");
+        }
+
+        departments.RemoveAt(5);
+        Console.WriteLine('\n');
+
     }
 
     private static void PrintEmployeesEnumerable(IEnumerable<Employee>? employeesList = null)

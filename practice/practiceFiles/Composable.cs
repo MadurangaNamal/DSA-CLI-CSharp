@@ -1,4 +1,6 @@
-﻿namespace practice.practiceFiles
+﻿using practice.practiceFiles.Models;
+
+namespace practice.practiceFiles
 {
     public delegate void MyDelegate(int arg1, ref int arg2);
 
