@@ -577,8 +577,92 @@ public static class CodePractice
             Console.WriteLine($"Name: {item.Name}, Department: {item.DepartmentName}");
         }
 
-        departments.RemoveAt(5);
+        departments.RemoveAt(departments.Count - 1);
         Console.WriteLine('\n');
+
+        // Aggregation
+
+        /*
+         * >> SQL 
+         * SELECT Department, COUNT(*) 
+         * FROM Employees 
+         * GROUP BY Department;
+         */
+
+        var empsx = employees.GroupBy(e => e.Department)
+            .Select(g => new
+            {
+                Department = g.Key,
+                Count = g.Count()
+            });
+
+        foreach (var emp in empsx)
+        {
+            Console.WriteLine($"Department: {emp.Department}, Count: {emp.Count}");
+        }
+
+        Console.WriteLine('\n');
+
+        /*
+         * >> SQL 
+         * SELECT Department, AVG(Salary) 
+         * FROM Employees 
+         * GROUP BY Department;
+         */
+
+        var empsxi = employees.GroupBy(e => e.Department)
+            .Select(g => new
+            {
+                Department = g.Key,
+                AverageSalary = g.Average(e => e.Salary)
+            });
+
+        foreach (var emp in empsxi)
+        {
+            Console.WriteLine($"Department: {emp.Department}, Average Salary: {emp.AverageSalary.ToString("N2")}");
+        }
+
+        Console.WriteLine('\n');
+
+        /*
+         * >> SQL 
+         * SELECT MAX(Salary) 
+         * FROM Employees;
+         */
+
+        var empsxii = employees.Max(e => e.Salary);
+
+        Console.WriteLine($"Maximum salary: AED {empsxii:N2}");
+
+        /*
+         * >> SQL 
+         * SELECT MIN(Salary) 
+         * FROM Employees;
+         */
+
+        var empsxiii = employees.Min(e => e.Salary);
+
+        Console.WriteLine($"Minimum salary: AED {empsxiii:N2}");
+
+        /*
+         * >> SQL 
+         * SELECT SUM(Salary) 
+         * FROM Employees;
+         */
+
+        var empsxiv = employees.Sum(e => e.Salary);
+
+        Console.WriteLine($"Salary Total: AED {empsxiv:N2}");
+
+        /*
+         * >> SQL 
+         * SELECT Count(*) 
+         * FROM Employees;
+         */
+
+        var empsxv = employees.Count();
+
+        Console.WriteLine($"Total Employees: {empsxv}");
 
     }
 
