@@ -1,6 +1,4 @@
-﻿using practice.practiceFiles;
-
-namespace practice;
+﻿namespace practice;
 
 public class Program
 {
@@ -216,7 +214,7 @@ public class Program
 
         //Console.WriteLine("--------------------------------------------------");
 
-        CodePractice.PrintCustomLinqQueryResults();
+        //CodePractice.PrintCustomLinqQueryResults();
 
         #endregion
 
@@ -288,6 +286,7 @@ public class Program
         #region Design Patterns
 
         //CodePractice.PrintSingletonPatternFunctions();
+        //CodePractice.PrintBuilderResults();
 
         #endregion
     }

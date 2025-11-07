@@ -10,7 +10,7 @@ namespace practice.practiceFiles;
 public static class CodePractice
 {
     private static readonly List<Employee> employees = BusinessProcess.GenerateEmployeesList();
-    private static List<Department> departments = BusinessProcess.GenerateDepartmentsList();
+    private static readonly List<Department> departments = BusinessProcess.GenerateDepartmentsList();
 
     public static void PrintValues()
     {
@@ -833,6 +833,21 @@ public static class CodePractice
         }
     }
 
+    public static void PrintBuilderResults()
+    {
+        var gamingPC = new ComputerBuilder()
+            .SetCPU("Intel i9-13900K")
+            .SetRAM("32GB DDR5")
+            .SetStorage("2TB NVMe SSD")
+            .SetGPU("NVIDIA RTX 4090")
+            .SetMotherboard("ASUS ROG Maximus")
+            .SetPowerSupply("1000W 80+ Gold")
+            .AddWiFi()
+            .AddBluetooth()
+            .Build();
+
+        Console.WriteLine("\n" + gamingPC);
+    }
 }
 
 // reference type
