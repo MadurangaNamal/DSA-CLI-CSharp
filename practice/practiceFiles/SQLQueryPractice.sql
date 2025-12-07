@@ -192,6 +192,11 @@ FROM Employees
 GROUP BY first_name, last_name
 HAVING COUNT(*) > 1;
 
+--step 10.1 Remove duplicate records from table
+
+DELETE FROM Employees
+WHERE employee_id NOT IN (SELECT MIN(employee_id) FROM Employees GROUP BY first_name, last_name, department_id);
+
 --step 11 Running total of orders by customer
 
 --Total

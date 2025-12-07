@@ -1,4 +1,6 @@
-﻿namespace practice;
+﻿using practice.practiceFiles;
+
+namespace practice;
 
 public class Program
 {
@@ -287,6 +289,12 @@ public class Program
 
         //CodePractice.PrintSingletonPatternFunctions();
         //CodePractice.PrintBuilderResults();
+
+        #endregion
+
+        #region Records & Tuples
+
+        CodePractice.PrintRecordIllustrations();
 
         #endregion
     }

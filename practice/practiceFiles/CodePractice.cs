@@ -64,6 +64,33 @@ public static class CodePractice
         Console.WriteLine($"Record values {theRecord.a} , {theRecord.b}, {theRecord.value}");
     }
 
+    public static void PrintRecordIllustrations()
+    {
+        ProductDto miloDrink = new(Guid.NewGuid(), "Milo Drink", "Milo drink 250ml can", 9.99m, true);
+        ProductDto pepsiDrink = new(Guid.NewGuid(), "Pepsi", "Pepsi classic 200ml can", 2.99m, true);
+        ProductDto pepsiDrinkDuplicate = new(pepsiDrink.ProductId, "Pepsi", "Pepsi classic 200ml can", 2.99m, true);
+
+        Console.WriteLine(pepsiDrink == pepsiDrinkDuplicate); // value equality
+        Console.WriteLine(ReferenceEquals(pepsiDrink, pepsiDrinkDuplicate));
+
+        var product3 = miloDrink with { IsAvailable = false };
+
+        Console.WriteLine(product3); // automatic ToString()
+
+        var (id, name, desc, price, available) = pepsiDrink; // deconstruction
+
+        Console.WriteLine($"{id}, {name}, {desc}, {price}, {available}");
+
+        ///////////////////////
+
+        Shape s1 = new Circle(10);
+        Shape s2 = new Circle(10);
+        Console.WriteLine(s1.Equals(s2)); // value equality
+
+        var s3 = new Rectangle(10, 6);
+        // s3.Wdith = 5; // compile error (cannot assign init-only property - Not allowed)
+    }
+
     // Reverse a string
     public static string ReverseString(string text)
     {
@@ -848,6 +875,11 @@ public static class CodePractice
 
         Console.WriteLine("\n" + gamingPC);
     }
+
+    public static void PrintTupleIllustrations()
+    {
+
+    }
 }
 
 // reference type
@@ -871,4 +903,10 @@ public record SampleRecord(int a, bool b, string value);
 
 /////////////////////////////////////////////////////////////
 public record Point(int X, int Y);
+
+////////////////////////////////////////////////////////////
+
+public abstract record Shape(bool IsRound);
+public record Circle(decimal Radius) : Shape(true);
+public record Rectangle(int Length, int Wdith) : Shape(false);
 
