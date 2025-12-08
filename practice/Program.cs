@@ -294,7 +294,8 @@ public class Program
 
         #region Records & Tuples
 
-        CodePractice.PrintRecordIllustrations();
+        //CodePractice.PrintRecordIllustrations();
+        CodePractice.PrintTupleIllustrations();
 
         #endregion
     }

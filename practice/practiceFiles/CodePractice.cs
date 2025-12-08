@@ -878,8 +878,35 @@ public static class CodePractice
 
     public static void PrintTupleIllustrations()
     {
+        (var x, var y) = (10, 20);
+        Console.WriteLine($"X: {x}, Y: {y}");
+
+        var person = (Name: "Randhil", Age: 28, Country: "Sri Lanka");
+        var (name, age, country) = person;
+        Console.WriteLine($"Name: {name}, Age: {age}, Country: {country}");
+
+        var info = (35, "USA", true);
+        Console.WriteLine($"Age: {info.Item1}, Country: {info.Item2}, Citizen: {info.Item3}");
+        Console.WriteLine($"{info.Item1.GetType()}, {info.Item2.GetType()}, {info.Item3.GetType()}");
+
+        var (a, _, c) = (1, 2, 3);
+        Console.WriteLine(a + ", " + c);
+
+        var values = new int[] { 5, 10, 3, 8, 2 };
+        var (min, max, sum) = Calculate(values);
+        Console.WriteLine($"Min: {min}, Max: {max}, Sum: {sum}");
+
+
+        var (FirstName, LastName) = GetName();
+        var (first, last) = GetName();
+        Console.WriteLine($"First Name: {FirstName}/{first}, Last Name: {LastName}/{last}");
 
     }
+
+    private static (string FirstName, string LastName) GetName() => ("Madur", "Wim");
+
+    private static (int, int, int) Calculate(int[] values) => (values.Min(), values.Max(), values.Sum());
+
 }
 
 // reference type
