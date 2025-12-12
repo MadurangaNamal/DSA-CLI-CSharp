@@ -903,6 +903,8 @@ public static class CodePractice
 
     }
 
+
+    // Helpers
     private static (string FirstName, string LastName) GetName() => ("Madur", "Wim");
 
     private static (int, int, int) Calculate(int[] values) => (values.Min(), values.Max(), values.Sum());

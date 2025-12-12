@@ -294,7 +294,7 @@ ROLLBACK TRANSACTION;
 -- Views
 
 BEGIN TRANSACTION;
-
+GO
 -- 1. Employee details with department info and manager name
 
 CREATE OR ALTER VIEW vw_EmployeeDetails AS
@@ -309,7 +309,7 @@ SELECT
 FROM Employees e
 LEFT JOIN Departments d ON e.department_id = d.department_id
 LEFT JOIN Employees m ON e.manager_id = m.employee_id;
-
+GO
 -------------------------------------------------------------
 
 -- 2. Total salary cost per department
@@ -322,7 +322,7 @@ SELECT
 FROM Departments d
 JOIN Employees e ON d.department_id = e.department_id
 GROUP BY d.department_name;
-
+GO
 -------------------------------------------------------------
 
 -- 3. Customer orders with total spend
@@ -336,6 +336,7 @@ SELECT
 FROM Customers c
 LEFT JOIN Orders o ON c.customer_id = o.customer_id
 GROUP BY c.customer_id, c.customer_name, c.country;
+GO
 
 ROLLBACK TRANSACTION;
 -- COMMIT TRANSACTION;
@@ -343,7 +344,7 @@ ROLLBACK TRANSACTION;
 -- Stored Procedures
 
 BEGIN TRANSACTION;
-
+GO
 -- 1. Get employees by department
 CREATE OR ALTER PROCEDURE sp_GetEmployeesByDepartment
     @DeptId INT
@@ -360,7 +361,7 @@ GO
 
 -- Execution:
 EXEC sp_GetEmployeesByDepartment @DeptId = 2;
-
+GO
 -------------------------------------------------------------
 
 -- 2. Insert new order and return updated customer spend
@@ -398,7 +399,7 @@ EXEC sp_AddOrderAndGetTotal
      @CustId = 201, 
      @OrderDate = '2024-07-10', 
      @Amount = 1800.00;
-
+GO
 -- Triggers
 
 -- 1. Prevent salary below 30,000
