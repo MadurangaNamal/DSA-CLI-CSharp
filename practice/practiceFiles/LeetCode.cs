@@ -2,6 +2,9 @@
 
 public class LeetCode
 {
+    protected LeetCode()
+    { }
+
     public static void MergeSortedArrays(int[] nums1, int nums1Size, int[] nums2, int nums2Size)
     {
         int[] result = new int[nums1Size + nums2Size];
@@ -359,6 +362,79 @@ public class LeetCode
         }
 
         return integerValue;
+    }
+
+    /*
+     * * Valid Parentheses
+     * 
+     * Given a string s containing just the characters '(', ')', '{', '}', '[' and ']', determine if the input string is valid. 
+     * An input string is valid if open brackets are closed by the same type of brackets, in the correct order.
+     * 
+     */
+
+    public static bool IsValidString(string s)
+    {
+        Stack<char> stack = new();
+        Dictionary<char, char> map = new() { { ')', '(' }, { '}', '{' }, { ']', '[' } };
+
+        foreach (char c in s)
+        {
+            if (map.ContainsKey(c))
+            {
+                if (stack.Count == 0 || stack.Pop() != map[c])
+                    return false;
+            }
+            else
+            {
+                stack.Push(c);
+            }
+        }
+        return stack.Count == 0;
+    }
+
+    /*
+     * Given an integer array nums, return true if any value appears at least twice in the array, 
+     * and return false if every element is distinct.
+     */
+    public static bool ContainsDuplicate(int[] numbers)
+    {
+        HashSet<int> set = new();
+
+        foreach (int number in numbers)
+        {
+            if (!set.Add(number))
+                return true;
+        }
+
+        return false;
+    }
+
+    /*
+     * Given two strings s and t, return true if t is an anagram of s, and false otherwise. 
+     * An anagram is a word or phrase formed by rearranging the letters of a different word or phrase, 
+     * typically using all the original letters exactly once. 
+     */
+
+    public static bool IsAnagram(string s, string t)
+    {
+        if (s.Length != t.Length)
+            return false;
+
+        int[] count = new int[26];
+
+        for (int i = 0; i < s.Length; i++)
+        {
+            count[s[i] - 'a']++;
+            count[t[i] - 'a']--;
+        }
+
+        foreach (int c in count)
+        {
+            if (c != 0)
+                return false;
+        }
+
+        return true;
     }
 }
 
