@@ -1,33 +1,68 @@
-# DSA-CLI-CSharp
+# DSA CLI C#
 
-This is a C# practice project focused on object-oriented programming concepts, custom data structures, and collection manipulation. It demonstrates various techniques such as extension methods, generic collections, and object mapping.
+This repository is a comprehensive C# practice project for learning and experimenting with:
+- Object-oriented programming (OOP)
+- Custom data structures
+- Design patterns
+- Delegates and threading
+- Collection extensions
+- Object mapping (DTOs, AutoMapper)
+- SQL database and query practice
 
 ## Project Structure
 
-### Core Logic
-- **Program.cs** – Entry point of the application.
-- **CodePractice.cs** – Contains the main logic for coding exercises.
-- **CollectionExtensions.cs** – Defines custom extension methods for collections.
-- **Composable.cs** – Utility or helper functions, possibly for functional composition.
+### Main Application
+- **Program.cs** – Entry point; contains sample invocations and code experiments.
+- **CodePractice.cs** – Central hub for coding exercises, algorithms, and utility methods.
+- **LeetCode.cs** – Solutions to selected LeetCode problems and algorithmic challenges.
 
-### Custom Data Structures
-- **GenericList.cs** – A custom implementation of a generic list.
-- **ListNode.cs** – Defines the node structure used in the generic list.
+### Data Structures & Collections
+- **GenericList.cs** – Custom generic singly linked list implementation.
+- **CollectionExtensions.cs** – Extension methods for collections (e.g., shuffle, random element, emptiness check).
+- **ListNode.cs** – Node structure for linked lists.
 
 ### Domain Models
-- **Person.cs**, **Employee.cs**, **Worker.cs**, **Worktype.cs** – Class definitions modeling different types of people and their roles.
+- **Person.cs**
+- **mployee.cs**
+- **Department.cs**
+- **Worker.cs** – Worker class with event handling for work performed.
+- **WorkType.cs**
+- **ProductDto.cs**
+- **PersonDto.cs**
 
 ### Data Transfer & Mapping
-- **PersonDto.cs** – Data Transfer Object for the `Person` class.
-- **PersonProfile.cs** – Likely used for mapping between `Person` and `PersonDto` using a library like AutoMapper.
+- **PersonProfile.cs** – AutoMapper profile for mapping between DTOs and domain models.
 
-## Purpose
+### Design Patterns
+- **SingletonPattern.cs** – Thread-safe singleton implementation.
+- **Computer.cs** – Builder pattern for constructing computer objects.
 
-This project serves as a playground to:
-- Practice C# fundamentals.
-- Understand generic data structures.
-- Implement clean coding patterns.
-- Experiment with object mapping and DTOs.
-- Practice sql queries from beginner level -> advanced queries
----
+### Delegates & Functional Utilities
+- **Composable.cs** – Custom delegates, function composition, and sample delegate usage.
+
+### Threading
+- **CustomThreads.cs** – Demonstrates thread creation, execution, and synchronization in C#.
+
+### SQL Practice
+- **SQLQueryPractice.sql** – SQL scripts for creating tables, inserting data, and running queries (beginner to advanced).
+- **SQLQueryPracticeDB.sql** – SQL Server database creation and configuration script.
+
+## Features & Learning Goals
+
+- Practice C# OOP, generics, and advanced language features
+- Implement and use custom data structures
+- Explore design patterns (Singleton, Builder)
+- Work with delegates, events, and threading
+- Extend collections with custom LINQ-style methods
+- Map between domain models and DTOs using AutoMapper
+- Practice SQL database design and queries
+
+## Getting Started
+
+1. **.NET 8.0 SDK** required (see `practice/practice.csproj`)
+2. Open the solution in Visual Studio or VS Code
+3. Build and run the project to explore code samples and outputs
+4. Review and execute SQL scripts in your preferred SQL Server environment
+
+
 
