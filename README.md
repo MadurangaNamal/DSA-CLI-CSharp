@@ -1,4 +1,4 @@
-# DSA CLI C#
+# DSA CLI C#, SQL - coding playground
 
 This repository is a comprehensive C# practice project for learning and experimenting with:
 - Object-oriented programming (OOP)
@@ -22,10 +22,10 @@ This repository is a comprehensive C# practice project for learning and experime
 - **ListNode.cs** – Node structure for linked lists.
 
 ### Domain Models
-- **Person.cs**
-- **mployee.cs**
-- **Department.cs**
 - **Worker.cs** – Worker class with event handling for work performed.
+- **Person.cs**
+- **Employee.cs**
+- **Department.cs**
 - **WorkType.cs**
 - **ProductDto.cs**
 - **PersonDto.cs**
