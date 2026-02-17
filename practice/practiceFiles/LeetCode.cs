@@ -5,6 +5,11 @@ public class LeetCode
     protected LeetCode()
     { }
 
+    /*
+     * Merge Sorted Arrays
+     * Given two integer arrays nums1 and nums2 sorted in non-decreasing order,
+     * merge nums2 into nums1 as one sorted array.
+     */
     public static void MergeSortedArrays(int[] nums1, int nums1Size, int[] nums2, int nums2Size)
     {
         int[] result = new int[nums1Size + nums2Size];
@@ -28,6 +33,11 @@ public class LeetCode
         Console.WriteLine(string.Join(", ", result));
     }
 
+    /*
+     * Remove Element
+     * Given an integer array nums and an integer val, remove all occurrences of val in-place.
+     * Return the number of elements in nums which are not equal to val.
+     */
     public static string RemoveElement(int[] nums, int val)
     {
         int k = 0;
@@ -49,6 +59,12 @@ public class LeetCode
         return $"{k}, nums = [{string.Join(", ", result)}]";
     }
 
+    /*
+    * Remove Duplicates
+    * Given an integer array nums sorted in non-decreasing order, 
+    * remove the duplicates in-place such that each unique element appears only once.
+    * Return the number of unique elements in nums.
+    */
     public static int RemoveDuplicates(int[] nums)
     {
         HashSet<int> result = new();
@@ -63,9 +79,11 @@ public class LeetCode
         return result.Count;
     }
 
-    /*Given an integer array nums sorted in non-decreasing order, 
-    * remove some duplicates in-place such that each unique element appears at most twice.
-      The relative order of the elements should be kept the same.*/
+    /*
+     * Given an integer array nums sorted in non-decreasing order, 
+     *remove some duplicates in-place such that each unique element appears at most twice.
+     *The relative order of the elements should be kept the same.
+     */
     public static int RemoveDuplicatesV2(int[] nums)
     {
         List<int> result = new();
@@ -91,11 +109,10 @@ public class LeetCode
     }
 
     /*
-     Given an array nums of size n, return the majority element.
-     The majority element is the element that appears more than ⌊n / 2⌋ times. 
-     You may assume that the majority element always exists in the array.
+     *Given an array nums of size n, return the majority element.
+     *The majority element is the element that appears more than ⌊n / 2⌋ times. 
+     *You may assume that the majority element always exists in the array.
      */
-
     public static int MajorityElement(int[] nums)
     {
         int majorityElement = nums[0];
@@ -124,6 +141,11 @@ public class LeetCode
         return (maxCount > nums.Length / 2) ? majorityElement : -1;
     }
 
+    /*
+    * Rotate Array
+    * Given an integer array nums, rotate the array to the right by k steps,
+    * where k is non-negative.
+    */
     public static void Rotate(int[] nums, int k)
     {
         int[] rotatedArray = new int[nums.Length];
@@ -139,6 +161,12 @@ public class LeetCode
         Console.WriteLine($"Rotated by {k} elements: " + string.Join(", ", rotatedArray));
     }
 
+    /*
+     * Best Time to Buy and Sell Stock
+     * Given an array prices where prices[i] is the price of a given stock on the ith day,
+     * find the maximum profit you can achieve by buying and selling the stock once.
+     * You must buy before you sell.
+     */
     public static int MaxProfit(int[] prices)
     {
         int profit = 0;
@@ -157,6 +185,12 @@ public class LeetCode
         return profit;
     }
 
+    /*
+     * Best Time to Buy and Sell Stock (Optimized)
+     * Given an array prices where prices[i] is the price of a given stock on the ith day,
+     * find the maximum profit you can achieve by buying and selling the stock once.
+     * You must buy before you sell. Optimized O(n) solution.
+     */
     public static int MaxProfitV2(int[] prices)
     {
         int minPrice = int.MaxValue;
@@ -177,6 +211,12 @@ public class LeetCode
         return maxProfit;
     }
 
+    /*
+    * Best Time to Buy and Sell Stock II
+    * Given an integer array prices where prices[i] is the price of a given stock on the ith day,
+    * find the maximum profit you can achieve by completing as many transactions as you like
+    * (i.e., buy one and sell one share of the stock multiple times).
+    */
     public static int MaxProfitQ2(int[] prices)
     {
         int maxProfit = 0;
@@ -192,9 +232,11 @@ public class LeetCode
         return maxProfit;
     }
 
-    /*You are given an integer array nums.You are initially positioned at the array's first index, 
+    /*
+     * You are given an integer array nums.You are initially positioned at the array's first index, 
      * and each element in the array represents your maximum jump length at that position.
-        Return true if you can reach the last index, or false otherwise.*/
+     * Return true if you can reach the last index, or false otherwise.
+     */
 
     public static bool CanJump(int[] nums)
     {
@@ -204,25 +246,22 @@ public class LeetCode
         {
             if (i > reachable)
                 return false;
-            reachable = Math.Max(reachable, i + nums[i]);
-            // Console.WriteLine(reachable);
-        }
 
+            reachable = Math.Max(reachable, i + nums[i]);
+        }
         return true;
     }
 
     /*
      * You are given a 0-indexed array of integers nums of length n. You are initially positioned at nums[0].
-        Each element nums[i] represents the maximum length of a forward jump from index i. 
-            In other words, if you are at nums[i], you can jump to any nums[i + j] where:
-        0 <= j <= nums[i] and
-        i + j < n
-        Return the minimum number of jumps to reach nums[n - 1].
-            The test cases are generated such that you can reach nums[n - 1].
-
-            Input: nums = [2,3,1,1,4]
-            Output: 2
-     * */
+     * Each element nums[i] represents the maximum length of a forward jump from index i. 
+     * In other words, if you are at nums[i], you can jump to any nums[i + j] where:
+     * 0 <= j <= nums[i] and  i + j < n
+     * Return the minimum number of jumps to reach nums[n - 1].
+     * The test cases are generated such that you can reach nums[n - 1].
+     *      Input: nums = [2,3,1,1,4]
+     *      Output: 2
+     */
 
     public static int CountMinJumps(int[] nums)
     {
@@ -240,7 +279,6 @@ public class LeetCode
                 currentEnd = farthest;
             }
         }
-
         return jumps;
     }
 
@@ -366,10 +404,9 @@ public class LeetCode
 
     /*
      * * Valid Parentheses
-     * 
-     * Given a string s containing just the characters '(', ')', '{', '}', '[' and ']', determine if the input string is valid. 
+     * Given a string s containing just the characters '(', ')', '{', '}', '[' and ']', 
+     * determine if the input string is valid. 
      * An input string is valid if open brackets are closed by the same type of brackets, in the correct order.
-     * 
      */
 
     public static bool IsValidString(string s)
@@ -444,7 +481,6 @@ public class LeetCode
 // bool remove(int val) Removes an item val from the set if present. Returns true if the item was present, false otherwise.
 // int getRandom() Returns a random element from the current set of elements (it's guaranteed that at least one element exists when this method is called). 
 // Each element must have the same probability of being returned.
-
 class RandomizedSet
 {
     private readonly HashSet<int> _randomizedSet;

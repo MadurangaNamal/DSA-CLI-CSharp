@@ -903,6 +903,17 @@ public static class CodePractice
 
     }
 
+    public static async Task PrintDocumentProcessedResults()
+    {
+        string baseDir = AppContext.BaseDirectory;
+        string filePath = Path.Combine(baseDir, "SampleDocs", "sample-text.txt");
+        var wordCounts = await DocumentProcessor.ProcessFilesAsync(new[] { filePath }, CancellationToken.None);
+
+        foreach (var kvp in wordCounts)
+        {
+            Console.WriteLine($"{kvp.Key}: {kvp.Value}");
+        }
+    }
 
     // Helpers
     private static (string FirstName, string LastName) GetName() => ("Madur", "Wim");

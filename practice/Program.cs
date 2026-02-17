@@ -1,6 +1,4 @@
-﻿using practice.practiceFiles;
-
-namespace practice;
+﻿namespace practice;
 
 public class Program
 {
@@ -135,6 +133,7 @@ public class Program
 
         // Create a StringBuilder that expects to hold 50 characters.
         // Initialize the StringBuilder with "ABC".
+
         //StringBuilder sb = new("ABC", 50);
         //Console.WriteLine($"Capacity: {sb.Capacity}, MaxCapacity: {sb.MaxCapacity}");
 
@@ -252,6 +251,11 @@ public class Program
 
         #region Leetcode
 
+        //// Rotate
+        //int[] numbers = { 55, 65, 76, 78, 45, 23 };
+        //int rightSteps = 3;
+        //LeetCode.Rotate(numbers, rightSteps);
+
         ////Can jump
         //int[] numbs = new[] { 2, 3, 1, 1, 4 };
         //Console.WriteLine($"Can jump:{LeetCode.CanJump(numbs)} ");
@@ -295,9 +299,18 @@ public class Program
         #region Records & Tuples
 
         //CodePractice.PrintRecordIllustrations();
-        CodePractice.PrintTupleIllustrations();
+        //CodePractice.PrintTupleIllustrations();
 
         #endregion
+
+        #region Thread safe collections
+
+        //CodePractice.PrintDocumentProcessedResults().Wait();
+
+        #endregion
+
+
+
     }
 }
 

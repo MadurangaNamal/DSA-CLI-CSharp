@@ -1,0 +1,17 @@
+Your phone edits all your photos with AI - is it changing your view of reality?
+
+From simple enhancements to hallucinated facial features, modern phones choose how our memories will look. You might love the results, but they could alter how we see the world.
+
+Ever taken a picture of the Moon with your phone? You've probably been disappointed – unless you have a Samsung Galaxy device. These phones have a "100x Space Zoom" feature that captures the Moon with astonishing clarity for camera lenses the size of a fingernail. It beats what you'll get from an Apple iPhone, but there's a catch: Samsung's Moon photos are fake.
+
+A Reddit user famously demonstrated this by holding a Samsung up to a deliberately blurry, pixelated image of the Moon on his computer. Happy to oblige, his phone snapped a nice clear picture, full of craters and shadows which didn't actually appear in the original photo. The company calls this a "detail enhancing function". The reality is that Samsung trained an AI to recognise the Moon and fill in details when the camera can't pick them up.
+
+You won't find something that dramatic turned on by default in every phone. But no matter what device is in your pocket, every tap of the camera button triggers a series of algorithms and AI processing tools that run in the background. They can perform trillions of operations, all before the picture gets saved to your photo roll.
+
+In general, it's all designed for beautiful and (mostly) faithful photography. But at the extremes, some phones include AI enhancements that drift far away from what you'd see with your own eyes. The next time you take a photo, ask yourself, is your camera documenting reality – or negotiating with it?
+
+"It's called computational photography," says Ziv Attar, chief executive of Glass Imaging, who worked on the team that built the iPhone's Portrait Mode. Your phone goes far beyond collecting the light that hits your camera's sensors. It's guessing what the image would look like if the camera was better and then building it for you, he says.
+
+"AI-based features are designed to enhance image quality while preserving authenticity," a Samsung spokesperson says. "Users retain full control with the ability to turn off AI functions based on their personal preferences."
+
+But even with the headline-grabbing AI-powered editing features turned off, algorithms are still whirring away on the pictures you take.
