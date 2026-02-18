@@ -544,3 +544,98 @@ ON Employees(first_name, last_name, hire_date);
 	
 ROLLBACK TRANSACTION;
 -- COMMIT TRANSACTION;
+
+------------------------- Temporary Tables --------------------------------
+
+BEGIN TRANSACTION;
+GO
+
+-- local temporary table (visibility - current session)
+
+CREATE TABLE #High_value_orders(
+order_id int,
+customer_name varchar(100),
+total_amount decimal(10,2),
+order_date Date
+);
+
+INSERT INTO #High_value_orders 
+SELECT o.order_id, c.customer_name, o.total_amount, o.order_date
+FROM Orders o INNER JOIN Customers c
+ON o.customer_id = c.customer_id
+WHERE o.total_amount > 2000;
+
+SELECT * from #High_value_orders;
+GO
+
+-- Global temporary table (visibility - all sessions)
+
+CREATE TABLE ##GloblTempEmployees(
+temp_id int IDENTITY(1,1),
+employee_id int,
+full_name varchar(100),
+department_name varchar(100),
+salary decimal(10,2)
+);
+
+INSERT INTO ##GloblTempEmployees (employee_id, full_name, department_name, salary)
+SELECT e.employee_id, CONCAT(e.first_name, ' ', e.last_name), d.department_name, e.salary
+FROM Employees e INNER JOIN Departments d
+ON e.department_id = d.department_id;
+
+SELECT * FROM ##GloblTempEmployees WHERE salary > 70000;
+GO
+
+-- Table variable
+
+DECLARE @EmployeeSummary TABLE (
+department_id int,
+department_name varchar(100),
+total_employees int,
+avg_salary decimal(10,2),
+max_salary decimal(10,2),
+min_salary decimal(10,2)
+);
+
+INSERT INTO @EmployeeSummary
+SELECT d.department_id, d.department_name, 
+	COUNT(e.employee_id) AS total_employees, 
+	AVG(e.salary) AS avg_salary, 
+	MAX(e.salary) AS max_salary, 
+	MIN(e.salary) AS min_salary
+FROM Departments d INNER JOIN Employees e
+ON d.department_id = e.department_id
+GROUP BY d.department_id, d.department_name;
+
+SELECT * FROM @EmployeeSummary ORDER BY avg_salary DESC;
+GO
+
+-- Temp table with index
+
+CREATE TABLE #EmployeeRanking (
+    employee_id INT PRIMARY KEY,
+    full_name VARCHAR(100),
+    department_id INT,
+    salary DECIMAL(10,2),
+    rank_in_dept INT
+);
+
+CREATE INDEX IX_EmployeeRanking_Dept ON #EmployeeRanking(department_id);
+
+INSERT INTO #EmployeeRanking (employee_id, full_name, department_id, salary, rank_in_dept)
+SELECT 
+    employee_id,
+    CONCAT(first_name, ' ', last_name),
+    department_id,
+    salary,
+    RANK() OVER (PARTITION BY department_id ORDER BY salary DESC)
+FROM Employees;
+
+SELECT * FROM #EmployeeRanking
+WHERE department_id = 2 AND rank_in_dept <= 3
+ORDER BY rank_in_dept;
+
+GO
+
+ROLLBACK TRANSACTION;
+-- COMMIT TRANSACTION;
