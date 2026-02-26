@@ -639,3 +639,112 @@ GO
 
 ROLLBACK TRANSACTION;
 -- COMMIT TRANSACTION;
+
+------------------------- Functions --------------------------------
+
+BEGIN TRANSACTION;
+GO
+
+-- Scalar functions
+
+--- Calculate annual salary with bonus
+CREATE OR ALTER FUNCTION fn_CalculateAnnualCompensation(
+@MonthlySalary DECIMAL(10,2),
+@BonusPercentage DECIMAL(5,2) = 10.0
+) RETURNS DECIMAL(10,2)
+AS
+BEGIN
+    DECLARE @AnnualCompensation DECIMAL(10,2);
+    DECLARE @BonusAmount DECIMAL(10,2);
+
+    SET @BonusAmount = (@MonthlySalary * 12) * (@BonusPercentage/100);
+	SET @AnnualCompensation = (@MonthlySalary * 12) + @BonusAmount;
+
+	RETURN @AnnualCompensation;
+END;
+GO
+
+-- Test
+SELECT 
+    first_name,
+    last_name,
+    salary AS monthly_salary,
+    dbo.fn_CalculateAnnualCompensation(salary, 15) AS annual_with_15pct_bonus,
+    dbo.fn_CalculateAnnualCompensation(salary, DEFAULT) AS annual_with_default_bonus
+FROM Employees;
+GO
+
+--- Determine salary grade
+CREATE OR ALTER FUNCTION fn_GetSalaryGrade(
+@Salary DECIMAL(10,2)
+) RETURNS CHAR(1)
+AS
+BEGIN
+	DECLARE @Grade CHAR(1);
+
+	SET @Grade = CASE
+        WHEN @Salary < 50000 THEN 'C'
+        WHEN @Salary BETWEEN 50000 AND 65000 THEN 'B'
+        WHEN @Salary BETWEEN 65001 AND 80000 THEN 'A'
+        WHEN @Salary > 80000 THEN 'A+'
+        ELSE 'N/A'
+    END;
+
+	RETURN @Grade;
+END
+GO
+
+-- Test
+SELECT 
+    first_name,
+    last_name,
+    salary,
+    dbo.fn_GetSalaryGrade(salary) AS salary_grade
+FROM Employees
+ORDER BY salary DESC;
+GO
+
+-- Table valued functions
+
+--- Get employees by department with salary info
+CREATE OR ALTER FUNCTION fn_GetEmployeesByDepartment
+(
+	@DepartmentId INT
+) RETURNS TABLE
+AS
+RETURN
+(
+	SELECT e.employee_id, e.first_name, e.last_name, e.salary, d.department_name, d.location, dbo.fn_GetSalaryGrade(e.salary) AS Salary_Grade
+	FROM Employees e INNER JOIN Departments d
+	ON e.department_id = d.department_id
+	WHERE e.department_id = @DepartmentId
+);
+GO
+
+SELECT * FROM fn_GetEmployeesByDepartment(2);
+GO
+
+-- System functions
+
+SELECT
+	UPPER(e.first_name) AS first_name_uppercase,
+	LOWER(e.last_name) AS last_name_lowercase,
+	LEN(e.first_name) AS fname_length,
+	CONCAT(e.first_name, ' ', e.last_name) AS full_name,
+	GETDATE() AS current_datetime,
+	YEAR(e.hire_date) AS year_hired,
+	MONTH(e.hire_date) AS month_hired,
+	DAY(e.hire_date) AS day_hired,
+	DATEDIFF(year, hire_date, GETDATE()) AS years_employed,
+	DATEDIFF(month, hire_date, GETDATE()) AS months_employed,
+	DATEDIFF(day, hire_date, GETDATE()) AS days_employed,
+	DATEADD(year, 1, hire_date) AS anniversary_next_year,
+    FORMAT(hire_date, 'MMMM dd, yyyy') AS formatted_hire_date,
+	ISNULL(e.manager_id, 0) AS manager_id_or_zero_if_null,
+	NULLIF(e.salary, 80000) AS null_if_80000, 
+	e.salary,
+    ROUND(e.salary, -3) AS rounded_to_thousands
+FROM Employees e INNER JOIN Departments d
+ON e.department_id = d.department_id;
+GO
+
