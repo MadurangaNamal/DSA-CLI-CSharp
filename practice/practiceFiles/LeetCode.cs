@@ -5,6 +5,129 @@ public class LeetCode
     protected LeetCode()
     { }
 
+    #region General simple algorithms
+
+    public static string ReverseString(string? input)
+    {
+        ArgumentNullException.ThrowIfNullOrEmpty(input, nameof(input));
+        char[] chars = input.ToCharArray();
+        Array.Reverse(chars);
+
+        return new string(chars);
+    }
+
+    public static bool IsAPalindrome(string? input)
+    {
+        ArgumentNullException.ThrowIfNullOrEmpty(input, nameof(input));
+        string reversed = string.Empty;
+
+        for (int i = input.Length - 1; i >= 0; i--)
+        {
+            reversed += input[i];
+        }
+
+        return input == reversed;
+    }
+
+    public static int Factorial(int number)
+    {
+        int factorial = 1;
+
+        if (number == 0)
+            return factorial;
+
+        for (int i = 1; i <= number; i++)
+        {
+            factorial *= i;
+        }
+
+        return factorial;
+    }
+
+    public static void PrintFibonacciSeries(int n)
+    {
+        int a = 0, b = 1, c;
+
+        Console.Write(a + " " + b + " ");
+
+        for (int i = 2; i < n; i++)
+        {
+            c = a + b;
+            Console.Write(c + " ");
+            a = b;
+            b = c;
+        }
+    }
+
+    public static int FindMaximumNumber(int[] numbers)
+    {
+        int max = numbers[0];
+
+        foreach (int number in numbers)
+        {
+            if (number > max)
+                max = number;
+        }
+
+        return max;
+    }
+
+    public static bool IsPrimeNumber(int number)
+    {
+        for (int i = 2; i <= number / 2; i++)
+        {
+            if (number % i == 0)
+                return false;
+        }
+
+        return true;
+    }
+
+    public static void CountOccurrences(string input)
+    {
+        Dictionary<char, int> counts = new();
+
+        foreach (char c in input)
+        {
+            if (counts.ContainsKey(c))
+                counts[c]++;
+            else
+                counts[c] = 1;
+        }
+
+        foreach (var item in counts)
+        {
+            Console.WriteLine($"{item.Key}: {item.Value}");
+        }
+    }
+
+    public static int[] RemoveDuplicateNumbers(int[] numbers)
+    {
+        return numbers.Distinct().ToArray();
+    }
+
+    /// Swap 2 numbers without a 3rd variable
+    public static void SwapNumbers(int num1, int num2)
+    {
+        num1 = num1 + num2;
+        num2 = num1 - num2;
+        num1 = num1 - num2;
+
+        Console.WriteLine($"number1:{num1}, number2:{num2}");
+    }
+
+    public static char FirstNonRepeatingCharacter(string? input)
+    {
+        ArgumentNullException.ThrowIfNullOrEmpty(input);
+        var result = input.GroupBy(c => c).FirstOrDefault(g => g.Count() == 1);
+
+        return result!.Key;
+    }
+
+    #endregion
+
+    // Leetcode problems 
+
     /*
      * Merge Sorted Arrays
      * Given two integer arrays nums1 and nums2 sorted in non-decreasing order,
