@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.Extensions.Logging;
 using practice.practiceFiles.DesignPatterns;
 using practice.practiceFiles.Models;
 using System.Linq.Dynamic.Core;
@@ -708,7 +709,9 @@ public static class CodePractice
     // Automapper
     public static void PrintAutomapperFunctions()
     {
-        var config = new MapperConfiguration(cfg => cfg.AddProfile<PersonProfile>());
+        var config = new MapperConfiguration(
+            cfg => cfg.AddProfile<PersonProfile>(),
+            (ILoggerFactory?)null);
         var mapper = config.CreateMapper();
 
         PersonDto dataDto = new(
@@ -718,18 +721,18 @@ public static class CodePractice
             new DateOnly(1995, 03, 19),
             "+971524016331");
 
-        //Type 1
+        // Type 1
         Person person = mapper.Map<Person>(dataDto);
         Person.ToString(person);
 
-        //Type 2
+        // Type 2
         Person person2 = new();
         dataDto.Email = "maduranga.wimalarathne95@gmail.com";
 
         mapper.Map(dataDto, person2);
         Person.ToString(person2);
 
-        //Type 3
+        // Type 3
         List<PersonDto> people = new();
         people.Add(dataDto);
         people.Add(new PersonDto("Maduranga", "NW", "namal@gmail.com", new DateOnly(1995, 03, 19), "1234567890"));
