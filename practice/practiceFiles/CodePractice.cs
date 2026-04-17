@@ -879,6 +879,22 @@ public static class CodePractice
         Console.WriteLine("\n" + gamingPC);
     }
 
+    public static void ExecuteStrategy()
+    {
+        ShoppingCart cart = new();
+        cart.SetPaymentStrategy(new PaypalPayment());
+        cart.Checkout(50.50m);
+    }
+
+    public static void ExecuteFactory()
+    {
+        var factory = new FileLoggerFactory();
+        ICustomLogger logger = factory.CreateLogger();
+        logger.Log("Hello!!");
+    }
+
+    ////
+
     public static void PrintTupleIllustrations()
     {
         (var x, var y) = (10, 20);

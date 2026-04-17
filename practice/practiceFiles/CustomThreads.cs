@@ -3,6 +3,22 @@
 public class CustomThreads
 {
     // creating thread
+    /*
+        1.ThreadMethod() starts executing in the main thread:
+
+        Creates a new Thread object that will run the DoWork method
+        Calls thread.Start() which launches the worker thread
+
+        2.After this, two threads run concurrently:
+
+        The main thread continues executing the for loop in ThreadMethod()
+        The worker thread executes the for loop in DoWork()
+
+        3.The timing differences:
+
+        Main thread: Sleeps for 500ms between iterations
+        Worker thread: Sleeps for 700ms between iterations
+    */
     public static void ThreadMethod()
     {
         Thread thread = new Thread(DoWork);
@@ -13,23 +29,6 @@ public class CustomThreads
             Console.WriteLine("Main thread: " + i);
             Thread.Sleep(500);
         }
-
-        /*
-            1.ThreadMethod() starts executing in the main thread:
-
-            Creates a new Thread object that will run the DoWork method
-            Calls thread.Start() which launches the worker thread
-
-            2.After this, two threads run concurrently:
-
-            The main thread continues executing the for loop in ThreadMethod()
-            The worker thread executes the for loop in DoWork()
-
-            3.The timing differences:
-
-            Main thread: Sleeps for 500ms between iterations
-            Worker thread: Sleeps for 700ms between iterations
-         */
     }
 
     private static void DoWork()
@@ -60,6 +59,11 @@ public class CustomThreads
     private static object _locker = new object(); // Use as a synchronization object to ensure only one thread can enter the critical section at a time.
     private static int _counter = 0;
 
+    /*
+        Multiple threads call Increment concurrently, 
+        but the lock ensures increments happen safely without race conditions.
+        The final output shows the counter incremented exactly 10 times.
+    */
     public static void ThreadSynchronization()
     {
         Thread[] threads = new Thread[10];
@@ -78,12 +82,6 @@ public class CustomThreads
         }
 
         Console.WriteLine($"Final counter value: {_counter}");
-
-        /*
-            Multiple threads call Increment concurrently, 
-            but the lock ensures increments happen safely without race conditions.
-            The final output shows the counter incremented exactly 10 times.
-         */
     }
 
     private static void Increment()
@@ -96,6 +94,11 @@ public class CustomThreads
     }
 
     // Thread safety using Mutex
+    /*
+        The critical section is between WaitOne() and ReleaseMutex().
+        This pattern is commonly used to prevent multiple instances 
+        of an application from running simultaneously.
+    */
     public static void ThreadSafetyUsingMutex()
     {
         using Mutex mutex = new Mutex(false, "Sample_Mutex");
@@ -116,11 +119,7 @@ public class CustomThreads
             Console.WriteLine("Mutex released.");
         }
 
-        /*
-            The critical section is between WaitOne() and ReleaseMutex().
-            This pattern is commonly used to prevent multiple instances 
-            of an application from running simultaneously.
-        */
+
     }
 
     // Thread safety using Semaphore
@@ -190,6 +189,17 @@ public class CustomThreads
     }
 
     // Async and Await with Tasks
+    /*
+        Main thread started.
+        Task 2 (Work) started on thread ID: 2
+        Task 1 running on a background thread. Thread ID: 1
+        Task 2 is processing...
+        Task 1 is processing...
+        Task 2 finished processing.
+        Task 2 (Work) completed.
+        Task 1 finished processing.
+        Main thread ending.
+    */
     public static void BackgroundWorkWithTasks()
     {
         Console.WriteLine("Main thread started.");
@@ -205,18 +215,7 @@ public class CustomThreads
 
         Console.WriteLine("Main thread ending.");
 
-        /*
-         *  Main thread started.
-            Task 2 (Work) started on thread ID: 2
-            Task 1 running on a background thread. Thread ID: 1
-            Task 2 is processing...
-            Task 1 is processing...
-            Task 2 finished processing.
-            Task 2 (Work) completed.
-            Task 1 finished processing.
-            Main thread ending.
-         * 
-         */
+
     }
 
     private static void Work()

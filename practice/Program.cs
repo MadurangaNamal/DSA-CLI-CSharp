@@ -293,6 +293,8 @@ public class Program
 
         //CodePractice.PrintSingletonPatternFunctions();
         //CodePractice.PrintBuilderResults();
+        //CodePractice.ExecuteStrategy();
+        //CodePractice.ExecuteFactory();
 
         #endregion
 
