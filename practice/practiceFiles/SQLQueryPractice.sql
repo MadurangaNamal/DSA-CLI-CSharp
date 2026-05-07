@@ -44,6 +44,8 @@ CREATE TABLE Orders (
     FOREIGN KEY (customer_id) REFERENCES Customers(customer_id)
 );
 
+ALTER TABLE Employees ADD IsPermanent BIT NOT NULL DEFAULT 1;
+
 ROLLBACK TRANSACTION;
 -- COMMIT TRANSACTION;
 
@@ -136,19 +138,19 @@ select MAX(salary) AS Second_Max_Salary
 from Employees 
 Where salary < (Select Max(salary) from Employees);
 
-	-- Get the top 3 employees with highest salary
-	select top 3 first_name, last_name, salary
-	from Employees
-	order by salary desc;
+-- Get the top 3 employees with highest salary
+select top 3 first_name, last_name, salary
+from Employees
+order by salary desc;
 
-	--- Works in other sql servers except MS SQL Server (ex: MySQL, PostgreSQL, SQLite)
-	--select first_name, last_name, salary
-	--from Employees
-	--order by salary desc
-	--LIMIT 3;
-
+--- Works in other sql servers except MS SQL Server (ex: MySQL, PostgreSQL, SQLite)
+--select first_name, last_name, salary
+--from Employees
+--order by salary desc
+--LIMIT 3;
 
 --step 8 List all employees and their managers
+
 /*
 	Can use Self-join to match employees with their managers
 */
@@ -161,6 +163,10 @@ LEFT JOIN Employees e2 ON e1.manager_id = e2.employee_id;
 SELECT e1.first_name AS employee_name, e2.first_name AS manager_name
 FROM Employees e1
 INNER JOIN Employees e2 ON e1.manager_id = e2.employee_id;
+
+--List employees without managers
+SELECT employee_id, first_name, last_name, hire_date from Employees
+WHERE manager_id IS NULL;
 
 --step 9 Rank employees by salary within their department
 
@@ -184,8 +190,8 @@ FROM Employees;
 */
 
 -- Insert a duplicte data
---INSERT INTO Employees (employee_id, first_name, last_name, department_id, salary, hire_date, manager_id) 
---VALUES (109, 'Grace', 'Kim', 4, 63000.00, '2021-09-14', 105);  --delete from Employees where employee_id = 109;
+INSERT INTO Employees (employee_id, first_name, last_name, department_id, salary, hire_date, manager_id) 
+VALUES (109, 'Grace', 'Kim', 4, 63000.00, '2021-09-14', 105);  --delete from Employees where employee_id = 109;
 
 SELECT first_name, last_name, COUNT(*) as count
 FROM Employees
@@ -193,6 +199,9 @@ GROUP BY first_name, last_name
 HAVING COUNT(*) > 1;
 
 --step 10.1 Remove duplicate records from table
+---
+SELECT first_name, COUNT(employee_id) AS 'record_count' FROM Employees GROUP BY first_name, last_name, department_id;
+SELECT first_name, MIN(employee_id) FROM Employees GROUP BY first_name, last_name, department_id;
 
 DELETE FROM Employees
 WHERE employee_id NOT IN (SELECT MIN(employee_id) FROM Employees GROUP BY first_name, last_name, department_id);
