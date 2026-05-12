@@ -311,8 +311,11 @@ public class Program
 
         #endregion
 
+        #region String Manipulations
 
+        //CodePractice.PrintStringManipulations();
 
+        #endregion
     }
 }
 

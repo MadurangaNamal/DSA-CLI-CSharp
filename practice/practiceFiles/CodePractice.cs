@@ -934,6 +934,12 @@ public static class CodePractice
         }
     }
 
+    public static void PrintStringManipulations()
+    {
+        StringManipulations.ArrayStringTransformations();
+        StringManipulations.EqualityANDOrdering();
+    }
+
     // Helpers
     private static (string FirstName, string LastName) GetName() => ("Madur", "Wim");
 
