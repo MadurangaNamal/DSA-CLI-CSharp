@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Microsoft.Extensions.Logging;
+using practice.practiceFiles.CustomExceptions;
 using practice.practiceFiles.DesignPatterns;
 using practice.practiceFiles.Models;
 using System.Linq.Dynamic.Core;
@@ -91,6 +92,8 @@ public static class CodePractice
         var s3 = new Rectangle(10, 6);
         // s3.Wdith = 5; // compile error (cannot assign init-only property - Not allowed)
     }
+
+    #region Algorithms
 
     // Reverse a string
     public static string ReverseString(string text)
@@ -226,6 +229,8 @@ public static class CodePractice
         return dummy.Next;
     }
 
+    #endregion
+
     // Task Progress Reporting
     public static async Task ProcessDataAsync(string[] departments, IProgress<int> progress)
     {
@@ -238,7 +243,6 @@ public static class CodePractice
         Console.WriteLine("Done processing data");
     }
 
-    // Helper methods
     public static void PrintList(ListNode? head)
     {
         while (head != null)
@@ -811,7 +815,7 @@ public static class CodePractice
         //CustomThreads.ParallelProcessing();
     }
 
-    // Design Patterns
+    #region Design Patterns
     public static void PrintSingletonPatternFunctions()
     {
         Thread[] threads = new Thread[2];
@@ -893,7 +897,7 @@ public static class CodePractice
         logger.Log("Hello!!");
     }
 
-    ////
+    #endregion
 
     public static void PrintTupleIllustrations()
     {
@@ -940,11 +944,64 @@ public static class CodePractice
         StringManipulations.EqualityANDOrdering();
     }
 
-    // Helpers
+    public static async Task CustomExceptionHandling()
+    {
+        // Basic custom exception
+        try
+        {
+            var registration = new UserRegistration();
+            registration.RegisterUser("John", 15);
+        }
+        catch (InvalidAgeException ex)
+        {
+            Console.WriteLine($"Error: {ex.Message}");
+        }
+
+        // Custom exception with properties
+        try
+        {
+            var account = new BankAccount { AccountNumber = "ACC123", Balance = 100 };
+            account.Withdraw(200);
+        }
+        catch (InsufficientFundsException ex)
+        {
+            Console.WriteLine(ex.Message);
+        }
+
+        // Generic exception
+        try
+        {
+            var personRepo = new Repository<Person>();
+            personRepo.GetById("pid123");
+        }
+        catch (ResourceNotFoundException<Person> ex)
+        {
+            Console.WriteLine(ex.Message);
+        }
+
+        // Database exception
+        var dbService = new DatabaseService(
+            "Server=localhost;Database=MyDB;Trusted_Connection=true;",
+            "MyDB");
+
+        try
+        {
+            await dbService.ExecuteQueryAsync("INSERT INTO Users (Name) VALUES ('John')");
+        }
+        catch (DatabaseException ex)
+        {
+            Console.WriteLine($"Database Error: {ex.Message}");
+            Console.WriteLine($"Database: {ex.DatabaseName}");
+            Console.WriteLine($"Failed Query: {ex.Query}");
+            Console.WriteLine($"Inner Exception: {ex.InnerException?.Message}");
+        }
+    }
+
+    #region Helpers
     private static (string FirstName, string LastName) GetName() => ("Madur", "Wim");
 
     private static (int, int, int) Calculate(int[] values) => (values.Min(), values.Max(), values.Sum());
-
+    #endregion
 }
 
 // reference type

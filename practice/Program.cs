@@ -1,8 +1,10 @@
-﻿namespace practice;
+﻿using practice.practiceFiles;
+
+namespace practice;
 
 public class Program
 {
-    static void Main(string[] args)
+    static async Task Main(string[] args)
     {
 
         #region Delegates
@@ -22,7 +24,9 @@ public class Program
 
         #endregion
 
-        #region Find Second largest number
+        #region General algorithms
+
+        // Find Second largest number
 
         //int[] randomNumbers = { 15, 140, 895, 445, 3, 20, 25 };
         ////int[] randomNumbers = { 15, 15 };
@@ -31,9 +35,8 @@ public class Program
         //if (secondLargestNumber != int.MinValue)
         //    Console.WriteLine("Second largest number: " + secondLargestNumber);
 
-        #endregion
 
-        #region Find First Non Repeating member
+        // Find First Non Repeating member
 
         //string name = "Maduranga";
         //var result = CodePractice.GetFirstNonRepeatingCharacter(name);
@@ -41,9 +44,8 @@ public class Program
         //if (result != 0)
         //    Console.WriteLine($"First non repeating character: {result}");
 
-        #endregion
 
-        #region Find element position in sorted array
+        // Find element position in sorted array
 
         //int[] sortedArray = { 1, 35, 51, 78, 99, 110 };
         //int itemIndex = PracticeAlgoirthms.FindElementInSortedArray(99, sortedArray);
@@ -53,9 +55,8 @@ public class Program
         //else
         //    Console.WriteLine("Item not found");
 
-        #endregion
 
-        #region Merge two sorted linked lists into one sorted list
+        // Merge two sorted linked lists into one sorted list
 
         //ListNode l1 = new(1, new ListNode(3, new ListNode(5))); // Creating a linked list: 1 -> 3 -> 5 -> null
         //ListNode l2 = new(2, new ListNode(4, new ListNode(6))); // Creating a linked list: 2 -> 4 -> 6 -> null
@@ -179,7 +180,7 @@ public class Program
 
         #endregion
 
-        #region Practicing LINQ Queries
+        #region LINQ Queries
 
         //int[] idValues = { 41, 42, 43, 44, 45, 46, 47, 48, 49, 50 };
         //List<Employee> filteredEmplyees = CodePractice.FilterEmployees(idValues);
@@ -316,6 +317,13 @@ public class Program
         //CodePractice.PrintStringManipulations();
 
         #endregion
+
+        #region Custom Exceptions
+
+        await CodePractice.CustomExceptionHandling();
+
+        #endregion
+
     }
 }
 

@@ -5,13 +5,14 @@
     <TargetFramework>net8.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
+    <UserSecretsId>604d644e-1299-4765-8f7b-047ce8d8fb62</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="AutoMapper" Version="16.1.1" />
     <PackageReference Include="System.Collections" Version="4.3.0" />
+    <PackageReference Include="System.Data.SqlClient" Version="4.9.1" />
     <PackageReference Include="System.Linq.Dynamic.Core" Version="1.7.2" />
-    <PackageReference Include="xunit.assert" Version="2.9.3" />
   </ItemGroup>
 
   <ItemGroup>
