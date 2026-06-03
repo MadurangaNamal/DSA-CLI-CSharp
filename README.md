@@ -1,68 +1,71 @@
-# DSA CLI C#, SQL - coding playground
+# C# & SQL Practice Playground
 
-This repository is a comprehensive C# practice project for learning and experimenting with:
-- Object-oriented programming (OOP)
-- Custom data structures
-- Design patterns
-- Delegates and threading
-- Collection extensions
-- Object mapping (DTOs, AutoMapper)
-- SQL database and query practice
+A .NET 8 console project for learning and experimenting with C# language features, algorithms, design patterns, LINQ, threading, and SQL.
 
-## Project Structure
+## Quick start
 
-### Main Application
-- **Program.cs** – Entry point; contains sample invocations and code experiments.
-- **CodePractice.cs** – Central hub for coding exercises, algorithms, and utility methods.
-- **LeetCode.cs** – Solutions to selected LeetCode problems and algorithmic challenges.
+1. Install the [.NET 8 SDK](https://dotnet.microsoft.com/download).
+2. Open `AA Todo.sln` in Visual Studio or VS Code.
+3. Run the project:
 
-### Data Structures & Collections
-- **GenericList.cs** – Custom generic singly linked list implementation.
-- **CollectionExtensions.cs** – Extension methods for collections (e.g., shuffle, random element, emptiness check).
-- **ListNode.cs** – Node structure for linked lists.
+```bash
+cd practice
+dotnet run
+```
 
-### Domain Models
-- **Worker.cs** – Worker class with event handling for work performed.
-- **Person.cs**
-- **Employee.cs**
-- **Department.cs**
-- **WorkType.cs**
-- **ProductDto.cs**
-- **PersonDto.cs**
+An interactive menu lists all demos. Pick a number, or quit with `Q`.
 
-### Data Transfer & Mapping
-- **PersonProfile.cs** – AutoMapper profile for mapping between DTOs and domain models.
+Run a single demo without the menu:
 
-### Design Patterns
-- **SingletonPattern.cs** – Thread-safe singleton implementation.
-- **Computer.cs** – Builder pattern for constructing computer objects.
+```bash
+dotnet run -- 1    # custom exceptions
+dotnet run -- 4    # LINQ SQL-style walkthrough
+```
 
-### Delegates & Functional Utilities
-- **Composable.cs** – Custom delegates, function composition, and sample delegate usage.
+## Project layout
 
-### Threading
-- **CustomThreads.cs** – Demonstrates thread creation, execution, and synchronization in C#.
+```
+practice/
+├── Program.cs              # Entry point
+├── PracticeRunner.cs         # Interactive menu
+├── Algorithms/               # Classic algorithms & LeetCode-style solutions
+├── Collections/              # Extension methods for IEnumerable/ICollection
+├── Concurrency/              # Threading, tasks, parallel document processing
+├── Data/                     # Sample data factories (employees, departments)
+├── Database/                 # SQL client wrapper for exception demos
+├── DataStructures/           # Custom generic linked list
+├── Delegates/                # Custom delegates and composition
+├── Demos/                    # Runnable demo orchestration (LINQ, patterns, etc.)
+├── DesignPatterns/           # Singleton, builder, strategy, factory
+├── Exceptions/               # Custom exception types
+├── Mapping/                  # AutoMapper profiles
+├── Models/                   # Domain models, DTOs, linked-list nodes
+│   └── Samples/              # Types used in class/struct/record comparisons
+├── Strings/                  # String manipulation exercises
+├── Sql/                      # SQL practice scripts (run in SSMS or similar)
+└── Samples/Documents/        # Text files copied to build output for demos
+```
 
-### SQL Practice
-- **SQLQueryPractice.sql** – SQL scripts for creating tables, inserting data, and running queries (beginner to advanced).
-- **SQLQueryPracticeDB.sql** – SQL Server database creation and configuration script.
+## Namespaces
 
-## Features & Learning Goals
+Code is organized under the `Practice` root namespace, with folders matching sub-namespaces (for example `Practice.Algorithms`, `Practice.Demos`, `Practice.DesignPatterns`).
 
-- Practice C# OOP, generics, and advanced language features
-- Implement and use custom data structures
-- Explore design patterns (Singleton, Builder)
-- Work with delegates, events, and threading
-- Extend collections with custom LINQ-style methods
-- Map between domain models and DTOs using AutoMapper
-- Practice SQL database design and queries
+## What each area covers
 
-## Getting Started
+| Folder | Topics |
+|--------|--------|
+| **Algorithms** | Binary search, linked-list merge, string problems, LeetCode-style challenges |
+| **Demos** | LINQ queries, AutoMapper, pattern matching, design-pattern runners |
+| **DesignPatterns** | Singleton, builder, strategy, factory |
+| **Concurrency** | Threads, mutex/semaphore, `Parallel.ForEachAsync` |
+| **Collections** | Shuffle, random element, `ShowItems` extensions |
+| **Exceptions** | Validation, insufficient funds, resource-not-found, database errors |
+| **Sql** | Table creation, joins, aggregations (execute outside the app) |
 
-1. **.NET 8.0 SDK** required (see `practice/practice.csproj`)
-2. Open the solution in Visual Studio or VS Code
-3. Build and run the project to explore code samples and outputs
-4. Review and execute SQL scripts in your preferred SQL Server environment
+## SQL scripts
 
+Open `practice/Sql/SQLQueryPractice.sql` in SQL Server Management Studio (or Azure Data Studio) and run sections as needed. The C# database demo uses a connection string in code and expects a local SQL Server instance.
 
+## IDE configuration
 
+VS Code launch and build tasks target `AA Todo.sln` and `practice/bin/Debug/net8.0/practice.dll`.

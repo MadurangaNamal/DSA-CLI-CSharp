@@ -3,6 +3,7 @@
   <PropertyGroup>
     <OutputType>Exe</OutputType>
     <TargetFramework>net8.0</TargetFramework>
+    <RootNamespace>Practice</RootNamespace>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
     <UserSecretsId>604d644e-1299-4765-8f7b-047ce8d8fb62</UserSecretsId>
@@ -16,7 +17,12 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="practiceFiles\SampleDocs\" />
+    <None Update="Samples\Documents\sample-text.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <Content Include="Sql\SQLQueryPractice.sql">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
 
 </Project>
