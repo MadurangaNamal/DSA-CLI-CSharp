@@ -1,4 +1,6 @@
+using BenchmarkDotNet.Running;
 using Practice.Algorithms;
+using Practice.Benchmarks;
 using Practice.Collections;
 using Practice.Delegates;
 using Practice.Demos;
@@ -69,6 +71,7 @@ public static class PracticeRunner
         Console.WriteLine("16  Delegates");
         Console.WriteLine("17  Document processor (parallel file read)");
         Console.WriteLine("18  Class vs struct vs record");
+        Console.WriteLine("19  Benchmarks");
         Console.WriteLine(" Q  Quit");
     }
 
@@ -138,6 +141,9 @@ public static class PracticeRunner
             case "18":
                 RunTypeComparisonDemo();
                 break;
+            case "19":
+                RunBenchmarkTestCodes();
+                break;
             default:
                 Console.WriteLine("Unknown option. Try again.");
                 break;
@@ -188,5 +194,15 @@ public static class PracticeRunner
         var c = new Models.Samples.SampleClass { a = 10, b = true, value = "original" };
         PracticeDemos.PrintClass(c);
         Console.WriteLine($"After demo — class: {c.a}, {c.b}, {c.value}");
+    }
+
+    private static void RunBenchmarkTestCodes()
+    {
+        //_ = BenchmarkRunner.Run<YieldReturnBenchmark>();
+        //_ = BenchmarkRunner.Run<BenchmarkAsyncTaskVsValueTask>();
+        //_ = BenchmarkRunner.Run<StringBenchmark>();
+        //_ = BenchmarkRunner.Run<AnyVsCountBenchmark>();
+        //_ = BenchmarkRunner.Run<ListVsHashsetSearchBenchmark>();
+        _ = BenchmarkRunner.Run<ClassVsStructBenchmark>();
     }
 }
