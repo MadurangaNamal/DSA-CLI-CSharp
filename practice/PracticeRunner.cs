@@ -71,7 +71,8 @@ public static class PracticeRunner
         Console.WriteLine("16  Delegates");
         Console.WriteLine("17  Document processor (parallel file read)");
         Console.WriteLine("18  Class vs struct vs record");
-        Console.WriteLine("19  Benchmarks");
+        Console.WriteLine("19  Benchmarks (Need to execute in Release Mode)");
+        Console.WriteLine("20. EF Core Bulk Large Data Retrieval");
         Console.WriteLine(" Q  Quit");
     }
 
@@ -144,6 +145,9 @@ public static class PracticeRunner
             case "19":
                 RunBenchmarkTestCodes();
                 break;
+            case "20":
+                RunEfcoreBulkDemo();
+                break;
             default:
                 Console.WriteLine("Unknown option. Try again.");
                 break;
@@ -204,5 +208,11 @@ public static class PracticeRunner
         //_ = BenchmarkRunner.Run<AnyVsCountBenchmark>();
         //_ = BenchmarkRunner.Run<ListVsHashsetSearchBenchmark>();
         _ = BenchmarkRunner.Run<ClassVsStructBenchmark>();
+    }
+
+    private static void RunEfcoreBulkDemo()
+    {
+        var demo = new EfCoreBulkDemo();
+        _ = demo.RunAsync();
     }
 }
