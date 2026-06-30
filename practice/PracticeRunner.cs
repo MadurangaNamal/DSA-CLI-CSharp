@@ -73,6 +73,7 @@ public static class PracticeRunner
         Console.WriteLine("18  Class vs struct vs record");
         Console.WriteLine("19  Benchmarks (Need to execute in Release Mode)");
         Console.WriteLine("20. EF Core Bulk Large Data Retrieval");
+        Console.WriteLine("21  LeetCode — Algorithm Q&A");
         Console.WriteLine(" Q  Quit");
     }
 
@@ -84,15 +85,10 @@ public static class PracticeRunner
                 await PracticeDemos.CustomExceptionHandling();
                 break;
             case "2":
-                var filtered = LinqExercises.FilterEmployees([41, 42, 43]);
-                LinqExercises.PrintEmployeesList(filtered);
+                RunFilterAndPrintEmployees();
                 break;
             case "3":
-                var stats = LinqExercises.GetDepartmentStats();
-                foreach (var stat in stats)
-                {
-                    Console.WriteLine($"{stat.Department,-15} | Avg: {stat.AvgSalary,10:C} | Count: {stat.TotalEmployees,3}");
-                }
+                PrintDepartmentStats();
                 break;
             case "4":
                 LinqExercises.PrintCustomLinqQueryResults();
@@ -101,8 +97,7 @@ public static class PracticeRunner
                 RunSecondLargestDemo();
                 break;
             case "6":
-                var ch = AlgorithmExercises.GetFirstNonRepeatingCharacter("Maduranga");
-                Console.WriteLine(ch != '\0' ? $"First non-repeating: {ch}" : "None found");
+                RunFirstNonRepeatingCharacterDemo();
                 break;
             case "7":
                 RunMergeListsDemo();
@@ -148,10 +143,28 @@ public static class PracticeRunner
             case "20":
                 RunEfcoreBulkDemo();
                 break;
+            case "21":
+                RunLeetCodeSolutions();
+                break;
             default:
                 Console.WriteLine("Unknown option. Try again.");
                 break;
         }
+    }
+
+    private static void PrintDepartmentStats()
+    {
+        var stats = LinqExercises.GetDepartmentStats();
+        foreach (var stat in stats)
+        {
+            Console.WriteLine($"{stat.Department,-15} | Avg: {stat.AvgSalary,10:C} | Count: {stat.TotalEmployees,3}");
+        }
+    }
+
+    private static void RunFilterAndPrintEmployees()
+    {
+        var filtered = LinqExercises.FilterEmployees([41, 42, 43]);
+        LinqExercises.PrintEmployeesList(filtered);
     }
 
     private static void RunSecondLargestDemo()
@@ -214,5 +227,120 @@ public static class PracticeRunner
     {
         var demo = new EfCoreBulkDemo();
         _ = demo.RunAsync();
+    }
+
+    private static void RunFirstNonRepeatingCharacterDemo()
+    {
+        var ch = AlgorithmExercises.GetFirstNonRepeatingCharacter("Maduranga");
+        Console.WriteLine(ch != '\0' ? $"First non-repeating: {ch}" : "None found");
+    }
+
+    private static void RunLeetCodeSolutions()
+    {
+        Console.WriteLine("\nRunning all LeetCodeSolutions examples...\n");
+
+        void SafeRun(string name, Action action)
+        {
+            try
+            {
+                Console.WriteLine($"--- {name} ---");
+                action();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error in {name}: {ex.Message}");
+            }
+            Console.WriteLine();
+        }
+
+        SafeRun("ReverseString", () =>
+            Console.WriteLine(LeetCodeSolutions.ReverseString("hello")));
+
+        SafeRun("IsAPalindrome", () =>
+            Console.WriteLine(LeetCodeSolutions.IsAPalindrome("madam")));
+
+        SafeRun("Factorial", () =>
+            Console.WriteLine(LeetCodeSolutions.Factorial(6)));
+
+        SafeRun("PrintFibonacciSeries", () =>
+        {
+            Console.Write("Fibonacci: ");
+            LeetCodeSolutions.PrintFibonacciSeries(7);
+            Console.WriteLine();
+        });
+
+        SafeRun("FindMaximumNumber", () =>
+            Console.WriteLine(LeetCodeSolutions.FindMaximumNumber(new int[] { 15, 140, 895, 445, 3, 20, 25 })));
+
+        SafeRun("IsPrimeNumber", () =>
+            Console.WriteLine(LeetCodeSolutions.IsPrimeNumber(17)));
+
+        SafeRun("CountOccurrences", () =>
+            LeetCodeSolutions.CountOccurrences("abracadabra"));
+
+        SafeRun("RemoveDuplicateNumbers", () =>
+            Console.WriteLine(string.Join(", ", LeetCodeSolutions.RemoveDuplicateNumbers(new int[] { 1, 2, 2, 3, 3, 4 }))));
+
+        SafeRun("SwapNumbers", () =>
+            LeetCodeSolutions.SwapNumbers(3, 5));
+
+        SafeRun("FirstNonRepeatingCharacter", () =>
+            Console.WriteLine(LeetCodeSolutions.FirstNonRepeatingCharacter("swiss")));
+
+        SafeRun("MergeSortedArrays", () =>
+            LeetCodeSolutions.MergeSortedArrays(new int[] { 1, 3, 5 }, 3, new int[] { 2, 4 }, 2));
+
+        SafeRun("RemoveElement", () =>
+            Console.WriteLine(LeetCodeSolutions.RemoveElement(new int[] { 3, 2, 2, 3 }, 3)));
+
+        SafeRun("RemoveDuplicates", () =>
+            Console.WriteLine(LeetCodeSolutions.RemoveDuplicates(new int[] { 1, 1, 2 })));
+
+        SafeRun("RemoveDuplicatesV2", () =>
+            Console.WriteLine(LeetCodeSolutions.RemoveDuplicatesV2(new int[] { 0, 0, 1, 1, 1, 2, 2, 3, 3, 4 })));
+
+        SafeRun("MajorityElement", () =>
+            Console.WriteLine(LeetCodeSolutions.MajorityElement(new int[] { 3, 2, 3 })));
+
+        SafeRun("Rotate", () =>
+            LeetCodeSolutions.Rotate(new int[] { 1, 2, 3, 4, 5 }, 2));
+
+        SafeRun("MaxProfit", () =>
+            Console.WriteLine(LeetCodeSolutions.MaxProfit(new int[] { 7, 1, 5, 3, 6, 4 })));
+
+        SafeRun("MaxProfitV2", () =>
+            Console.WriteLine(LeetCodeSolutions.MaxProfitV2(new int[] { 7, 1, 5, 3, 6, 4 })));
+
+        SafeRun("MaxProfitQ2", () =>
+            Console.WriteLine(LeetCodeSolutions.MaxProfitQ2(new int[] { 7, 1, 5, 3, 6, 4 })));
+
+        SafeRun("CanJump", () =>
+            Console.WriteLine(LeetCodeSolutions.CanJump(new int[] { 2, 3, 1, 1, 4 })));
+
+        SafeRun("CountMinJumps", () =>
+            Console.WriteLine(LeetCodeSolutions.CountMinJumps(new int[] { 2, 3, 1, 1, 4 })));
+
+        SafeRun("ProductExceptSelf", () =>
+            Console.WriteLine(string.Join(", ", LeetCodeSolutions.ProductExceptSelf(new int[] { 1, 2, 3, 4 }))));
+
+        SafeRun("CanCompleteCircuit", () =>
+            Console.WriteLine(LeetCodeSolutions.CanCompleteCircuit(new int[] { 1, 2, 3, 4, 5 }, new int[] { 3, 4, 5, 1, 2 })));
+
+        SafeRun("RomanToInteger", () =>
+            Console.WriteLine(LeetCodeSolutions.RomanToInteger("MCMXCIV")));
+
+        SafeRun("IsValidString", () =>
+            Console.WriteLine(LeetCodeSolutions.IsValidString("()[]{}")));
+
+        SafeRun("ContainsDuplicate", () =>
+            Console.WriteLine(LeetCodeSolutions.ContainsDuplicate(new int[] { 1, 2, 3, 1 })));
+
+        SafeRun("IsAnagram", () =>
+            Console.WriteLine(LeetCodeSolutions.IsAnagram("anagram", "nagaram")));
+
+        SafeRun("CompressWord", () =>
+            Console.WriteLine(LeetCodeSolutions.CompressWord("deeedbbcccbdaa", 3)));
+
+        Console.WriteLine("Completed running LeetCodeSolutions examples.");
     }
 }
