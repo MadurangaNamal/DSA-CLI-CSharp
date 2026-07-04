@@ -6,7 +6,7 @@ GO
 
 BEGIN TRANSACTION;
 
---	CREATE TABLE'S
+--------- CREATE TABLE'S ------------
 
 -- Create Departments table
 CREATE TABLE Departments (
@@ -96,43 +96,44 @@ INSERT INTO Orders (order_id, customer_id, order_date, total_amount) VALUES
 ROLLBACK TRANSACTION;
 -- COMMIT TRANSACTION;
 
---Step 1
+-- Step 1
 
 Select * from Departments;
 Select * from Employees;
 Select * from Customers;
 Select * from Orders;
 
---Step 2 employees in IT Deptmt
+-- Step 2 employees in IT Deptmt
 
 Select employee_id, first_name, last_name 
 from Employees
 Where department_id = '2';
 
---step 3 sort employees by salary
+-- step 3 sort employees by salary
 
 Select first_name, last_name, salary 
 from Employees
 Order by salary desc;
 
---step 4 Count employees in each department
+-- step 4 Count employees in each department
 
 select department_id, count(employee_id) as Total_Employees --can use * instead of employee_id
 from Employees
 group by department_id;
 
---step 5 Join Employees and Departments
+-- step 5 Join Employees and Departments
 
 select e.employee_id, e.first_name, e.last_name, d.department_name, d.location, e.hire_date
-from Employees e INNER JOIN Departments d on e.department_id = d.department_id; 
+from Employees e INNER JOIN Departments d 
+ON e.department_id = d.department_id; 
 
---step 6 Find employees with above-average salary
+-- step 6 Find employees with above-average salary
 
 Select first_name, last_name, salary 
 from Employees
 Where salary >= (select AVG(salary) from Employees);
 
---step 7 Get the second highest salary
+-- step 7 Get the second highest salary
 
 select MAX(salary) AS Second_Max_Salary
 from Employees 
@@ -149,26 +150,26 @@ order by salary desc;
 --order by salary desc
 --LIMIT 3;
 
---step 8 List all employees and their managers
+-- step 8 List all employees and their managers
 
 /*
 	Can use Self-join to match employees with their managers
 */
 
 SELECT e1.first_name AS employee_name, e2.first_name AS manager_name
-FROM Employees e1
-LEFT JOIN Employees e2 ON e1.manager_id = e2.employee_id;
+FROM Employees e1 LEFT JOIN Employees e2 
+ON e1.manager_id = e2.employee_id;
 
---Omits employees without managers
+-- Omits employees without managers
 SELECT e1.first_name AS employee_name, e2.first_name AS manager_name
-FROM Employees e1
-INNER JOIN Employees e2 ON e1.manager_id = e2.employee_id;
+FROM Employees e1 INNER JOIN Employees e2 
+ON e1.manager_id = e2.employee_id;
 
---List employees without managers
+-- List employees without managers
 SELECT employee_id, first_name, last_name, hire_date from Employees
 WHERE manager_id IS NULL;
 
---step 9 Rank employees by salary within their department
+-- step 9 Rank employees by salary within their department
 
 --Select first_name, department_id, salary 
 --From Employees
@@ -183,7 +184,7 @@ SELECT first_name, last_name, department_id, salary,
 RANK() OVER (PARTITION BY department_id ORDER BY salary DESC) as salary_rank
 FROM Employees;
 
---step 10 Find duplicate employee records
+-- step 10 Find duplicate employee records
 /*
 	Identifies duplicate records by grouping and using HAVING to filter groups 
 	with more than one occurrence.
@@ -198,36 +199,35 @@ FROM Employees
 GROUP BY first_name, last_name
 HAVING COUNT(*) > 1;
 
---step 10.1 Remove duplicate records from table
+-- step 10.1 Remove duplicate records from table
 ---
 SELECT first_name, COUNT(employee_id) AS 'record_count' FROM Employees GROUP BY first_name, last_name, department_id;
-SELECT first_name, MIN(employee_id) FROM Employees GROUP BY first_name, last_name, department_id;
+SELECT first_name, MIN(employee_id) AS 'minimum_count' FROM Employees GROUP BY first_name, last_name, department_id;
 
 DELETE FROM Employees
 WHERE employee_id NOT IN (SELECT MIN(employee_id) FROM Employees GROUP BY first_name, last_name, department_id);
 
---step 11 Running total of orders by customer
+-- step 11 Running total of orders by customer
 
---Total
-Select c.customer_name, 
-COUNT(o.order_id) As Order_Count, SUM(o.total_amount) AS Total_Amount
-From Customers c INNER JOIN Orders o ON c.customer_id = o.customer_id
+-- Total
+Select c.customer_name, COUNT(o.order_id) As Order_Count, SUM(o.total_amount) AS Total_Amount
+From Customers c INNER JOIN Orders o 
+ON c.customer_id = o.customer_id
 Group by c.customer_name;
 
---Running Total
+-- Running Total
 SELECT customer_id, order_id, order_date, total_amount,
 SUM(total_amount) OVER (PARTITION BY customer_id ORDER BY order_date) as running_total
 FROM Orders;
 
---step 12 Find employees who earn more than their manager
+-- step 12 Find employees who earn more than their manager
 
-SELECT e1.first_name AS employee_name, e1.salary, 
-e2.first_name AS manager_name, e2.salary
-FROM Employees e1
-INNER JOIN Employees e2 ON e1.manager_id = e2.employee_id
+SELECT e1.first_name AS employee_name, e1.salary, e2.first_name AS manager_name, e2.salary
+FROM Employees e1 INNER JOIN Employees e2 
+ON e1.manager_id = e2.employee_id
 Where e1.salary > e2.salary;
 
---step 13 Get top 3 employees by salary per department
+-- step 13 Get top 3 employees by salary per department
 
 WITH RankedEmployees AS (
 SELECT first_name, last_name, department_id, salary,
@@ -237,7 +237,7 @@ SELECT first_name, last_name, department_id, salary
 FROM RankedEmployees
 WHERE rnk <= 3;
 
---step 14 Pivot department salary totals by location
+-- step 14 Pivot department salary totals by location
 
 SELECT *
 FROM (
@@ -249,7 +249,7 @@ PIVOT (
     SUM(salary)
     FOR department_name IN ([IT], [Finance], [HR])) AS PivotTable;
 
---step 15 Find employees hired in the last 6 months
+-- step 15 Find employees hired in the last 6 months
 
 -- Insert a new employee data
 --INSERT INTO Employees (employee_id, first_name, last_name, department_id, salary, hire_date, manager_id) 
@@ -259,13 +259,13 @@ SELECT first_name, last_name, hire_date
 FROM Employees
 WHERE hire_date >= DATEADD(MONTH, -6, GETDATE());
 
---step 16 Find customers with no orders
+-- step 16 Find customers with no orders
 SELECT c.customer_id, c.customer_name
 FROM Customers c
 LEFT JOIN Orders o ON c.customer_id = o.customer_id
 WHERE o.order_id IS NULL;
 
---step 17 Optimize a slow query 
+-- step 17 Optimize a slow query 
 --(Get Employees details with department name whose salary above 50000)
 
 /*
@@ -274,7 +274,8 @@ WHERE o.order_id IS NULL;
 	and suggesting an index to improve performance.
 */
 
--- Original slow query
+-- Original slow query 
+-- (Traditional inner join syntax)
 SELECT e.first_name, e.last_name, d.department_name
 FROM Employees e, Departments d
 WHERE e.department_id = d.department_id
@@ -284,12 +285,11 @@ AND e.salary > 70000;
 
 BEGIN TRANSACTION;
 
---CREATE INDEX idx_salary_department
---ON Employees(salary, department_id);
+CREATE INDEX idx_salary_department ON Employees(salary, department_id); -- default (non-clustered)
 
 SELECT e.first_name, e.last_name, d.department_name
-FROM Employees e
-INNER JOIN Departments d ON e.department_id = d.department_id
+FROM Employees e INNER JOIN Departments d 
+ON e.department_id = d.department_id
 WHERE e.salary > 70000
 AND EXISTS (
     SELECT 1 FROM Departments d2 WHERE d2.department_id = e.department_id
@@ -300,13 +300,13 @@ DROP INDEX idx_salary_department ON Employees;
 ROLLBACK TRANSACTION;
 -- COMMIT TRANSACTION;
 
--- Views
+---------------------------- VIEWS ---------------------------------
 
 BEGIN TRANSACTION;
 GO
 -- 1. Employee details with department info and manager name
 
-CREATE OR ALTER VIEW vw_EmployeeDetails AS
+CREATE VIEW vw_EmployeeDetails AS
 SELECT 
     e.employee_id,
     e.first_name,
@@ -315,14 +315,14 @@ SELECT
     e.salary,
     e.hire_date,
     CONCAT(m.first_name, ' ', m.last_name) AS manager_name
-FROM Employees e
+FROM Employees e 
 LEFT JOIN Departments d ON e.department_id = d.department_id
 LEFT JOIN Employees m ON e.manager_id = m.employee_id;
 GO
 -------------------------------------------------------------
 
 -- 2. Total salary cost per department
-CREATE OR ALTER VIEW vw_DepartmentSalarySummary AS
+CREATE VIEW vw_DepartmentSalarySummary AS
 SELECT 
     d.department_name,
     SUM(e.salary) AS total_salary,
@@ -335,7 +335,7 @@ GO
 -------------------------------------------------------------
 
 -- 3. Customer orders with total spend
-CREATE OR ALTER VIEW vw_CustomerOrderSummary AS
+CREATE VIEW vw_CustomerOrderSummary AS
 SELECT 
     c.customer_id,
     c.customer_name,
@@ -350,20 +350,20 @@ GO
 ROLLBACK TRANSACTION;
 -- COMMIT TRANSACTION;
 
--- Stored Procedures
+---------------------- STORED PROCEDURES -------------------------
 
 BEGIN TRANSACTION;
 GO
 -- 1. Get employees by department
-CREATE OR ALTER PROCEDURE sp_GetEmployeesByDepartment
+CREATE PROCEDURE sp_GetEmployeesByDepartment
     @DeptId INT
 AS
 BEGIN
     SET NOCOUNT ON;
 
     SELECT e.employee_id, e.first_name, e.last_name, e.salary, d.department_name
-    FROM Employees e
-    INNER JOIN Departments d ON e.department_id = d.department_id
+    FROM Employees e INNER JOIN Departments d 
+    ON e.department_id = d.department_id
     WHERE e.department_id = @DeptId;
 END;
 GO
@@ -374,7 +374,7 @@ GO
 -------------------------------------------------------------
 
 -- 2. Insert new order and return updated customer spend
-CREATE OR ALTER PROCEDURE sp_AddOrderAndGetTotal
+CREATE PROCEDURE sp_AddOrderAndGetTotal
     @CustId INT,
     @OrderDate DATE,
     @Amount DECIMAL(10,2)
@@ -385,18 +385,18 @@ BEGIN
     -- Table variable to capture the new order id
     DECLARE @NewOrders TABLE (order_id INT);
 
-    -- Insert order and capture its ID
+    --- Insert order and capture its ID
     INSERT INTO Orders (customer_id, order_date, total_amount)
-    OUTPUT INSERTED.order_id INTO @NewOrders(order_id)
+    -- OUTPUT INSERTED.order_id INTO @NewOrders(order_id)
     VALUES (@CustId, @OrderDate, @Amount);
 
-    -- (Optional) You can get the new order id like this: SELECT order_id FROM @NewOrders;
+    -- (Optional) You can get the new order id: SELECT order_id FROM @NewOrders;
 
     -- Return updated customer total
     SELECT c.customer_id, c.customer_name,
            SUM(o.total_amount) AS total_spent
-    FROM Customers c
-    INNER JOIN Orders o ON c.customer_id = o.customer_id
+    FROM Customers c INNER JOIN Orders o 
+    ON c.customer_id = o.customer_id
     WHERE c.customer_id = @CustId
     GROUP BY c.customer_id, c.customer_name;
 END;
@@ -409,10 +409,11 @@ EXEC sp_AddOrderAndGetTotal
      @OrderDate = '2024-07-10', 
      @Amount = 1800.00;
 GO
--- Triggers
+
+------------------------- TRIGGERS --------------------------------
 
 -- 1. Prevent salary below 30,000
-CREATE OR ALTER TRIGGER trg_CheckSalaryBeforeInsert
+CREATE TRIGGER trg_CheckSalaryBeforeInsert
 ON Employees
 INSTEAD OF INSERT
 AS
@@ -447,7 +448,7 @@ CREATE TABLE Order_Audit (
 );
 GO
 
-CREATE OR ALTER TRIGGER trg_AuditOrderInsert
+CREATE TRIGGER trg_AuditOrderInsert
 ON Orders
 AFTER INSERT
 AS
@@ -470,7 +471,7 @@ CREATE TABLE Salary_History (
 );
 GO
 
-CREATE OR ALTER TRIGGER trg_SalaryUpdate
+CREATE TRIGGER trg_SalaryUpdate
 ON Employees
 AFTER UPDATE
 AS
@@ -495,7 +496,7 @@ BEGIN TRANSACTION;
 
 --- Exection time is measurabally affected on large data sets
 
---1 index on frequently searched columns
+-- 1 index on frequently searched columns
 
 CREATE NONCLUSTERED INDEX idx_dept_salary
 ON Employees(department_id, salary); 
@@ -504,7 +505,7 @@ SELECT first_name, last_name, salary
 FROM Employees
 WHERE department_id = 2 AND salary > 70000;
 
---2 index on foreign key for better JOIN perforamnce
+-- 2 index on foreign key for better JOIN perforamnce
 
 CREATE NONCLUSTERED INDEX idx_orders_customer
 ON Orders(customer_id);
@@ -514,7 +515,7 @@ from Customers c inner join Orders o
 ON c.customer_id = o.customer_id
 where c.country = 'USA';
 
---3 covering index (includes all columns needed in a query)
+-- 3 covering index (includes all columns needed in a query)
 
 CREATE NONCLUSTERED INDEX idx_employee_covering
 ON Employees(department_id, salary)
@@ -524,7 +525,7 @@ SELECT first_name, last_name, salary, hire_date
 FROM Employees
 WHERE department_id = 2 AND salary BETWEEN 60000 AND 80000;
 
---4 filtered index
+-- 4 filtered index
 
 CREATE NONCLUSTERED INDEX idx_high_salary_employees
 ON Employees(salary)
@@ -534,7 +535,7 @@ SELECT employee_id, first_name, last_name, salary
 From Employees
 Where salary > 75000;
 
---5 index for range queries (efficient)
+-- 5 index for range queries (efficient)
 
 CREATE NONCLUSTERED INDEX idx_order_date 
 ON Orders(order_date)
@@ -544,8 +545,8 @@ SELECT order_id, order_date, total_amount
 FROM Orders
 WHERE order_date BETWEEN '2024-01-01' AND '2024-06-30';
 
---6 unique index to enforce uniqueness 
---(prevents duplicate entries with same name & hire date)
+-- 6 unique index to enforce uniqueness 
+-- (prevents duplicate entries with same name & hire date)
 
 CREATE UNIQUE NONCLUSTERED INDEX idx_unique_employee_email 
 ON Employees(first_name, last_name, hire_date);
@@ -654,10 +655,10 @@ ROLLBACK TRANSACTION;
 BEGIN TRANSACTION;
 GO
 
--- Scalar functions
+--- Scalar functions
 
---- Calculate annual salary with bonus
-CREATE OR ALTER FUNCTION fn_CalculateAnnualCompensation(
+-- Calculate annual salary with bonus
+CREATE FUNCTION fn_CalculateAnnualCompensation(
 @MonthlySalary DECIMAL(10,2),
 @BonusPercentage DECIMAL(5,2) = 10.0
 ) RETURNS DECIMAL(10,2)
@@ -684,7 +685,7 @@ FROM Employees;
 GO
 
 --- Determine salary grade
-CREATE OR ALTER FUNCTION fn_GetSalaryGrade(
+CREATE FUNCTION fn_GetSalaryGrade(
 @Salary DECIMAL(10,2)
 ) RETURNS CHAR(1)
 AS
@@ -716,7 +717,7 @@ GO
 -- Table valued functions
 
 --- Get employees by department with salary info
-CREATE OR ALTER FUNCTION fn_GetEmployeesByDepartment
+CREATE FUNCTION fn_GetEmployeesByDepartment
 (
 	@DepartmentId INT
 ) RETURNS TABLE
