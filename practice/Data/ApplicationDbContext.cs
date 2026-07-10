@@ -7,8 +7,12 @@ namespace Practice.Data;
 public class ApplicationDbContext : DbContext
 {
     private readonly string _connectionString;
+
     public DbSet<Customer> Customers { get; set; }
     public DbSet<Order> Orders { get; set; }
+
+    public DbSet<Supplier> Suppliers { get; set; }
+    public DbSet<Item> Items { get; set; }
 
     public ApplicationDbContext()
     {
@@ -24,5 +28,16 @@ public class ApplicationDbContext : DbContext
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
         optionsBuilder.UseNpgsql(_connectionString);
+    }
+
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    {
+        modelBuilder.Entity<Item>()
+            .HasOne(i => i.Supplier)
+            .WithMany(s => s.Items)
+            .HasForeignKey(i => i.SupplierId)
+            .OnDelete(DeleteBehavior.Restrict);
+
+        base.OnModelCreating(modelBuilder);
     }
 }

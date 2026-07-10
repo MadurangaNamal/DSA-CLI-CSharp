@@ -1,7 +1,9 @@
 using BenchmarkDotNet.Running;
+using Microsoft.Extensions.Logging;
 using Practice.Algorithms;
 using Practice.Benchmarks;
 using Practice.Collections;
+using Practice.Data;
 using Practice.Delegates;
 using Practice.Demos;
 using Practice.Models;
@@ -74,6 +76,7 @@ public static class PracticeRunner
         Console.WriteLine("19  Benchmarks (Need to execute in Release Mode)");
         Console.WriteLine("20. EF Core Bulk Large Data Retrieval");
         Console.WriteLine("21  LeetCode — Algorithm Q&A");
+        Console.WriteLine("22  EF Core Transactions");
         Console.WriteLine(" Q  Quit");
     }
 
@@ -145,6 +148,9 @@ public static class PracticeRunner
                 break;
             case "21":
                 RunLeetCodeSolutions();
+                break;
+            case "22":
+                await RunEfcoreTransactionDemo();
                 break;
             default:
                 Console.WriteLine("Unknown option. Try again.");
@@ -227,6 +233,18 @@ public static class PracticeRunner
     {
         var demo = new EfCoreBulkDemo();
         _ = demo.RunAsync();
+    }
+
+    private async static Task RunEfcoreTransactionDemo()
+    {
+        var loggerFactory = LoggerFactory.Create(builder =>
+        {
+            builder.AddConsole();
+            builder.SetMinimumLevel(LogLevel.Information);
+        });
+
+        var demo = new EfCoreTransactions(new ApplicationDbContext(), loggerFactory.CreateLogger<EfCoreTransactions>());
+        await demo.RunAsync();
     }
 
     private static void RunFirstNonRepeatingCharacterDemo()
