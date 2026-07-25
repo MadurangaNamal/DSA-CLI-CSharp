@@ -77,6 +77,7 @@ public static class PracticeRunner
         Console.WriteLine("20. EF Core Bulk Large Data Retrieval");
         Console.WriteLine("21  LeetCode — Algorithm Q&A");
         Console.WriteLine("22  EF Core Transactions");
+        Console.WriteLine("23  Generic List Implementation");
         Console.WriteLine(" Q  Quit");
     }
 
@@ -152,6 +153,9 @@ public static class PracticeRunner
             case "22":
                 await RunEfcoreTransactionDemo();
                 break;
+            case "23":
+                RunGenericListDemo();
+                break;
             default:
                 Console.WriteLine("Unknown option. Try again.");
                 break;
@@ -195,6 +199,11 @@ public static class PracticeRunner
         colors.ShowItems();
         Console.WriteLine(colors.GetRandomElement());
         colors.Shuffle().ShowItems();
+    }
+
+    private static void RunGenericListDemo()
+    {
+        GenericListUsage.Run();
     }
 
     private static void RunDelegatesDemo()

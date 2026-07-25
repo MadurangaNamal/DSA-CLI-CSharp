@@ -1,10 +1,12 @@
+using System.Collections;
+
 namespace Practice.DataStructures;
 
 /*
      This C# code defines a generic singly linked list class called GenericList<T>,
      which allows storing and managing elements of any type T.
  */
-public class GenericList<T>
+public class GenericList<T> : IEnumerable<T>
 {
     private Node? head;
 
@@ -31,5 +33,10 @@ public class GenericList<T>
             yield return current.Data;
             current = current.Next;
         }
+    }
+
+    IEnumerator IEnumerable.GetEnumerator()
+    {
+        return GetEnumerator();
     }
 }
