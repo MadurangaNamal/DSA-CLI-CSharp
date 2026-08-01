@@ -4,7 +4,7 @@ using Practice.Algorithms;
 using Practice.Benchmarks;
 using Practice.Collections;
 using Practice.Data;
-using Practice.Delegates;
+using Practice.DelegatesAndEvents;
 using Practice.Demos;
 using Practice.Models;
 
@@ -134,6 +134,7 @@ public static class PracticeRunner
                 break;
             case "16":
                 RunDelegatesDemo();
+                DelegatesAndEventsDemoRunner.RunDemo();
                 break;
             case "17":
                 await PracticeDemos.PrintDocumentProcessedResults();

@@ -1,6 +1,6 @@
 using Practice.Models;
 
-namespace Practice.Delegates;
+namespace Practice.DelegatesAndEvents;
 
 public delegate void MyDelegate(int arg1, ref int arg2);
 public delegate int WorkPerformedHandler(int hours, WorkType workType);

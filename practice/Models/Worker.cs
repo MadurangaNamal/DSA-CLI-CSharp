@@ -1,4 +1,4 @@
-using Practice.Delegates;
+using Practice.DelegatesAndEvents;
 
 namespace Practice.Models;
 
