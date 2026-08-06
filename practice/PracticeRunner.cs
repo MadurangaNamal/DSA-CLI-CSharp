@@ -3,7 +3,9 @@ using Microsoft.Extensions.Logging;
 using Practice.Algorithms;
 using Practice.Benchmarks;
 using Practice.Collections;
+using Practice.Concurrency;
 using Practice.Data;
+using Practice.DataStructures;
 using Practice.DelegatesAndEvents;
 using Practice.Demos;
 using Practice.Models;
@@ -78,6 +80,11 @@ public static class PracticeRunner
         Console.WriteLine("21  LeetCode — Algorithm Q&A");
         Console.WriteLine("22  EF Core Transactions");
         Console.WriteLine("23  Generic List Implementation");
+        Console.WriteLine("24  Linked List Functions");
+        Console.WriteLine("25  Algorithms — Reverse a String");
+        Console.WriteLine("26  Algorithms — Binary Search");
+        Console.WriteLine("27  LINQ — Progress Runner");
+        Console.WriteLine("28  Concurrency — Threading Examples");
         Console.WriteLine(" Q  Quit");
     }
 
@@ -95,7 +102,7 @@ public static class PracticeRunner
                 PrintDepartmentStats();
                 break;
             case "4":
-                LinqExercises.PrintCustomLinqQueryResults();
+                LinqQueryDemos.PrintCustomLinqQueryResults();
                 break;
             case "5":
                 RunSecondLargestDemo();
@@ -157,6 +164,21 @@ public static class PracticeRunner
             case "23":
                 RunGenericListDemo();
                 break;
+            case "24":
+                LinkedListDemo.PrintLinkedListFunctions(["Maduranga", "Namal", "Wimalarathne"]);
+                break;
+            case "25":
+                RunReverseString();
+                break;
+            case "26":
+                RunBinarySearchDemo();
+                break;
+            case "27":
+                await LinqQueryDemos.RunProgress();
+                break;
+            case "28":
+                await RunCustomThreads();
+                break;
             default:
                 Console.WriteLine("Unknown option. Try again.");
                 break;
@@ -165,7 +187,7 @@ public static class PracticeRunner
 
     private static void PrintDepartmentStats()
     {
-        var stats = LinqExercises.GetDepartmentStats();
+        var stats = LinqQueryDemos.GetDepartmentStats();
         foreach (var stat in stats)
         {
             Console.WriteLine($"{stat.Department,-15} | Avg: {stat.AvgSalary,10:C} | Count: {stat.TotalEmployees,3}");
@@ -174,14 +196,22 @@ public static class PracticeRunner
 
     private static void RunFilterAndPrintEmployees()
     {
-        var filtered = LinqExercises.FilterEmployees([41, 42, 43]);
-        LinqExercises.PrintEmployeesList(filtered);
+        var filtered = LinqQueryDemos.FilterEmployees([41, 42, 43]);
+        LinqQueryDemos.PrintEmployeesList(filtered);
+    }
+
+    private static void RunReverseString()
+    {
+        string input = "enhtaralamiW agnarudaM";
+        string reversed = SampleAlgorithms.ReverseString(input);
+        Console.WriteLine($"Original: {input}");
+        Console.WriteLine($"Reversed: {reversed}");
     }
 
     private static void RunSecondLargestDemo()
     {
         int[] numbers = [15, 140, 895, 445, 3, 20, 25];
-        int result = AlgorithmExercises.GetSecondLargestNumber(numbers);
+        int result = SampleAlgorithms.GetSecondLargestNumber(numbers);
         if (result != int.MinValue)
             Console.WriteLine($"Second largest: {result}");
     }
@@ -190,8 +220,8 @@ public static class PracticeRunner
     {
         ListNode l1 = new(1, new ListNode(3, new ListNode(5)));
         ListNode l2 = new(2, new ListNode(4, new ListNode(6)));
-        var merged = AlgorithmExercises.MergeTwoLists(l1, l2);
-        AlgorithmExercises.PrintList(merged);
+        var merged = SampleAlgorithms.MergeTwoLists(l1, l2);
+        SampleAlgorithms.PrintList(merged);
     }
 
     private static void RunExtensionMethodsDemo()
@@ -259,10 +289,18 @@ public static class PracticeRunner
 
     private static void RunFirstNonRepeatingCharacterDemo()
     {
-        var ch = AlgorithmExercises.GetFirstNonRepeatingCharacter("Maduranga");
+        var ch = SampleAlgorithms.GetFirstNonRepeatingCharacter("Maduranga");
         Console.WriteLine(ch != '\0' ? $"First non-repeating: {ch}" : "None found");
     }
 
+    private static void RunBinarySearchDemo()
+    {
+        int[] sortedArray = [1, 3, 5, 7, 9, 11];
+        int target = 9;
+        int index = SampleAlgorithms.FindElementInSortedArray(target, sortedArray);
+
+        Console.WriteLine(index != -1 ? $"Found {target} at index {index}" : $"{target} not found");
+    }
     private static void RunLeetCodeSolutions()
     {
         Console.WriteLine("\nRunning all LeetCodeSolutions examples...\n");
@@ -370,5 +408,61 @@ public static class PracticeRunner
             Console.WriteLine(LeetCodeSolutions.CompressWord("deeedbbcccbdaa", 3)));
 
         Console.WriteLine("Completed running LeetCodeSolutions examples.");
+    }
+
+    private static async Task RunCustomThreads()
+    {
+        Console.WriteLine("\n=== Running All Threading Examples ===\n");
+
+        try
+        {
+            Console.WriteLine("1. Running ThreadMethod...");
+            CustomThreadsDemo.ThreadMethod();
+            Console.WriteLine("\n");
+
+            Console.WriteLine("2. Running ParameterizedThreadMethod...");
+            CustomThreadsDemo.ParameterizedThreadMethod();
+            Thread.Sleep(2000); // Wait for thread to complete
+            Console.WriteLine("\n");
+
+            Console.WriteLine("3. Running ThreadSynchronization...");
+            CustomThreadsDemo.ThreadSynchronization();
+            Console.WriteLine("\n");
+
+            Console.WriteLine("4. Running ThreadSafetyUsingMutex...");
+            CustomThreadsDemo.ThreadSafetyUsingMutex();
+            Console.WriteLine("\n");
+
+            Console.WriteLine("5. Running ThreadSafetyUsingSemaphore...");
+            CustomThreadsDemo.ThreadSafetyUsingSemaphore();
+            Thread.Sleep(25000); // Wait for all threads to complete
+            Console.WriteLine("\n");
+
+            Console.WriteLine("6. Running ThreadPoolExecution...");
+            CustomThreadsDemo.ThreadPoolExecution();
+            Console.WriteLine("\n");
+
+            Console.WriteLine("7. Running BackgroundWorkWithTasks...");
+            CustomThreadsDemo.BackgroundWorkWithTasks();
+            Console.WriteLine("\n");
+
+            Console.WriteLine("8. Running NonBlockingOperationsWithAsyncAwait...");
+            await CustomThreadsDemo.NonBlockingOperationsWithAsyncAwait();
+            Console.WriteLine("\n");
+
+            Console.WriteLine("9. Running CancellationOfTasks...");
+            CustomThreadsDemo.CancellationOfTasks();
+            Console.WriteLine("\n");
+
+            Console.WriteLine("10. Running ParallelProcessing...");
+            CustomThreadsDemo.ParallelProcessing();
+            Console.WriteLine("\n");
+
+            Console.WriteLine("=== All Threading Examples Completed ===");
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error running examples: {ex.Message}");
+        }
     }
 }

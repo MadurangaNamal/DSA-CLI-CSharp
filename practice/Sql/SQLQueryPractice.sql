@@ -383,7 +383,7 @@ BEGIN
     SET NOCOUNT ON;
 
     -- Table variable to capture the new order id
-    DECLARE @NewOrders TABLE (order_id INT);
+    --DECLARE @NewOrders TABLE (order_id INT);
 
     --- Insert order and capture its ID
     INSERT INTO Orders (customer_id, order_date, total_amount)

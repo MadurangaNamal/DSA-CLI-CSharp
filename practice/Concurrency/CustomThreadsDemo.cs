@@ -1,6 +1,6 @@
 namespace Practice.Concurrency;
 
-public static class ThreadingExamples
+public static class CustomThreadsDemo
 {
     // Thread creation
     /*

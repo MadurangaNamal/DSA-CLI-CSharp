@@ -4,7 +4,7 @@ using System.Linq.Dynamic.Core;
 
 namespace Practice.Demos;
 
-public static class LinqExercises
+public static class LinqQueryDemos
 {
     private static readonly List<Employee> employees = EmployeeDataFactory.GenerateEmployeesList();
     private static readonly List<Department> departments = EmployeeDataFactory.GenerateDepartmentsList();
@@ -425,5 +425,38 @@ public static class LinqExercises
         {
             Console.WriteLine(emp.ToString());
         }
+    }
+
+    public static async Task RunProgress()
+    {
+        var departmentNames = departments.Select(d => d.Name).ToArray();
+        var progress = new Progress<int>(percentComplete =>
+        {
+            Console.Clear();
+            Console.WriteLine($"Processing departments: {percentComplete}% complete");
+            if (percentComplete > 0)
+            {
+                int index = Math.Min((percentComplete * departmentNames.Length / 100) - 1, departmentNames.Length - 1);
+                if (index >= 0 && index < departmentNames.Length)
+                {
+                    Console.WriteLine($"Current: {departmentNames[index]}");
+                }
+            }
+        });
+
+        await ProcessDataAsync(departmentNames, progress);
+    }
+
+    private static async Task ProcessDataAsync(string[] departmentNames, IProgress<int> progress)
+    {
+        for (int i = 0; i < departmentNames.Length; i++)
+        {
+            int percentComplete = (int)((double)(i + 1) / departmentNames.Length * 100);
+            progress.Report(percentComplete);
+            Console.WriteLine($"Processing department: {departmentNames[i]}");
+            await Task.Delay(1000);
+        }
+
+        Console.WriteLine("\nDone processing all departments");
     }
 }

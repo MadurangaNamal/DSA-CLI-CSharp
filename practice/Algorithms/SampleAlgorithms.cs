@@ -3,7 +3,7 @@ using System.Text;
 
 namespace Practice.Algorithms;
 
-public static class AlgorithmExercises
+public static class SampleAlgorithms
 {
     // Reverse a string
     public static string ReverseString(string text)
@@ -139,17 +139,6 @@ public static class AlgorithmExercises
         return dummy.Next;
     }
 
-    public static async Task ProcessDataAsync(string[] departments, IProgress<int> progress)
-    {
-        for (int i = 1; i <= departments.Length; i++)
-        {
-            progress.Report(i);
-            await Task.Delay(1000);
-        }
-
-        Console.WriteLine("Done processing data");
-    }
-
     public static void PrintList(ListNode? head)
     {
         while (head != null)
@@ -158,39 +147,5 @@ public static class AlgorithmExercises
             head = head.Next!;
         }
         Console.WriteLine("null");
-    }
-
-    public static void PrintLinkedListFunctions(string[]? values)
-    {
-        LinkedList<string>? linkedList = new(values!);
-
-        linkedList.AddFirst("First Name");
-
-        linkedList.AddLast("Last Name");
-
-        LinkedListNode<string>? first = linkedList.First;
-        LinkedListNode<string>? last = linkedList.Last;
-
-        Console.WriteLine($"First: {first!.Value}, Last: {last!.Value}");
-
-        linkedList.AddAfter(first, "Second Name");
-
-        Console.WriteLine("--------------------------------------");
-
-        foreach (string item in linkedList)
-        {
-            Console.WriteLine(item);
-        }
-
-        Console.WriteLine("--------------------------------------");
-
-        Console.WriteLine(first.Next!.Value);
-        Console.WriteLine(last.Previous!.Value);
-
-        Console.WriteLine("--------------------------------------");
-
-        Console.WriteLine(linkedList.Find("Second"));
-        Console.WriteLine(linkedList.Find("Second Name"));
-        Console.WriteLine(linkedList.Contains("Second Name"));
     }
 }
