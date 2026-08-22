@@ -658,10 +658,8 @@ GO
 --- Scalar functions
 
 -- Calculate annual salary with bonus
-CREATE FUNCTION fn_CalculateAnnualCompensation(
-@MonthlySalary DECIMAL(10,2),
-@BonusPercentage DECIMAL(5,2) = 10.0
-) RETURNS DECIMAL(10,2)
+CREATE FUNCTION fn_CalculateAnnualCompensation(@MonthlySalary DECIMAL(10,2), @BonusPercentage DECIMAL(5,2) = 10.0)
+RETURNS DECIMAL(10,2)
 AS
 BEGIN
     DECLARE @AnnualCompensation DECIMAL(10,2);
@@ -732,6 +730,23 @@ RETURN
 GO
 
 SELECT * FROM fn_GetEmployeesByDepartment(2);
+GO
+
+--- Get top 3 customers by order total
+CREATE FUNCTION fn_GetTopCustomers()
+RETURNS TABLE
+AS
+RETURN
+(
+    SELECT TOP 3 c.customer_id, c.customer_name, SUM(o.total_amount) AS Total_order_value
+    FROM Customers c 
+    INNER JOIN Orders o ON c.customer_id = o.customer_id
+    GROUP BY c.customer_id, c.customer_name 
+    ORDER BY SUM(o.total_amount) DESC
+);
+GO
+
+SELECT * FROM fn_GetTopCustomers();
 GO
 
 -- System functions

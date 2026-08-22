@@ -5,6 +5,7 @@ using Practice.Exceptions;
 using Practice.Mapping;
 using Practice.Models;
 using Practice.Models.Samples;
+using Practice.Strings;
 using System.Linq.Dynamic.Core;
 using System.Runtime.InteropServices;
 
@@ -321,8 +322,8 @@ public static class PracticeDemos
 
     public static void PrintStringManipulations()
     {
-        Practice.Strings.StringManipulations.ArrayStringTransformations();
-        Practice.Strings.StringManipulations.EqualityANDOrdering();
+        StringManipulations.ArrayStringTransformations();
+        StringManipulations.EqualityANDOrdering();
     }
 
     public static async Task CustomExceptionHandling()

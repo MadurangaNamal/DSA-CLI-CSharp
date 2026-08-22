@@ -1,6 +1,6 @@
 namespace Practice.Strings;
 
-public class StringManipulations
+public static class StringManipulations
 {
     public static void ArrayStringTransformations()
     {
@@ -19,7 +19,6 @@ public class StringManipulations
 
         Console.WriteLine();
     }
-
     public static void EqualityANDOrdering()
     {
         string greet1 = "hello";
