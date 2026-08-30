@@ -12,6 +12,9 @@
 	<ItemGroup>
 		<PackageReference Include="AutoMapper" Version="16.1.1" />
 		<PackageReference Include="BenchmarkDotNet" Version="0.13.12" />
+		<PackageReference Include="Figgle" Version="0.6.6" />
+		<PackageReference Include="Figgle.Fonts" Version="0.6.6" />
+		<PackageReference Include="Figgle.Generator" Version="0.6.6" />
 		<PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.28" />
 		<PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.28">
 			<PrivateAssets>all</PrivateAssets>
@@ -24,6 +27,7 @@
 		<PackageReference Include="Microsoft.Extensions.Configuration" Version="8.0.0" />
 		<PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="8.0.1" />
 		<PackageReference Include="Microsoft.Extensions.Logging.Console" Version="8.0.1" />
+		<PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="8.0.1" />
 		<PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="8.0.11" />
 		<PackageReference Include="System.Collections" Version="4.3.0" />
 		<PackageReference Include="System.Data.SqlClient" Version="4.9.1" />
@@ -44,10 +48,6 @@
 		<None Update="appsettings.json">
 			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 		</None>
-	</ItemGroup>
-
-	<ItemGroup>
-	  <Folder Include="EfCore\Repository\" />
 	</ItemGroup>
 
 </Project>

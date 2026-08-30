@@ -1,4 +1,5 @@
 using BenchmarkDotNet.Running;
+using Figgle.Fonts;
 using Microsoft.Extensions.Logging;
 using Practice.Algorithms;
 using Practice.Benchmarks;
@@ -32,7 +33,7 @@ public static class PracticeRunner
                 input.Equals("q", StringComparison.OrdinalIgnoreCase) ||
                 input.Equals("0", StringComparison.Ordinal))
             {
-                Console.WriteLine("Goodbye.");
+                Console.WriteLine("\n" + FiggleFonts.Bright.Render("Goodbye!"));
                 return;
             }
 
@@ -55,8 +56,7 @@ public static class PracticeRunner
     private static void PrintMenu()
     {
         Console.Clear();
-        Console.WriteLine("=== C# Playground ===");
-        Console.WriteLine();
+        Console.Write(FiggleFonts.Slant.Render("C# Playground"));
         Console.WriteLine(" 1  Custom exceptions");
         Console.WriteLine(" 2  LINQ — filter employees");
         Console.WriteLine(" 3  LINQ — department statistics");
