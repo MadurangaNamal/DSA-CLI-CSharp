@@ -1,5 +1,9 @@
 ﻿namespace Practice.DelegatesAndEvents.BuiltIn;
 
+/// <summary>
+/// This class demonstrates the use of built-in delegates in C# such as Func, Action, Predicate, Comparison, and Converter. 
+/// It shows how to define and invoke these delegates with a sample class.
+/// </summary>
 public static class CompiledDelegates
 {
     static Func<MySampleClass, string> func = c => c.MyMethod(5, "maduranga");

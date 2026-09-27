@@ -9,6 +9,7 @@ using Practice.Data;
 using Practice.DataStructures;
 using Practice.DelegatesAndEvents;
 using Practice.Demos;
+using Practice.ExpressionTrees;
 using Practice.Models;
 
 namespace Practice;
@@ -85,6 +86,7 @@ public static class PracticeRunner
         Console.WriteLine("26  Algorithms — Binary Search");
         Console.WriteLine("27  LINQ — Progress Runner");
         Console.WriteLine("28  Concurrency — Threading Examples");
+        Console.WriteLine("29  Expression Trees");
         Console.WriteLine(" Q  Quit");
     }
 
@@ -178,6 +180,9 @@ public static class PracticeRunner
                 break;
             case "28":
                 await RunCustomThreads();
+                break;
+            case "29":
+                RunExpressionTreeSamples();
                 break;
             default:
                 Console.WriteLine("Unknown option. Try again.");
@@ -464,5 +469,10 @@ public static class PracticeRunner
         {
             Console.WriteLine($"Error running examples: {ex.Message}");
         }
+    }
+
+    private static void RunExpressionTreeSamples()
+    {
+        ExpressionSmpl.Execute();
     }
 }
