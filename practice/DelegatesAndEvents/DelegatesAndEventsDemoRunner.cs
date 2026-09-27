@@ -1,4 +1,5 @@
-﻿using static Practice.DelegatesAndEvents.CustomDelegates;
+﻿using Practice.DelegatesAndEvents.BuiltIn;
+using static Practice.DelegatesAndEvents.CustomDelegates;
 
 namespace Practice.DelegatesAndEvents;
 
@@ -13,6 +14,7 @@ public static class DelegatesAndEventsDemoRunner
         DemoPart3_StandardEventPattern();
         DemoPart4_MulticastDelegates();
         DemoPart5_Unsubscription();
+        DemoPart6_CompiledDelegates();
     }
 
     private static void DemoPart1_BasicDelegates()
@@ -142,5 +144,10 @@ public static class DelegatesAndEventsDemoRunner
         notifier.SendNotification("Third message (no output expected)");
 
         Console.WriteLine("  (No handlers subscribed)\n");
+    }
+
+    private static void DemoPart6_CompiledDelegates()
+    {
+        CompiledDelegates.Execute();
     }
 }
