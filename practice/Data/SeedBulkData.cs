@@ -3,7 +3,7 @@ using Practice.Entities;
 
 namespace Practice.Data;
 
-public static class SeedData
+public static class SeedBulkData
 {
     public static async Task Initialize(ApplicationDbContext context)
     {

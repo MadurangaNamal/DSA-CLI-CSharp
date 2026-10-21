@@ -14,7 +14,7 @@ public class EfCoreBulkDemo
         await using var dbContext = new ApplicationDbContext();
 
         await dbContext.Database.EnsureCreatedAsync();
-        await SeedData.Initialize(dbContext);
+        await SeedBulkData.Initialize(dbContext);
 
         Console.WriteLine("Loading sample data...");
 

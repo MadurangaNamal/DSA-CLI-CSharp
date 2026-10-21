@@ -26,6 +26,7 @@ public static class PracticeRunner
     {
         while (true)
         {
+            await SeedEmployeeData.Initialize();
             PrintMenu();
             Console.Write("\nSelect a demo (number or Q to quit): ");
             var input = Console.ReadLine()?.Trim();
