@@ -183,7 +183,7 @@ public static class PracticeRunner
                 await RunCustomThreads();
                 break;
             case "29":
-                RunExpressionTreeSamples();
+                await RunExpressionTreeSamples();
                 break;
             default:
                 Console.WriteLine("Unknown option. Try again.");
@@ -472,8 +472,11 @@ public static class PracticeRunner
         }
     }
 
-    private static void RunExpressionTreeSamples()
+    private async static Task RunExpressionTreeSamples()
     {
         ExpressionSmpl.Execute();
+
+        ExpressionTreesWithLinq obj = new();
+        await obj.ExecuteAsync();
     }
 }

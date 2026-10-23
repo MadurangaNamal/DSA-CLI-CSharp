@@ -10,9 +10,7 @@ public static class SeedEmployeeData
         await using var dbContext = new ApplicationDbContext();
 
         if (await dbContext.Employees.AnyAsync())
-        {
             return;
-        }
 
         var departments = new List<Department>
         {
