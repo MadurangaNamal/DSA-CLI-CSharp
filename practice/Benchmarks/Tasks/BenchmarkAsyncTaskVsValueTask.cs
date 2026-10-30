@@ -1,6 +1,6 @@
 ﻿using BenchmarkDotNet.Attributes;
 
-namespace Practice.Benchmarks;
+namespace Practice.Benchmarks.Tasks;
 
 [MemoryDiagnoser]
 public class BenchmarkAsyncTaskVsValueTask

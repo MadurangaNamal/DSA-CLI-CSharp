@@ -2,7 +2,7 @@ using BenchmarkDotNet.Running;
 using Figgle.Fonts;
 using Microsoft.Extensions.Logging;
 using Practice.Algorithms;
-using Practice.Benchmarks;
+using Practice.Benchmarks.Tasks;
 using Practice.Collections;
 using Practice.Concurrency;
 using Practice.Data;
@@ -268,11 +268,12 @@ public static class PracticeRunner
     private static void RunBenchmarkTestCodes()
     {
         //_ = BenchmarkRunner.Run<YieldReturnBenchmark>();
-        //_ = BenchmarkRunner.Run<BenchmarkAsyncTaskVsValueTask>();
         //_ = BenchmarkRunner.Run<StringBenchmark>();
         //_ = BenchmarkRunner.Run<AnyVsCountBenchmark>();
         //_ = BenchmarkRunner.Run<ListVsHashsetSearchBenchmark>();
-        _ = BenchmarkRunner.Run<ClassVsStructBenchmark>();
+        //_ = BenchmarkRunner.Run<ClassVsStructBenchmark>();
+        //_ = BenchmarkRunner.Run<BenchmarkAsyncTaskVsValueTask>();
+        _ = BenchmarkRunner.Run<CacheBenchmarkSample>();
     }
 
     private static void RunEfcoreBulkDemo()
