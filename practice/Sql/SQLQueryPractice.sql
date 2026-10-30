@@ -4,9 +4,9 @@ GO
 Use SQLQueryPractice;
 GO
 
-BEGIN TRANSACTION;
-
 --------- CREATE TABLE'S ------------
+
+BEGIN TRANSACTION;
 
 -- Create Departments table
 CREATE TABLE Departments (
@@ -44,14 +44,15 @@ CREATE TABLE Orders (
     FOREIGN KEY (customer_id) REFERENCES Customers(customer_id)
 );
 
-ALTER TABLE Employees ADD IsPermanent BIT NOT NULL DEFAULT 1;
+ALTER TABLE Employees 
+ADD IsPermanent BIT NOT NULL DEFAULT 1;
 
 ROLLBACK TRANSACTION;
 -- COMMIT TRANSACTION;
 
 BEGIN TRANSACTION;
 
--- ADD SAMPLE DATA
+------------ ADD SAMPLE DATA ------------
 
 -- Insert Departments
 INSERT INTO Departments (department_id, department_name, location) VALUES
@@ -117,7 +118,7 @@ Order by salary desc;
 
 -- step 4 Count employees in each department
 
-select department_id, count(employee_id) as Total_Employees --can use * instead of employee_id
+select department_id, count(employee_id) as Total_Employees -- can use * instead of employee_id(as it contains the department_id)
 from Employees
 group by department_id;
 
@@ -144,17 +145,15 @@ select top 3 first_name, last_name, salary
 from Employees
 order by salary desc;
 
---- Works in other sql servers except MS SQL Server (ex: MySQL, PostgreSQL, SQLite)
---select first_name, last_name, salary
---from Employees
---order by salary desc
---LIMIT 3;
+--- Works with other SQL based databases except MS SQL Server (ex: MySQL, PostgreSQL, SQLite)
+	--select first_name, last_name, salary
+	--from Employees
+	--order by salary desc
+	--LIMIT 3;
 
 -- step 8 List all employees and their managers
 
-/*
-	Can use Self-join to match employees with their managers
-*/
+/* Can use Self-join to match employees with their managers (because the manager_id references employee_id on the same table) */
 
 SELECT e1.first_name AS employee_name, e2.first_name AS manager_name
 FROM Employees e1 LEFT JOIN Employees e2 
@@ -166,15 +165,16 @@ FROM Employees e1 INNER JOIN Employees e2
 ON e1.manager_id = e2.employee_id;
 
 -- List employees without managers
-SELECT employee_id, first_name, last_name, hire_date from Employees
+SELECT employee_id, first_name, last_name, hire_date 
+from Employees
 WHERE manager_id IS NULL;
 
 -- step 9 Rank employees by salary within their department
 
---Select first_name, department_id, salary 
---From Employees
---Group by department_id, first_name, salary
---Order by salary desc;
+Select first_name, department_id, salary 
+From Employees
+Group by department_id, first_name, salary
+Order by salary desc;
 
 /*
 	Using a window function (RANK) to assign ranks to employees within each 
@@ -192,7 +192,9 @@ FROM Employees;
 
 -- Insert a duplicte data
 INSERT INTO Employees (employee_id, first_name, last_name, department_id, salary, hire_date, manager_id) 
-VALUES (109, 'Grace', 'Kim', 4, 63000.00, '2021-09-14', 105);  --delete from Employees where employee_id = 109;
+VALUES (109, 'Grace', 'Kim', 4, 63000.00, '2021-09-14', 105);  
+
+--delete from Employees where employee_id = 109;
 
 SELECT first_name, last_name, COUNT(*) as count
 FROM Employees
@@ -200,23 +202,24 @@ GROUP BY first_name, last_name
 HAVING COUNT(*) > 1;
 
 -- step 10.1 Remove duplicate records from table
----
-SELECT first_name, COUNT(employee_id) AS 'record_count' FROM Employees GROUP BY first_name, last_name, department_id;
-SELECT first_name, MIN(employee_id) AS 'minimum_count' FROM Employees GROUP BY first_name, last_name, department_id;
+
+SELECT first_name, COUNT(employee_id) AS record_count FROM Employees GROUP BY first_name, last_name, department_id;
+SELECT first_name, MIN(employee_id) AS minimum_employee_id, COUNT(employee_id) AS record_count  
+FROM Employees GROUP BY first_name, last_name, department_id;
 
 DELETE FROM Employees
 WHERE employee_id NOT IN (SELECT MIN(employee_id) FROM Employees GROUP BY first_name, last_name, department_id);
 
 -- step 11 Running total of orders by customer
 
--- Total
-Select c.customer_name, COUNT(o.order_id) As Order_Count, SUM(o.total_amount) AS Total_Amount
+-- Order Total
+Select c.customer_name, COUNT(o.order_id) As Order_Count, SUM(o.total_amount) AS Total_Order_Amount
 From Customers c INNER JOIN Orders o 
 ON c.customer_id = o.customer_id
 Group by c.customer_name;
 
 -- Running Total
-SELECT customer_id, order_id, order_date, total_amount,
+SELECT customer_id, order_id, order_date, total_amount As order_amount,
 SUM(total_amount) OVER (PARTITION BY customer_id ORDER BY order_date) as running_total
 FROM Orders;
 
@@ -229,10 +232,8 @@ Where e1.salary > e2.salary;
 
 -- step 13 Get top 3 employees by salary per department
 
-WITH RankedEmployees AS (
-SELECT first_name, last_name, department_id, salary,
-DENSE_RANK() OVER (PARTITION BY department_id ORDER BY salary DESC) as rnk
-FROM Employees)
+WITH RankedEmployees AS (SELECT first_name, last_name, department_id, salary,
+DENSE_RANK() OVER (PARTITION BY department_id ORDER BY salary DESC) as rnk FROM Employees)
 SELECT first_name, last_name, department_id, salary
 FROM RankedEmployees
 WHERE rnk <= 3;
@@ -265,8 +266,9 @@ FROM Customers c
 LEFT JOIN Orders o ON c.customer_id = o.customer_id
 WHERE o.order_id IS NULL;
 
--- step 17 Optimize a slow query 
---(Get Employees details with department name whose salary above 50000)
+--- step 17 Query Optimization
+
+-- Get Employees details with department name whose salary above 50000
 
 /*
 	Demonstrates converting an implicit join to an explicit INNER JOIN, 
@@ -274,12 +276,16 @@ WHERE o.order_id IS NULL;
 	and suggesting an index to improve performance.
 */
 
--- Original slow query 
--- (Traditional inner join syntax)
+-- Original slow query (Traditional inner join syntax)
 SELECT e.first_name, e.last_name, d.department_name
 FROM Employees e, Departments d
-WHERE e.department_id = d.department_id
-AND e.salary > 70000;
+WHERE e.department_id = d.department_id AND e.salary > 70000;
+
+-- Equivalant syntax (New)
+	SELECT e.first_name, e.last_name, d.department_name
+	FROM Employees e JOIN Departments d 
+	ON e.department_id = d.department_id
+	WHERE e.salary > 70000;
 
 -- Optimized query
 
@@ -290,10 +296,7 @@ CREATE INDEX idx_salary_department ON Employees(salary, department_id); -- defau
 SELECT e.first_name, e.last_name, d.department_name
 FROM Employees e INNER JOIN Departments d 
 ON e.department_id = d.department_id
-WHERE e.salary > 70000
-AND EXISTS (
-    SELECT 1 FROM Departments d2 WHERE d2.department_id = e.department_id
-);
+WHERE e.salary > 70000;
 
 DROP INDEX idx_salary_department ON Employees;
 
@@ -304,6 +307,7 @@ ROLLBACK TRANSACTION;
 
 BEGIN TRANSACTION;
 GO
+
 -- 1. Employee details with department info and manager name
 
 CREATE VIEW vw_EmployeeDetails AS
