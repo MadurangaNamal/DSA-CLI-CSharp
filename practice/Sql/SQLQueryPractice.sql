@@ -311,43 +311,48 @@ GO
 -- 1. Employee details with department info and manager name
 
 CREATE VIEW vw_EmployeeDetails AS
-SELECT 
-    e.employee_id,
-    e.first_name,
-    e.last_name,
-    d.department_name,
-    e.salary,
-    e.hire_date,
+SELECT e.employee_id, e.first_name, e.last_name, d.department_name, e.salary, e.hire_date,
     CONCAT(m.first_name, ' ', m.last_name) AS manager_name
 FROM Employees e 
 LEFT JOIN Departments d ON e.department_id = d.department_id
-LEFT JOIN Employees m ON e.manager_id = m.employee_id;
+LEFT JOIN Employees m ON e.manager_id = m.employee_id;  
 GO
+
+-- 1.1 Employee details of employees with manager 
+-- (can use * WHERE e.manager_id IS NOT NULL * for left join)
+
+CREATE VIEW vw_EmployeesWithManagerDetails AS
+SELECT e.employee_id, e.first_name, e.last_name, d.department_name, e.salary, e.hire_date,
+    CONCAT(m.first_name, ' ', m.last_name) AS manager_name
+FROM Employees e 
+LEFT JOIN Departments d ON e.department_id = d.department_id
+INNER JOIN Employees m ON e.manager_id = m.employee_id;
+GO
+
 -------------------------------------------------------------
 
 -- 2. Total salary cost per department
+
 CREATE VIEW vw_DepartmentSalarySummary AS
-SELECT 
-    d.department_name,
+SELECT d.department_name,
     SUM(e.salary) AS total_salary,
-    AVG(e.salary) AS avg_salary,
+    FORMAT(AVG(e.salary), 'N2') AS average_salary,
     COUNT(e.employee_id) AS employee_count
-FROM Departments d
-JOIN Employees e ON d.department_id = e.department_id
+FROM Departments d JOIN Employees e 
+ON d.department_id = e.department_id
 GROUP BY d.department_name;
 GO
+
 -------------------------------------------------------------
 
 -- 3. Customer orders with total spend
+
 CREATE VIEW vw_CustomerOrderSummary AS
-SELECT 
-    c.customer_id,
-    c.customer_name,
-    c.country,
+SELECT c.customer_id, c.customer_name, c.country,
     COUNT(o.order_id) AS total_orders,
     SUM(o.total_amount) AS total_spent
-FROM Customers c
-LEFT JOIN Orders o ON c.customer_id = o.customer_id
+FROM Customers c LEFT JOIN Orders o 
+ON c.customer_id = o.customer_id
 GROUP BY c.customer_id, c.customer_name, c.country;
 GO
 
@@ -359,6 +364,7 @@ ROLLBACK TRANSACTION;
 BEGIN TRANSACTION;
 GO
 -- 1. Get employees by department
+
 CREATE PROCEDURE sp_GetEmployeesByDepartment
     @DeptId INT
 AS
@@ -379,6 +385,7 @@ GO
 
 -- 2. Insert new order and return updated customer spend
 CREATE PROCEDURE sp_AddOrderAndGetTotal
+	@OrderId INT,
     @CustId INT,
     @OrderDate DATE,
     @Amount DECIMAL(10,2)
@@ -386,19 +393,17 @@ AS
 BEGIN
     SET NOCOUNT ON;
 
-    -- Table variable to capture the new order id
-    --DECLARE @NewOrders TABLE (order_id INT);
+    DECLARE @NewOrders TABLE (order_id INT); -- Table variable to capture the new order id
 
-    --- Insert order and capture its ID
-    INSERT INTO Orders (customer_id, order_date, total_amount)
-    -- OUTPUT INSERTED.order_id INTO @NewOrders(order_id)
-    VALUES (@CustId, @OrderDate, @Amount);
+	/* Insert order and capture its ID */
+    INSERT INTO Orders (order_id, customer_id, order_date, total_amount) --- 
+    OUTPUT INSERTED.order_id INTO @NewOrders(order_id)
+    VALUES (@OrderId, @CustId, @OrderDate, @Amount);
 
-    -- (Optional) You can get the new order id: SELECT order_id FROM @NewOrders;
+    SELECT order_id FROM @NewOrders;
 
     -- Return updated customer total
-    SELECT c.customer_id, c.customer_name,
-           SUM(o.total_amount) AS total_spent
+    SELECT o.order_id, c.customer_id, c.customer_name, SUM(o.total_amount) AS total_spent
     FROM Customers c INNER JOIN Orders o 
     ON c.customer_id = o.customer_id
     WHERE c.customer_id = @CustId
@@ -406,11 +411,14 @@ BEGIN
 END;
 GO
 
-
 -- Execution:
-EXEC sp_AddOrderAndGetTotal 
-     @CustId = 201, 
-     @OrderDate = '2024-07-10', 
+DECLARE @NewOrderId INT;
+SET @NewOrderId = (SELECT ISNULL(MAX(order_id), 0) + 1 FROM Orders);
+
+EXEC sp_AddOrderAndGetTotal
+     @OrderId = @NewOrderId,
+     @CustId = 201,
+     @OrderDate = '2026-10-10',
      @Amount = 1800.00;
 GO
 
