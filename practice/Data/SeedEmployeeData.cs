@@ -1,5 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Practice.EfCore.Models;
+using Practice.EfCore.Entites;
 
 namespace Practice.Data;
 

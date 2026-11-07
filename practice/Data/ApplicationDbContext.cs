@@ -1,7 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
-using Practice.EfCore.Models;
-using Practice.Entities;
+using Practice.EfCore.Entites;
 
 namespace Practice.Data;
 

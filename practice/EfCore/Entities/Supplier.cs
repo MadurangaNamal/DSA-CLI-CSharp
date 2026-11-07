@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace Practice.Entities;
+namespace Practice.EfCore.Entites;
 
 public class Supplier
 {

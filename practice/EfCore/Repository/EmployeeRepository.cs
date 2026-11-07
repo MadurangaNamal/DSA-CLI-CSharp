@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Practice.Data;
-using Practice.EfCore.Models;
+using Practice.EfCore.Entites;
 
 namespace Practice.EfCore.Repository;
 

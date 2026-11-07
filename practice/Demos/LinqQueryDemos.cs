@@ -7,7 +7,7 @@ namespace Practice.Demos;
 public static class LinqQueryDemos
 {
     private static readonly List<Employee> employees = EmployeeDataFactory.GenerateEmployeesList();
-    private static readonly List<Department> departments = EmployeeDataFactory.GenerateDepartmentsList();
+    private static readonly List<DepartmentModel> departments = EmployeeDataFactory.GenerateDepartmentsList();
 
     // Filter out employees whose IDs are in the given array
     public static List<Employee> FilterEmployees(int[] ids)
@@ -310,7 +310,7 @@ public static class LinqQueryDemos
 
         // Right join 
 
-        departments.Add(new Department(6, "Sales", "Dubai", "Mngr", 50000.0m));
+        departments.Add(new DepartmentModel(6, "Sales", "Dubai", "Mngr", 50000.0m));
 
         var emps91 = departments.GroupJoin(employees,
                             d => d.Id,

@@ -1,6 +1,6 @@
 namespace Practice.Models;
 
-public class Department
+public class DepartmentModel
 {
     public int Id { get; set; }
     public string Name { get; set; }
@@ -10,7 +10,7 @@ public class Department
     public string Description { get; set; }
     public DateTime CreatedDate { get; set; }
 
-    public Department()
+    public DepartmentModel()
     {
         Name = string.Empty;
         Location = string.Empty;
@@ -18,7 +18,7 @@ public class Department
         Description = string.Empty;
     }
 
-    public Department(int id, string name, string location, string managerName, decimal budget)
+    public DepartmentModel(int id, string name, string location, string managerName, decimal budget)
     {
         Id = id;
         Name = name;

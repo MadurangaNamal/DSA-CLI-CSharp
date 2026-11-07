@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Practice.Data;
-using Practice.Entities;
+using Practice.EfCore.Entites;
 
 namespace Practice.Demos;
 

@@ -19,9 +19,9 @@ public static class EmployeeDataFactory
         (5, "Operations")
     };
 
-    public static List<Department> GenerateDepartmentsList()
+    public static List<DepartmentModel> GenerateDepartmentsList()
     {
-        return Departments.Select(d => new Department
+        return Departments.Select(d => new DepartmentModel
         {
             Id = d.Id,
             Name = d.Name,

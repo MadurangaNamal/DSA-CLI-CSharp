@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Practice.Data;
-using Practice.EfCore.Models;
+using Practice.EfCore.Entites;
 using System.Linq.Expressions;
 
 namespace Practice.ExpressionTrees;

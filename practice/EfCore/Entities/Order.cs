@@ -1,4 +1,4 @@
-﻿namespace Practice.Entities;
+﻿namespace Practice.EfCore.Entites;
 
 public class Order
 {

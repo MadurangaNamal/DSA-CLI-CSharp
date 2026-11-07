@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace Practice.EfCore.Models;
+namespace Practice.EfCore.Entites;
 
 public class EmployeeProfile
 {

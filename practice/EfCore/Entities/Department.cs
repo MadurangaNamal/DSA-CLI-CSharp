@@ -1,4 +1,4 @@
-﻿namespace Practice.EfCore.Models;
+﻿namespace Practice.EfCore.Entites;
 
 public class Department
 {
