@@ -6,13 +6,13 @@ namespace Practice.Demos;
 
 public static class LinqQueryDemos
 {
-    private static readonly List<Employee> employees = EmployeeDataFactory.GenerateEmployeesList();
+    private static readonly List<EmployeeModel> employees = EmployeeDataFactory.GenerateEmployeesList();
     private static readonly List<DepartmentModel> departments = EmployeeDataFactory.GenerateDepartmentsList();
 
     // Filter out employees whose IDs are in the given array
-    public static List<Employee> FilterEmployees(int[] ids)
+    public static List<EmployeeModel> FilterEmployees(int[] ids)
     {
-        List<Employee> filteredEmployees = employees
+        List<EmployeeModel> filteredEmployees = employees
         .Where(employee => !ids.Contains(employee.Id))
         .ToList();
 
@@ -20,11 +20,11 @@ public static class LinqQueryDemos
     }
 
     // Sort employees by a specified property and order
-    public static List<Employee> SortEmployees(string sortProperty, bool ascending = true)
+    public static List<EmployeeModel> SortEmployees(string sortProperty, bool ascending = true)
     {
         // Use reflection to dynamically get the property value for sorting
-        Func<Employee, object?> keySelector = employee =>
-            typeof(Employee).GetProperty(sortProperty)?.GetValue(employee, null);
+        Func<EmployeeModel, object?> keySelector = employee =>
+            typeof(EmployeeModel).GetProperty(sortProperty)?.GetValue(employee, null);
 
         return ascending
             ? employees.OrderBy(keySelector).ToList()
@@ -32,7 +32,7 @@ public static class LinqQueryDemos
     }
 
     // Paginate employees with optional search term
-    public static List<Employee> GetPaginatedEmployees(int page, int pageSize, string? searchTerm = null)
+    public static List<EmployeeModel> GetPaginatedEmployees(int page, int pageSize, string? searchTerm = null)
     {
         return employees
             .Where(e => e.Name.Contains(searchTerm!, StringComparison.OrdinalIgnoreCase) || string.IsNullOrEmpty(searchTerm))
@@ -58,7 +58,7 @@ public static class LinqQueryDemos
     }
 
     // Get employees who have been with the company for more than 'n' years
-    public static List<Employee> GetLongTermEmployees(int years)
+    public static List<EmployeeModel> GetLongTermEmployees(int years)
     {
         var cutoffDate = DateTime.Now.AddYears(-years);
 
@@ -69,7 +69,7 @@ public static class LinqQueryDemos
     }
 
     // Filter employees by salary range
-    public static List<Employee> FilterBySalaryRange(decimal? minSalary, decimal? maxSalary)
+    public static List<EmployeeModel> FilterBySalaryRange(decimal? minSalary, decimal? maxSalary)
     {
         var query = employees.AsQueryable();
 
@@ -83,7 +83,7 @@ public static class LinqQueryDemos
     }
 
     // Find possible duplicate employees based on Name and Department
-    public static List<Employee> FindPossibleDuplicates()
+    public static List<EmployeeModel> FindPossibleDuplicates()
     {
         return employees
             .GroupBy(e => new { e.Name, e.Department })
@@ -93,7 +93,7 @@ public static class LinqQueryDemos
     }
 
     // Get employees who joined in the last 'n' months
-    public static List<Employee> GetRecentJoinees(int months)
+    public static List<EmployeeModel> GetRecentJoinees(int months)
     {
         var cutoffDate = DateTime.Now.AddMonths(-months);
 
@@ -142,7 +142,7 @@ public static class LinqQueryDemos
     }
 
     // Generic method to print employees list
-    public static void PrintEmployeesList(List<Employee>? employeesList = null)
+    public static void PrintEmployeesList(List<EmployeeModel>? employeesList = null)
     {
         employeesList = employeesList ?? employees;
 
@@ -417,7 +417,7 @@ public static class LinqQueryDemos
 
     }
 
-    private static void PrintEmployeesEnumerable(IEnumerable<Employee>? employeesList = null)
+    private static void PrintEmployeesEnumerable(IEnumerable<EmployeeModel>? employeesList = null)
     {
         employeesList ??= [];
 

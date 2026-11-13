@@ -15,6 +15,7 @@
 		<PackageReference Include="Figgle" Version="0.6.6" />
 		<PackageReference Include="Figgle.Fonts" Version="0.6.6" />
 		<PackageReference Include="Figgle.Generator" Version="0.6.6" />
+		<PackageReference Include="MediatR" Version="12.5.0" />
 		<PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.28" />
 		<PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.28">
 			<PrivateAssets>all</PrivateAssets>

@@ -88,6 +88,7 @@ public static class PracticeRunner
         Console.WriteLine("27  LINQ — Progress Runner");
         Console.WriteLine("28  Concurrency — Threading Examples");
         Console.WriteLine("29  Expression Trees");
+        Console.WriteLine("30  Design patterns — Mediator");
         Console.WriteLine(" Q  Quit");
     }
 
@@ -184,6 +185,9 @@ public static class PracticeRunner
                 break;
             case "29":
                 await RunExpressionTreeSamples();
+                break;
+            case "30":
+                await PracticeDemos.ExecuteMediatorDemo();
                 break;
             default:
                 Console.WriteLine("Unknown option. Try again.");

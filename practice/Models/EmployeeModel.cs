@@ -1,6 +1,6 @@
 namespace Practice.Models;
 
-public class Employee
+public class EmployeeModel
 {
     public int Id { get; set; }
     public string Name { get; set; }
@@ -9,7 +9,7 @@ public class Employee
     public decimal Salary { get; set; }
     public DateTime JoinDate { get; set; }
 
-    public Employee(int id, string name, string department, decimal salary, DateTime joinDate)
+    public EmployeeModel(int id, string name, string department, decimal salary, DateTime joinDate)
     {
         Id = id;
         Name = name;
@@ -18,7 +18,7 @@ public class Employee
         JoinDate = joinDate;
     }
 
-    public Employee(int id, string name, int departmentId, string department, decimal salary, DateTime joinDate)
+    public EmployeeModel(int id, string name, int departmentId, string department, decimal salary, DateTime joinDate)
     {
         Id = id;
         Name = name;

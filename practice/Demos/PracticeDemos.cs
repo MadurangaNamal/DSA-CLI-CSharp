@@ -1,6 +1,12 @@
 using AutoMapper;
+using MediatR;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using Practice.Data;
 using Practice.DesignPatterns;
+using Practice.DesignPatterns.Mediator;
+using Practice.DesignPatterns.Mediator.Departments;
+using Practice.DesignPatterns.Mediator.Employees;
 using Practice.Exceptions;
 using Practice.Mapping;
 using Practice.Models;
@@ -141,7 +147,7 @@ public static class PracticeDemos
         }
 
         // Property pattern
-        Employee employee = new(1, "John Doe", "IT", 60000, DateTime.Now.AddYears(-3));
+        EmployeeModel employee = new(1, "John Doe", "IT", 60000, DateTime.Now.AddYears(-3));
 
         if (employee is { Department: "IT", Salary: > 50000 })
         {
@@ -166,7 +172,7 @@ public static class PracticeDemos
         Console.WriteLine(Classify(p));
 
         // Logical pattern
-        if (employee is Employee and { Salary: >= 60000 })
+        if (employee is EmployeeModel and { Salary: >= 60000 })
         {
             Console.WriteLine("Employee earns at least 60,000");
         }
@@ -279,6 +285,41 @@ public static class PracticeDemos
         logger.Log("Hello!!");
     }
 
+    public static async Task ExecuteMediatorDemo()
+    {
+        var services = new ServiceCollection();
+        services.AddScoped<ApplicationDbContext>();
+        services.AddMediatR(cfg =>
+        {
+            cfg.RegisterServicesFromAssemblyContaining<CreateEmployeeCommand>();
+            cfg.AddOpenBehavior(typeof(LoggingBehavior<,>));
+        });
+
+        await using var provider = services.BuildServiceProvider();
+        using var scope = provider.CreateScope();
+        var mediator = scope.ServiceProvider.GetRequiredService<IMediator>();
+
+        var run = Guid.NewGuid().ToString("N")[..6];
+
+        Console.WriteLine(" === CQRS with MediatR ===\n ");
+
+        var engId = await mediator.Send(new CreateDepartmentCommand($"Engineering-{run}"));
+
+        var aliceId = await mediator.Send(new CreateEmployeeCommand("Alice", "Perera", DateTime.UtcNow.AddYears(-3), engId,
+            $"alice.{run}@corp.com", ["C#", "SQL"]));
+
+        await mediator.Send(new CreateEmployeeCommand("Arun", "Perera", DateTime.UtcNow.AddYears(-1), engId,
+            $"arun.{run}@corp.com", ["C#", "SQL"]));
+
+        Console.WriteLine();
+
+        Print("Employee by id", [await mediator.Send(new GetEmployeeByIdQuery(aliceId))]);
+
+        var byDept = await mediator.Send(new GetEmployeesQuery(DepartmentId: engId));
+        Print($"Employees by Department ({byDept.TotalCount} total)", byDept.Items);
+
+    }
+
     #endregion
 
     public static void PrintTupleIllustrations()
@@ -380,9 +421,19 @@ public static class PracticeDemos
     }
 
     #region Helpers
+
     private static (string FirstName, string LastName) GetName() => ("Madur", "Wim");
 
     private static (int, int, int) Calculate(int[] values) => (values.Min(), values.Max(), values.Sum());
+    private static void Print(string title, IEnumerable<EmployeeDto?> items)
+    {
+        Console.WriteLine($"\n--- {title} ---");
+        foreach (var e in items.Where(x => x is not null))
+            Console.WriteLine(
+                $"{e!.Id}: {e.FirstName} {e.LastName} | {e.Department} | {e.Email} | {string.Join(", ", e.Skills)}");
+        Console.WriteLine();
+    }
+
     #endregion
 }
 

@@ -30,10 +30,10 @@ public static class EmployeeDataFactory
         }).ToList();
     }
 
-    public static List<Employee> GenerateEmployeesList(int count = 50)
+    public static List<EmployeeModel> GenerateEmployeesList(int count = 50)
     {
         var random = new Random();
-        var employees = new List<Employee>();
+        var employees = new List<EmployeeModel>();
         var startDate = new DateTime(2015, 1, 1);
         var endDate = DateTime.Now;
 
@@ -45,7 +45,7 @@ public static class EmployeeDataFactory
             var salary = Math.Round(30000 + random.NextDouble() * 70000, 2);
             var department = Departments[random.Next(Departments.Length)];
 
-            employees.Add(new Employee(
+            employees.Add(new EmployeeModel(
                 id: i,
                 name: $"{firstName} {lastName}",
                 departmentId: department.Id,
@@ -57,9 +57,9 @@ public static class EmployeeDataFactory
         return employees;
     }
 
-    public static IEnumerable<Employee> GetEmployeesEnumerable() =>
+    public static IEnumerable<EmployeeModel> GetEmployeesEnumerable() =>
         GenerateEmployeesList(20).AsEnumerable();
 
-    public static ICollection<Employee> GetEmployeeCollection() =>
+    public static ICollection<EmployeeModel> GetEmployeeCollection() =>
         GenerateEmployeesList(25);
 }
