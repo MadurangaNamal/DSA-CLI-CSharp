@@ -422,9 +422,15 @@ EXEC sp_AddOrderAndGetTotal
      @Amount = 1800.00;
 GO
 
+ROLLBACK TRANSACTION;
+-- COMMIT TRANSACTION;
+
 ------------------------- TRIGGERS --------------------------------
 
+BEGIN TRANSACTION;
+
 -- 1. Prevent salary below 30,000
+
 CREATE TRIGGER trg_CheckSalaryBeforeInsert
 ON Employees
 INSTEAD OF INSERT
@@ -444,13 +450,21 @@ BEGIN
 END;
 GO
 
-ROLLBACK TRANSACTION;
--- COMMIT TRANSACTION;
+-- Test execution
+BEGIN TRY
+    INSERT INTO Employees (employee_id, first_name, last_name, department_id, salary, hire_date, manager_id)
+    VALUES (110, 'TestFname', 'TestLname', 1, 25000.00, '2026-02-01', 101);
+END TRY
+BEGIN CATCH
+    PRINT 'Trigger caught error: ' + ERROR_MESSAGE();
+END CATCH;
+
+-- Verify not inserted
+SELECT * FROM Employees WHERE employee_id = 110;
 -------------------------------------------------------------
 
-BEGIN TRANSACTION;
-
 -- 2. Audit order insertions
+
 CREATE TABLE Order_Audit (
     audit_id INT IDENTITY(1,1) PRIMARY KEY,
     order_id INT,
@@ -471,9 +485,20 @@ BEGIN
 END;
 GO
 
+-- Test execution
+DECLARE @NewOrderId INT;
+SET @NewOrderId = (SELECT ISNULL(MAX(order_id), 0) + 1 FROM Orders);
+
+INSERT INTO Orders (order_id, customer_id, order_date, total_amount) 
+VALUES (@NewOrderId, 201, '2026-11-10', 11500.00)
+
+SELECT * FROM [SQLQueryPractice].[dbo].[Order_Audit] 
+WHERE order_id = @NewOrderId;
+
 -------------------------------------------------------------
 
 -- 3. Track salary updates in a history table
+
 CREATE TABLE Salary_History (
     history_id INT IDENTITY(1,1) PRIMARY KEY,
     employee_id INT,
@@ -498,6 +523,14 @@ BEGIN
     END
 END;
 GO
+
+-- Test execution
+UPDATE Employees
+SET salary = 90000.00
+WHERE employee_id = 101;
+
+-- Verify history created
+SELECT * FROM Salary_History WHERE employee_id = 101;
 
 ROLLBACK TRANSACTION;
 -- COMMIT TRANSACTION;
