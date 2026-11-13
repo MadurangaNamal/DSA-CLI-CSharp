@@ -26,24 +26,33 @@ dotnet run -- 4    # LINQ SQL-style walkthrough
 
 ```
 practice/
-├── Program.cs              # Entry point
-├── PracticeRunner.cs         # Interactive menu
-├── Algorithms/               # Classic algorithms & LeetCode-style solutions
-├── Collections/              # Extension methods for IEnumerable/ICollection
-├── Concurrency/              # Threading, tasks, parallel document processing
-├── Data/                     # Sample data factories (employees, departments)
-├── Database/                 # SQL client wrapper for exception demos
-├── DataStructures/           # Custom generic linked list
-├── Delegates/                # Custom delegates and composition
-├── Demos/                    # Runnable demo orchestration (LINQ, patterns, etc.)
-├── DesignPatterns/           # Singleton, builder, strategy, factory
-├── Exceptions/               # Custom exception types
-├── Mapping/                  # AutoMapper profiles
-├── Models/                   # Domain models, DTOs, linked-list nodes
-│   └── Samples/              # Types used in class/struct/record comparisons
-├── Strings/                  # String manipulation exercises
-├── Sql/                      # SQL practice scripts (run in SSMS or similar)
-└── Samples/Documents/        # Text files copied to build output for demos
+├── Program.cs                  # Entry point
+├── PracticeRunner.cs           # Interactive menu
+├── Algorithms/                 # Classic algorithms and coding challenges
+├── Benchmarks/                 # BenchmarkDotNet examples
+│   └── Tasks/                  # Task and ValueTask benchmark samples
+├── Collections/                # Collection extension methods
+├── Concurrency/                # Threading, tasks, and parallel processing
+├── Data/                       # Sample data factories
+├── DataStructures/             # Custom data structures
+├── Database/                   # SQL client examples
+├── DelegatesAndEvents/         # Delegates, events, and related demos
+├── Demos/                      # Runnable demo orchestration
+├── DesignPatterns/             # Singleton, builder, strategy, factory, and mediator
+│   └── Mediator/               # Mediator pattern examples
+├── EfCore/                     # Entity Framework Core examples
+│   ├── Entities/               # EF Core entities
+│   └── Repository/              # Repository implementations
+├── Exceptions/                 # Custom exception types
+├── ExpressionTrees/            # Expression tree and LINQ examples
+├── Mapping/                    # AutoMapper profiles
+├── Migrations/                 # Entity Framework Core migrations
+├── Models/                     # Domain models and DTOs
+│   └── Samples/                # Types used in class/struct/record comparisons
+├── Samples/
+│   └── Documents/              # Text files copied to build output for demos
+├── Sql/                        # SQL practice scripts (run in SSMS or similar)
+└── Strings/                    # String manipulation exercises
 ```
 
 ## Namespaces
